@@ -6,12 +6,13 @@ stacks = {}
 for s in symbols:
     stacks[s] = []
 
-dbn = open(snakemake.input[0]).readlines()[0]
+dbn = open(snakemake.input[0]).readlines()[0].rstrip('\n')
 
 vertices = set([])
 edges = set([])
 
 for k,c in enumerate(dbn):
+    print(k,c)
     vertices.add(k+1)
     if k < len(dbn)-1:
         edges.add((k+1,k+2))

@@ -2,21 +2,55 @@ shadows = ['H','K','L','M']
 
 rule all:
     input:
-        expand('results/td_files/{shadow}.td', shadow=shadows)
+        expand('results/elim_order/{shadow}.order', shadow=shadows),
+        expand('results/processed_elim_order/processed_{shadow}.order', shadow=shadows)
 
+rule extract_processed_elimination_ordering:
+    input:
+        'results/processed_td_files/processed_{shadow}.td'
+    output:
+        'results/processed_elim_order/processed_{shadow}.order'
+    script:
+        'scripts/td_to_elim.py'
+
+rule extract_elimination_ordering:
+    input:
+        'results/td_files/{shadow}.td'
+    output:
+        'results/elim_order/{shadow}.order'
+    script:
+        'scripts/td_to_elim.py'
 
 rule compute_td:
     input:
-        'results/gr_files/{family}.gr'
+        'results/gr_files/{shadow}.gr'
     output:
-        'results/td_files/{family}.td'
+        'results/td_files/{shadow}.td'
     shell:
         'java -Xmx3g -Xms3g -Xss10m -Duser.dir=workflow/scripts/PACE2017-TrackA tw.exact.MainDecomposer < {input} > {output}'
 
 rule extract_gr:
     input:
-        'resources/dbn_files/{family}.dbn'
+        'resources/dbn_files/{shadow}.dbn'
     output:
-        'results/gr_files/{family}.gr' 
+        'results/gr_files/{shadow}.gr' 
     script:
         "scripts/dbn_to_gr.py"
+
+rule extract_helices:
+    input:
+        'resources/dbn_files/{shadow}.dbn'
+    output:
+        'results/helix_annotations/{shadow}.helix'
+    script:
+        "scripts/annotate_helices.py"
+
+rule process_helices:
+    input:
+        graph='results/gr_files/{shadow}.gr',
+        tdname='results/td_files/{shadow}.td',
+        helix='results/helix_annotations/{shadow}.helix'
+    output:
+        'results/processed_td_files/processed_{shadow}.td'
+    script:
+        "scripts/process_helices.py"
