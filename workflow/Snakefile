@@ -1,0 +1,22 @@
+shadows = ['H','K','L','M']
+
+rule all:
+    input:
+        expand('results/td_files/{shadow}.td', shadow=shadows)
+
+
+rule compute_td:
+    input:
+        'results/gr_files/{family}.gr'
+    output:
+        'results/td_files/{family}.td'
+    shell:
+        'java -Xmx3g -Xms3g -Xss10m -Duser.dir=workflow/scripts/PACE2017-TrackA tw.exact.MainDecomposer < {input} > {output}'
+
+rule extract_gr:
+    input:
+        'resources/dbn_files/{family}.dbn'
+    output:
+        'results/gr_files/{family}.gr' 
+    script:
+        "scripts/dbn_to_gr.py"
