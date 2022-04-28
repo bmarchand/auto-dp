@@ -1,4 +1,4 @@
-shadows = ['H','K','L','M']
+shadows = ['H','K','L','M','C5','K4','K5']
 
 rule all:
     input:
