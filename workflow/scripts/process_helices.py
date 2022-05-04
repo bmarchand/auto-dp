@@ -5,11 +5,10 @@ sys.setrecursionlimit(10000)
 
 ## TREE DECOMPOSITION MANIPULATION FUNCTIONS ##
 def add_clique_case_subtree(subtree_root, 
-                            clique_case_index,
-                            abcd,
+                            helixname,
+                            i,ip,jp,j,
                             adj,
-                            index2bag,
-                            graph_adj):
+                            index2bag):
     """
     Args:
         - subtree_root: the index of the bag that was
@@ -35,212 +34,144 @@ def add_clique_case_subtree(subtree_root,
         when in bulges (vertices have degree=2 in them)
     """
     
-    # clique separator bag
-    index2bag[clique_case_index] = abcd
-    adj[clique_case_index] = [subtree_root]
-    adj[subtree_root] = [clique_case_index]
-
-    # bag succession, built from elimination order
-    x = abcd[0] # will increase
-    y = abcd[1] # will decrease
-
-    elimination_ordering = []
-
-    while x < abcd[0] or y > abcd[1]:
-        # eliminating bulges:
-        u = x+1
-        while len(graph_adj[u])==2:
-            elimination_ordering.append(u)
-            u += 1
-
-        v = y-1
-        while len(graph_adj[v])==2:
-            elimination_ordering.append(v)
-            v -= 1 
-            
-        # eliminating x & y:
-        elimination_ordering.append(x)
-        elimination_ordering.append(y)
-
-        x = u
-        y = v
-
-    # from elimination ordering to bags:
+    cur_i = i
+    cur_j = j
     cnt = 0
-    while len(elimination_ordering) > 0:
-        vertex = elimination_ordering.pop(0)
+    prev_bag = subtree_root
+    cur_bag = helixname+'-'+str(cnt)
+    iturn = True
+    const = [str(ip),str(jp)]
 
-        bag = [vertex] + [v for v in elimination_ordering if v in adj[u]]
-        index2bag[clique_case_index+'-'+str(cnt)] = bag
-        cnt += 1
+    while cur_i < ip or cur_j > jp:
+        if iturn:
+            # build
+            bag_content = [str(cur_i),str(cur_j),str(cur_i+1)] + const
+            index2bag[cur_bag] = bag_content
+            adj[prev_bag].append(cur_bag)
+            adj[cur_bag] = [prev_bag]
 
-    for new_bag_index in range(0,cnt+1,1):
-        if new_bag_index==0:
-            adj[clique_case_index+'-'+str(cnt)] = [clique_case_index+'-1']
-        elif new_bag_index==cnt:
-            adj[clique_case_index+'-'+str(cnt)] = [clique_case_index+'-'+str(cnt-1),clique_case_index]
+            # update
+            cur_i += 1
+            prev_bag = cur_bag
+            cnt += 1
+            cur_bag = helixname+'-'+str(cnt)
+            iturn = False
         else:
-            adj[clique_case_index+'-'+str(cnt)] = [clique_case_index+'-'+str(cnt-1),clique_case_index+'-'+str(cnt+1)]
-        
+            #jturn, build
+            bag_content = [str(cur_i),str(cur_j),str(cur_j-1)] + const
+            index2bag[cur_bag] = bag_content
+            adj[prev_bag].append(cur_bag)
+            adj[cur_bag] = [prev_bag]
+
+            # update
+            cur_j -= 1
+            prev_bag = cur_bag
+            cnt += 1
+            cur_bag = helixname+'-'+str(cnt)
+            iturn = True
+
     return adj, index2bag
     
-def in_helix(u, abcd):
-    if (u >= abcd[0]) or (u<=abcd[2]):
-        return True
-    if (u >= abcd[3]) or (u<=abcd[1]):
-        return True
-    return False
 
-def counterpart(x):
-    if x < 2:
-        return 1-x
-    else:
-        return 1-(x-2)+2
-
-def opposites(x):
-    if x < 2:
-        return 2,3
-    else:
-        return 0,1
-    
-
-def diag_canonicize(u, v, x, helixname, abcd, adj, index2bag):
+def replace(u,v,lo,hi,val,to_keep_safe,adj,index2bag):
     """
-    At the end of the processing, the bag indexed by
-    u will have been modified to contain (helix-wise) 
-    x and its counter part. v on the other
-    end will contain both extremities of the other end.
-
-    Args:
-        - u: index of one of the bags adjacent to the tree
-        decomposition edge that separates abcd[x] from the
-        opposite end of the helix. abcd[x] is on the u-side
-        of the edge.
-
-        - v: index of the other bag, forming with u 
-        a tree decomposition edge that separates x from 
-        the other extremity of the helix. both
-        vertices on the other extremity of the helix
-        are on the v-side
-
-        - x: either 0,1,2 or 3: abcd[x] is separated
-        from both vertices of the opposite end of the
-        helix by the tree decomposition edge (u,v).
-        it is on the u-side while the opposite end
-        is on the v-side.
-
-        - helixname: to label bags
-
-        - abcd: the extremities of the helix
-
-        - adj: tree decomposition adjacency
-
-        - index2bag: bag content dictionary
-
-    Returns:
-        - adj, index2bag: modified versions.
+    (u,v) must be an edge of the tree
+    decomposition.
+    starting from u and in the direction
+    of v, all indices/vertices
+    contained in the interval [lo,hi]
+    are replaced with val
     """
-    
-    # the intersection of u and v 
-    sep = set(index2bag[u]).intersection(set(index2bag[v]))
+    print("from",u,"towards",v,"replacing from ", lo, "to", hi, "with", val)
 
-    # removing from it vertices of the helix (to get the
-    # part that will be constant in the subtree decomposition
-    # corresponding to the helix.)
+    queue = [(u,v)]
 
-    sep = [u for u in sep if not in_helix(u, abcd)]
+    while len(queue) > 0:
+        u,v = queue.pop()
 
-    y = counterpart(x)
-    s, t = opposites(x)
+        new_content = []
+        for vertex in index2bag[v]:
+            if vertex[0]=='H':
+                new_content.append(vertex)
+                continue
+            if int(vertex) >= lo and int(vertex) <= hi and vertex not in to_keep_safe:
+                new_content.append(str(val))
+                #print("replacing",vertex,"with",val,"in bag",v)
+            else:
+                new_content.append(vertex)
 
-    # replacing, on u-side, occurences of things other than x,y
-    def find_path(x,v,u,l):
-        if x in index2bag[u]:
-            return l
-        else:
-            for w in adj[u]:
-                if w!=v:
-                    return find_path(x,u,w,l+[u])
+        index2bag[v] = new_content
 
-   
-    path_x = find_path(x,v,u,[])
-    path_y = find_path(y,v,u,[])
+        for w in adj[v]:
+            if w!=u:
+                queue.append((v,w))
 
-    for b in path_x:
-        index2bag[b] = [vertex for vertex in index2bag[b] if not inhelix(vertex) or vertex == y]
-    for b in path_y:
-        index2bag[b] = [vertex for vertex in index2bag[b] if not inhelix(vertex) or vertex == x]
+    return index2bag
 
-    # replacing, on the v-side, occurences of things other than s,t
-    path_s = find_path(s,u,v,[])
-    path_t = find_path(t,u,v,[])
+def diag_canonicize(u,v,i,j,ip,jp,helixname, adj, index2bag):
+    """
+    in direction of u, replaces all helix occurences
+    with i,j. same in direction of v with ip,jp
+    puts intermediary bags in between for helix.
+    """
+    inter = set(index2bag[u]).intersection(set(index2bag[v]))
 
-    for b in path_s:
-        index2bag[b] = [vertex for vertex in index2bag[b] if not inhelix(vertex) or vertex == t]
-    for b in path_t:
-        index2bag[b] = [vertex for vertex in index2bag[b] if not inhelix(vertex) or vertex == s]
+    print("diag cano call", i,j,ip,jp)
+    print("inter ", inter)
 
+    to_keep_safe = inter.intersection(set([str(c) for c in [i,j,ip,jp]]))
 
-    # new bags
+    ## replacements 
+    index2bag = replace(v,u,i,ip,i,to_keep_safe,adj,index2bag)
+    index2bag = replace(v,u,jp,j,j,to_keep_safe,adj,index2bag)
+    index2bag = replace(u,v,i,ip,ip,to_keep_safe,adj,index2bag)
+    index2bag = replace(u,v,jp,j,jp,to_keep_safe,adj,index2bag)
+
+    ## insertions of new bags
+
+    # disconnecting
+    adj[u] = [b for b in adj[u] if b != v]
+    adj[v] = [b for b in adj[v] if b != u]
+
+    # constant part, inter without helix, except extremities
+    const = [vertex for vertex in inter if int(vertex) <= i or int(vertex) >= j or (int(vertex) >= ip and int(vertex) <= jp)]
+
+    print("diag-canonicizing ", helixname, "const part:", const)
+
+    # let it be clear:
+    index2bag[u] = list(const) + [str(i),str(j)]
+    index2bag[v] = list(const) + [str(ip),str(jp)]
+
+    # new intermediary bags
+    cur_i = i
+    cur_j = j
+    cur_bag = u
     cnt = 0
 
-    first_bag = sep + [x,y]
-    index2bag[helixname+'-'+str(cnt)] = first_bag
-    cnt+=1
+    i_turn = True
 
-    last_bag = sep + [s,t]
-    
-    u = x
-    v = y
+    while cur_i < ip or cur_j > jp:
+        prev_bag = cur_bag
+        cur_bag = helixname +'-'+ str(cnt)
+        if i_turn:
+            index2bag[cur_bag] = list(const) + [str(cur_i), str(cur_j), str(cur_i+1)]
+            adj[prev_bag].append(cur_bag)
+            adj[cur_bag] = [prev_bag]
+            cur_i += 1
+            i_turn = False
 
-    dir_u = 1 if x<s else -1
-    dir_v = 1 if y<v else -1
+        else:
+        # turn of j to move
+            index2bag[cur_bag] = list(const) + [str(c) for c in [cur_i, cur_j, cur_j-1]]
+            adj[prev_bag].append(cur_bag)
+            adj[cur_bag] = [prev_bag]
+            cur_j -= 1
+            i_turn = True
+        cnt += 1
 
-    switch = True
-
-    cur_bag = first_bag
-    to_forget_u = None
-    to_forget_v = None
-
-    # to avoid code duplication:
-    def move_along(u, dir_u, to_forget_u, cur_bag, cnt):
-        # move
-        u += dir_u
-        # new bag
-        cur_bag = [vertex for vertex in cur_bag if vertex != to_forget_u]
-        cur_bag.append(u)
-        index2bag[helixname+'-'+str(cnt)] = cur_bag
-        cnt+=1
-        # next to forget
-        to_forget_u = u-dir_u
-
-        return u, dir_u, to_forget_u, cur_bag, cnt
-
-    while u!=s or v!=t:
-        if switch and u!=s:
-            # treating potential bulge
-            while len(graph_adj[u+dir_u])==2:
-                u, dir_u, to_forget_u, cur_bag, cnt = move_along(u, dir_u, to_forget_u, cur_bag, cnt)
-
-            # next paired vertex
-            u, dir_u, to_forget_u, cur_bag, cnt = move_along(u, dir_u, to_forget_u, cur_bag, cnt)
-
-        if not switch and v!=t:
-            # treating potential bulge
-            while len(graph_adj[v+dir_v])==2:
-                v, dir_v, to_forget_v, cvr_bag, cnt = move_along(v, dir_v, to_forget_v, cvr_bag, cnt)
-            
-            # next paired vertex
-            v, dir_v, to_forget_v, cvr_bag, cnt = move_along(v, dir_v, to_forget_v, cvr_bag, cnt)
-
-        switch = not switch
-
-    # reconnecting everything
-    index2bag[helixname+'-'+str(cnt)] = last_bag
-    
-    for index in range(0, cnt, 1):
-        adj = add_element_to_adj(adj,helixname+'-'+str(cnt), helixname+'-'+str(cnt+1))
-        adj = add_element_to_adj(adj,helixname+'-'+str(cnt+1), helixname+'-'+str(cnt))
+    # connecting to last bag (v)
+    adj[cur_bag].append(v)
+    adj[v].append(cur_bag)
 
     return adj, index2bag
 
@@ -273,6 +204,7 @@ for line in open(snakemake.input.tdname).readlines():
                 adj[j] = [i]
 
 
+
 # connecting tree dec
 root = index2bag['1']
 
@@ -284,126 +216,239 @@ for hline in open(snakemake.input.helix).readlines():
     extremities += abcd
 extremities = set(extremities)
 
-def fill_ext_below(index2bag, adj, extremities, root):
+def fill_vertices_below(index2bag, adj, extremities, root):
 
-    ext_below = {} # "below", same 
+    vert_below = {} # "below", same 
 
     def fill_below(u,v):
-        if (u,v) in ext_below.keys():
-            return ext_below[(u,v)]
+        if (u,v) in vert_below.keys():
+            return vert_below[(u,v)]
 
-        ext_below[(u,v)] = set(index2bag[v]).intersection(extremities)
+        vert_below[(u,v)] = set(index2bag[v])#.intersection(extremities)
 
         for w in adj[v]:
             if w!=u:
-                ext_below[(u,v)] = ext_below[(u,v)].union(fill_below(v,w))
+                vert_below[(u,v)] = vert_below[(u,v)].union(fill_below(v,w))
 
-        return ext_below[(u,v)]
+        return vert_below[(u,v)]
 
     fill_below('-1', root)
 
-    return ext_below
+    return vert_below
 
-ext_below = fill_ext_below(index2bag, adj, extremities, '1')
+vert_below = fill_vertices_below(index2bag, adj, extremities, '1')
 
-def fill_ext_above(index2bag, adj, extremities, root, ext_below):
+def fill_vertices_above(index2bag, adj, extremities, root, ext_below):
 
-    ext_above = {}
+    vert_above = {}
 
     def fill_above(t,u,v,acc):
 
-        ext_above[(u,v)] = set(index2bag[u]).intersection(extremities)
-        ext_above[(u,v)].union(acc)
+        vert_above[(u,v)] = set(index2bag[u])#.intersection(extremities)
+        vert_above[(u,v)] = vert_above[(u,v)].union(acc)
 
         for w in adj[u]:
             if w!=v and w!=t:
-                ext_above[(u,v)].union(ext_below[(u,w)])
-
+                vert_above[(u,v)] = vert_above[(u,v)].union(vert_below[(u,w)])
         
         for w in adj[v]:
             if w!=u:
-                fill_above(u,v,w,ext_above[(u,v)])
-    
+                fill_above(u,v,w,vert_above[(u,v)])
+
+
     for u in adj[root]:
         fill_above('-1',root, u, set([]))
 
-    return ext_above
+    return vert_above
 
-ext_above = fill_ext_above(index2bag, adj, extremities, '1', ext_below)
+vert_above = fill_vertices_above(index2bag, adj, extremities, '1', vert_below)
+
+width = max([len(val) for key, val in index2bag.items()])-1
 
 # helix processing
 for hline in open(snakemake.input.helix).readlines():
-    abcd = hline.split('(')[1].split(')')[0].split(',')
+
+    processed = False
+
+    extremities = hline.split('(')[1].split(')')[0].split(',')
     helixname = hline.split(' ')[0]
-    # detecting clique case
-    clique_case = False
-    subtree_root = -1
-    
-    for index, bag in index2bag.items():
-        if set(abcd).issubset(set(bag)):
-            clique_case = True
-            subtree_root = index
-            break
+    print("helix ", hline)
+
+    i = int(extremities[0]) 
+    j = int(extremities[1])
+    ip = int(extremities[2])
+    jp = int(extremities[3])
+
+    print("bag 1", index2bag['1'])
+
+    if width <= 3:
+    # only diag case
+
+        for k in range(1,ip-i):
+            if processed:
+                break
+            for m in range(k+2,ip+1-i,1):
+                if processed:
+                    break
+                # looking for a separator separating (i+k,j-k) and (i+m,j-m)
+
+                # iterating over all edges of the tree decomposition
+                # in a dfs way
+                queue = [('1', ngbh) for ngbh in adj['1']]
+                print(i+k,j-k,"sep",i+m, j-m," ?")
+                    
+                while len(queue) > 0:
+                    u,v = queue.pop()
+
+                    print("td edge u,v", u,v)
+                    if u[0]=='H' or v[0]=='H':
+                        for w in adj[v]:
+                            if w!=u:
+                                queue.append((v,w))
+                        continue 
+
+                    above = vert_above[(u,v)]
+                    below = vert_below[(u,v)]
+
+                    if str(i+k) in above-below and str(j-k) in above-below and str(i+m) in below-above and str(j-m) in below-above:
+                        print("-->yes does sep !")
+                        adj, index2bag = diag_canonicize(u,v,i,j,ip,jp,helixname,adj,index2bag)
+                        processed = True
+                        break
+                    if str(i+k) in below-above and str(j-k) in below-above and str(i+m) in above-below and str(j-m) in above-below:
+                        print("-->yes does sep !")
+                        adj, index2bag = diag_canonicize(v,u,i,j,ip,jp,helixname,adj,index2bag)
+                        processed = True
+                        break
+
+                    for w in adj[v]:
+                        if w!=u:
+                            queue.append((v,w))
+            
+
+        print("bag 1 out", index2bag['1'])
+        # no need to check other cases. will do same for them, and check completeness at the end
+        if processed:
+            continue
+
+    else:
+    # else width >=4
+
+        # detecting clique case = detecting hop edge
+        found_hop = False
+        for k in range(ip-i+1):
+            if found_hop:
+                break
+            for m in range(ip-i+1):
+                if found_hop:
+                    break
+                if abs(m-k) > 1:
+                    # go over bags to see if one represents edge (i+k, j-m):
+                    queue = [('-1','1')]
+
+                    print("looking for edge ", i+k,j-m)
+
+                    found_hop = False
+                    while len(queue) > 0:
+                        prev, u = queue.pop()
+                        if str(i+k) in index2bag[u] and str(j-m) in index2bag[u]:
+                            found_hop = True
+                            # point to build G_clique minor
+                            if k < m:
+                                mid_point = k+1
+                                ksupm = False
+                            else:
+                                mid_point = m+1
+                                ksupm = True
+                            break
+                        for v in adj[u]:
+                            if v!=prev:
+                                queue.append((u,v))
+
+        
+        # then clique case
+        if found_hop:
+            print("found clique case")
+            if ksupm:
+                # to make substitution in whole tree: pick an edge and 
+                # go in both directions from it
+                v = adj['1'][0]
+
+                # one direction
+                index2bag = replace('1',v,i,i+mid_point,i,[],adj,index2bag)
+                index2bag = replace('1',v,i+mid_point+1,ip,ip,[],adj,index2bag)
+                index2bag = replace('1',v,jp,j-mid_point,jp,[],adj,index2bag)
+                index2bag = replace('1',v,j-mid_point+1,j,j,[],adj,index2bag)
+                # the other
+                index2bag = replace(v,'1',i,i+mid_point,i,[],adj,index2bag)
+                index2bag = replace(v,'1',i+mid_point+1,ip,ip,[],adj,index2bag)
+                index2bag = replace(v,'1',jp,j-mid_point,jp,[],adj,index2bag)
+                index2bag = replace(v,'1',j-mid_point+1,j,j,[],adj,index2bag)
+            else: 
+                v = adj['1'][0]
+                index2bag = replace('1',v,i,i+mid_point-1,i,[],adj,index2bag)
+                index2bag = replace('1',v,i+mid_point,ip,ip,[],adj,index2bag)
+                index2bag = replace('1',v,jp,j-mid_point-1,jp,[],adj,index2bag)
+                index2bag = replace('1',v,j-mid_point,j,j,[],adj,index2bag)
+                index2bag = replace(v,'1',i,i+mid_point-1,i,[],adj,index2bag)
+                index2bag = replace(v,'1',i+mid_point,ip,ip,[],adj,index2bag)
+                index2bag = replace(v,'1',jp,j-mid_point-1,jp,[],adj,index2bag)
+                index2bag = replace(v,'1',j-mid_point,j,j,[],adj,index2bag)
+
+            # find bag with i,ip,jp,j
+            queue = [('-1','1')]
+
+            while len(queue) > 0:
+                prev, u = queue.pop()
+
+                if set([str(vert) for vert in [i,ip,jp,j]]).issubset(set(index2bag[u])):
+                    adj, index2bag = add_clique_case_subtree(u, 
+                                                             helixname,
+                                                             i,ip,jp,j,
+                                                             adj,
+                                                             index2bag)
+                    processed = True
+                    break
+
+                for v in adj[u]:
+                    if v!=prev:
+                        queue.append((u,v))
+            
+        else:
+            print("did not find clique case, resorting to diag case.")
+        # diag case. have to find ij/ipjp separator
+            queue = [('1', ngbh) for ngbh in adj['1']]
                 
-    if clique_case:
-        # building subtree
-        # containing abcd
-        adj, index2bag = add_clique_case_subtree(subtree_root, 
-                                                 hline.split(' ')[0],
-                                                 abcd,
-                                                 adj,
-                                                 index2bag,
-                                                 graph_adj)
+            while len(queue) > 0:
+                u,v = queue.pop()
 
-    # detecting diag case
-    diag_case = False
-    sep = (-1,-1)
+                if u[0]=='H' or v[0]=='H':
+                    for w in adj[v]:
+                        if w!=u:
+                            queue.append((v,w))
+                    continue 
 
-    # iterating over all edges of the tree decomposition
-    # in a dfs way
-    queue = [('1', ngbh) for ngbh in adj['1']]
-        
-    while len(queue) > 0:
-        u,v = queue.pop()
+                above = vert_above[(u,v)]
+                below = vert_below[(u,v)]
 
-        inter = set(index2bag[u]).intersection(set(index2bag[v]))
+                if str(i) in above-below and str(j) in above-below and str(ip) in below-above and str(jp) in below-above:
+                    adj, index2bag = diag_canonicize(u,v,i,j,ip,jp,helixname,adj,index2bag)
+                    processed = True
+                    break
+                if str(i) in below-above and str(j) in below-above and str(ip) in above-below and str(jp) in above-below:
+                    adj, index2bag = diag_canonicize(v,u,i,j,ip,jp,helixname,adj,index2bag)
+                    processed = True
+                    break
 
-        above = ext_above[(u,v)]
-        below = ext_below[(u,v)]
+                for w in adj[v]:
+                    if u!=w:
+                        queue.append((v,w))
 
-        if abcd[0] in above and abcd[2] in below and abcd[3] in below: 
-        # if 0 on u-side
-        # and opposite extremities on v side
-            adj, index2bag = diag_canonicize(u, v, 0, helixname, abcd, adj, index2bag)
-            break
-        if abcd[2] in above and abcd[0] in below and abcd[1] in below: 
-            adj, index2bag = diag_canonicize(u, v, 2, helixname, abcd, adj, index2bag)
-            break
-        if abcd[1] in above and abcd[2] in below and abcd[3] in below: 
-            adj, index2bag = diag_canonicize(u, v, 1, helixname, abcd, adj, index2bag)
-            break
-        if abcd[3] in above and abcd[0] in below and abcd[1] in below: 
-            adj, index2bag = diag_canonicize(u, v, 3, helixname, abcd, adj, index2bag)
-            break
-        
-        if abcd[0] in below and abcd[2] in above and abcd[3] in above: 
-        # if 0 on v-side
-        # and o[pposite extremities on u side
-            adj, index2bag = diag_canonicize(v, u, 0, helixname, abcd, adj, index2bag)
-            break
-        if abcd[2] in below and abcd[0] in above and abcd[1] in above: 
-            adj, index2bag = diag_canonicize(v, u, 2, helixname, abcd, adj, index2bag)
-            break
-        if abcd[1] in below and abcd[2] in above and abcd[3] in above: 
-            adj, index2bag = diag_canonicize(v, u, 1, helixname, abcd, adj, index2bag)
-            break
-        if abcd[3] in below and abcd[0] in above and abcd[1] in above: 
-            adj, index2bag = diag_canonicize(v, u, 3, helixname, abcd, adj, index2bag)
-            break
-
-        for w in adj[v]:
-            if w!=u:
-                queue.append((v,w))
+    # assert that helix has been processed, i.e. assert completeness of disjunction
+    try:
+        assert(processed) 
+    except AssertionError:
+        raise AssertionError
 
 # writing output (finally)
 f = open(snakemake.output[0],'w')
@@ -415,10 +460,47 @@ print('s td '+str(len(index2bag.keys()))+' ', end="", file=f)
 width = max([len(val) for _, val in index2bag.items()])
 print(str(width)+' NVERTICES', file=f)
 
+# removing adjacent redundancies
+
+def substitute(vertex, v, u):
+    if vertex==v:
+        return u
+    return vertex
+
+smth_contracted = True
+
+while smth_contracted:
+    print('------------')
+    smth_contracted = False
+    queue = [('1',ngbh) for ngbh in adj['1']]
+
+    while len(queue) > 0:
+        u, v = queue.pop()
+        if set(index2bag[u])==set(index2bag[v]) or set(index2bag[v]).issubset(set(index2bag[u])) or set(index2bag[u]).issubset(index2bag[v]):
+            print("must contract !",v,"into",u,"(",index2bag[u],"<-",index2bag[v],")")
+            smth_contracted = True
+            adj[u] += adj[v]
+            adj[u].remove(u)
+            adj[u].remove(v)
+            if set(index2bag[u]).issubset(set(index2bag[v])):
+                index2bag[u] = index2bag[v]
+            index2bag.pop(v)
+            for w in adj[v]:
+                adj[w] = [substitute(vertex, v,u) for vertex in adj[w]]
+                if w!=u:
+                    queue.append((u,w))
+            adj.pop(v)
+            continue
+
+        for w in adj[v]:
+            if w!=u:
+                queue.append((v,w))
+
+
 
 for key, val in index2bag.items():
     print('b',key,end=" ",file=f)
-    for vertex in val:
+    for vertex in sorted(list(set(val))):
         print(vertex, end=" ",file=f)
     print("", file=f)
 
@@ -430,3 +512,75 @@ while len(queue) > 0:
     for w in adj[v]:
         if w!=u:
             queue.append((v,w))
+
+
+# Check correctness of TD
+lines = open(snakemake.input.graph).readlines()[1:]
+vertices = set([])
+edges = set([])
+
+for line in lines:
+    u = line.split(' ')[0]
+    v = line.split(' ')[1].rstrip('\n')
+    vertices.add(u)
+    vertices.add(v)
+    edges.add((u,v))
+
+correct = True
+
+# auxiliary recursive functions
+def represented(prev, u, s, index2bag, adj):
+    if s.issubset(set(index2bag[u])):
+        return True
+    ans = False
+    for v in adj[u]:
+        if v!=prev:
+            ans = ans or represented(u,v,s,index2bag,adj)
+    return ans
+            
+def connected(prev, u, vertex, seen_above, currently_active, index2bag, adj):
+    if vertex in index2bag[u]:
+        if seen_above:
+            if not currently_active:
+                return False
+        else:
+            seen_above = True
+            currently_active = True
+    else:
+        currently_active = False
+
+    ans = True
+
+    for v in adj[u]:
+        if v!=prev:
+            ans = ans and connected(u,v,vertex, seen_above, currently_active, index2bag, adj)
+
+    return ans
+
+# overall boolean
+correct = True
+
+print(adj.keys())
+print(index2bag.keys())
+
+for u in vertices:
+    # represented
+    try:
+        assert(represented('-1','1', set([u]), index2bag, adj))
+    except AssertionError:
+        print(u, " not represened")
+        raise AssertionError
+    # in a connected way
+    try:
+        assert(connected('-1','1',u, False, False, index2bag, adj))
+    except AssertionError:
+        print("subtree", u, " not connected")
+        raise AssertionError
+
+
+for u,v in edges:
+    try:
+        assert(represented('-1','1', set([u,v]), index2bag, adj))
+    except AssertionError:
+        print(u,v," is not represented")
+        raise AssertionError

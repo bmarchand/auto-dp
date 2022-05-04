@@ -3,7 +3,8 @@ shadows = ['H','K','L','M','C5','K4','K5']
 rule all:
     input:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
-        expand('results/processed_elim_order/processed_{shadow}.order', shadow=shadows)
+        expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows)
 
 rule extract_processed_elimination_ordering:
     input:
@@ -52,5 +53,50 @@ rule process_helices:
         helix='results/helix_annotations/{shadow}.helix'
     output:
         'results/processed_td_files/processed_{shadow}.td'
+    log:
+        'results/processed_td_files/exec_logs/{shadow}_processing.log'
     script:
         "scripts/process_helices.py"
+
+rule make_dot_file:
+    input:
+        dbn='resources/dbn_files/{family}.dbn',
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/dot_files/processed_{family}.dot' 
+    script:
+        "scripts/make_dot_file.py"
+
+rule dot_process:
+    input:
+        'results/dot_files/processed_{family}.dot' 
+    output:
+        'results/td_images/processed_{family}.pdf'
+    shell:
+        'dot -Tpdf -o {output} {input}' 
+
+rule colored_dbn:
+    input:
+        dbn='resources/dbn_files/{family}.dbn',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/colored_dbn/colored_dbn_{family}.tex'
+    script:
+        'scripts/colored_dbn.py'
+
+rule textopdf:
+    input:
+        'results/colored_dbn/colored_dbn_{family}.tex'
+    output:
+        'results/colored_dbn/colored_dbn_{family}.pdf'
+    shell:
+        'pdflatex -output-directory=results/colored_dbn/ {input}'
+
+rule pdftops:
+    input:
+        'results/colored_dbn/colored_dbn_{family}.pdf'
+    output:
+        'results/colored_dbn/colored_dbn_{family}.ps'
+    shell:
+        'pdf2ps {input} {output}'
