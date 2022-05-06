@@ -88,7 +88,7 @@ def replace(u,v,lo,hi,val,to_keep_safe,adj,index2bag):
 
     while len(queue) > 0:
         u,v = queue.pop()
-
+        assert(u in adj[v])
         new_content = []
         for vertex in index2bag[v]:
             if vertex[0]=='H':
@@ -108,6 +108,78 @@ def replace(u,v,lo,hi,val,to_keep_safe,adj,index2bag):
 
     return index2bag
 
+def shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below):
+    """
+    we do not want to canonicize a diag case with an extremity 
+    in the separator
+    """
+    above = vert_above[(u,v)]
+    below = vert_below[(u,v)]
+
+    if str(i) in inter:
+        extremity = i
+        replacement = i-1
+    if str(j) in inter:
+        extremity = j
+        replacement = j+1
+    if str(ip) in inter:
+        extremity = ip
+        replacement = ip+1
+    if str(jp) in inter:
+        extremity = jp
+        replacement = ip-1
+
+    new_bag_content = list(inter)+[str(replacement)]
+    new_bag_label = 'shift-'+u
+    print("shifting from",extremity,"to",replacement, "td edge", u,v)
+    if str(replacement) in above:
+        print("above case")
+        
+        # modifying bag dictionary
+        index2bag = replace(v,u,extremity,extremity,replacement,[],adj,index2bag)
+        index2bag[new_bag_label] = new_bag_content
+
+        # modifying edges
+        adj[u] = [bag for bag in adj[u] if bag!=v] + [new_bag_label]
+        adj[v] = [bag for bag in adj[v] if bag!=u] + [new_bag_label]
+        adj[new_bag_label] = [u,v]
+    
+        # modifying dict for vertices above and below:
+        vert_above[(u, new_bag_label)] = set([vertex for vertex in vert_above[(u,v)] if vertex!=extremity])
+        vert_below[(u, new_bag_label)] = vert_below[(u,v)].union(set([replacement]))
+        vert_above[(new_bag_label,v)] = vert_above[(u,v)]
+        vert_below[(new_bag_label,v)] = vert_below[(u,v)]
+
+        vert_below.pop((u,v))
+        vert_above.pop((u,v))
+
+        # which edge holds the separator now ?
+        v = new_bag_label
+        return adj, index2bag, vert_above, vert_below, u, v
+
+    if str(replacement) in below:
+        print("below case")
+        index2bag = replace(u,v,extremity,extremity,replacement,[],adj,index2bag)
+        index2bag[new_bag_label] = new_bag_content
+
+        # modifying edges
+        adj[u] = [bag for bag in adj[u] if bag!=v] + [new_bag_label]
+        adj[v] = [bag for bag in adj[v] if bag!=u] + [new_bag_label]
+        adj[new_bag_label] = [u,v]
+        
+        # modifying dict for vertices above and below:
+        vert_above[(u, new_bag_label)] = vert_above[(u,v)]
+        vert_below[(u, new_bag_label)] = vert_below[(u,v)]
+        vert_above[(new_bag_label,v)] = vert_above[(u,v)].union(set([replacement]))
+        vert_below[(new_bag_label,v)] = set([vertex for vertex in vert_below[(u,v)] if vertex!=replacement])
+
+        vert_below.pop((u,v))
+        vert_above.pop((u,v))
+    
+        # which edge holds the separator now ?
+        u = new_bag_label
+        return adj, index2bag, vert_above, vert_below, u, v
+
 def diag_canonicize(u,v,i,j,ip,jp,helixname, adj, index2bag):
     """
     in direction of u, replaces all helix occurences
@@ -117,6 +189,7 @@ def diag_canonicize(u,v,i,j,ip,jp,helixname, adj, index2bag):
     inter = set(index2bag[u]).intersection(set(index2bag[v]))
 
     print("diag cano call", i,j,ip,jp)
+    print("diag cano call", u,v)
     print("inter ", inter)
 
     to_keep_safe = inter.intersection(set([str(c) for c in [i,j,ip,jp]]))
@@ -299,7 +372,7 @@ for hline in open(snakemake.input.helix).readlines():
                     
                 while len(queue) > 0:
                     u,v = queue.pop()
-
+        
                     print("td edge u,v", u,v)
                     if u[0]=='H' or v[0]=='H':
                         for w in adj[v]:
@@ -312,11 +385,25 @@ for hline in open(snakemake.input.helix).readlines():
 
                     if str(i+k) in above-below and str(j-k) in above-below and str(i+m) in below-above and str(j-m) in below-above:
                         print("-->yes does sep !")
+                        inter = set(index2bag[u]).intersection(set(index2bag[v]))
+                        
+                        # detecting specific extremity-in-separator case.
+                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
+                            print("will have to shift vertex")
+                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
+                        
                         adj, index2bag = diag_canonicize(u,v,i,j,ip,jp,helixname,adj,index2bag)
                         processed = True
                         break
                     if str(i+k) in below-above and str(j-k) in below-above and str(i+m) in above-below and str(j-m) in above-below:
                         print("-->yes does sep !")
+
+                        inter = set(index2bag[u]).intersection(set(index2bag[v]))
+                        # detecting specific extremity-in-separator case.
+                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
+                            print("will have to shift vertex")
+                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
+
                         adj, index2bag = diag_canonicize(v,u,i,j,ip,jp,helixname,adj,index2bag)
                         processed = True
                         break
@@ -477,6 +564,13 @@ while smth_contracted:
     while len(queue) > 0:
         u, v = queue.pop()
         if set(index2bag[u])==set(index2bag[v]) or set(index2bag[v]).issubset(set(index2bag[u])) or set(index2bag[u]).issubset(index2bag[v]):
+            if (u[0]=='H') != (v[0]=='H'):
+            # no hybrid contractions for clarity
+                for w in adj[v]:
+                    if w!=u:
+                        queue.append((v,w))
+                continue
+
             print("must contract !",v,"into",u,"(",index2bag[u],"<-",index2bag[v],")")
             smth_contracted = True
             adj[u] += adj[v]

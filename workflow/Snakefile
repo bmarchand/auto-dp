@@ -5,6 +5,8 @@ rule all:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
         expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
         expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows)
+#        expand('results/compact_tree/compact_{shadow}.pdf',shadow=shadows), # that's the future
+#        expand('results/dp_equations/dp_equations_{shadows}.pdf')
 
 rule extract_processed_elimination_ordering:
     input:
