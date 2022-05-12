@@ -564,7 +564,7 @@ while smth_contracted:
     while len(queue) > 0:
         u, v = queue.pop()
         if set(index2bag[u])==set(index2bag[v]) or set(index2bag[v]).issubset(set(index2bag[u])) or set(index2bag[u]).issubset(index2bag[v]):
-            if (u[0]=='H') != (v[0]=='H'):
+            if (u[0]!='H') and (v[0]=='H'):
             # no hybrid contractions for clarity
                 for w in adj[v]:
                     if w!=u:

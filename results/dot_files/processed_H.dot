@@ -4,7 +4,7 @@ digraph G {
         node [style=filled,fillcolor=white];
         labeljust="l";
         style=filled;
-        color=lime;
+        color="#8DD3C7";
         H0_0 -> H0_1 -> H0_2 -> H0_3 -> H0_4 -> H0_5 -> H0_6 -> H0_7;
         label="H0 (1-5-11-15) (diag)";
     }
@@ -12,7 +12,7 @@ digraph G {
         node [style=filled,fillcolor=white];
         labeljust="l";
         style=filled;
-        color=pink;
+        color="#FFFFB3";
         H1_7 -> H1_6 -> H1_5 -> H1_4 -> H1_3 -> H1_2 -> H1_1 -> H1_0;
         label="H1 (6-10-16-20) (diag)";
     }
@@ -21,23 +21,21 @@ digraph G {
      H0_0 [shape=record,label= <{ 2 <b>15</b> <b>1</b>|  <b>16</b>}> ];
      1  ->  H0_0;
      H0_1 [shape=record,label= <{ 14 2 <b>15</b>|  <b>16</b>}> ];
-     H0_2 [shape=record,label= <{ 2 14 3|  <b>16</b>}> ];
-     H0_3 [shape=record,label= <{ 3 14 13|  <b>16</b>}> ];
-     H0_4 [shape=record,label= <{ 4 13 3|  <b>16</b>}> ];
-     H0_5 [shape=record,label= <{ 4 13 12|  <b>16</b>}> ];
-     H0_6 [shape=record,label= <{ 4 <b>5</b> 12|  <b>16</b>}> ];
-     H0_7 [shape=record,label= <{ <b>11</b> <b>5</b> 12|  <b>16</b>}> ];
-     5 [shape=record,label= <{ <b>10</b> <b>11</b> <b>16</b> <b>5</b>}> ];
-     H0_7  ->  5;
-     H1_7 [shape=record,label= <{ <b>16</b> 17 <b>10</b>|  <b>5</b>}> ];
-     5  ->  H1_7;
-     H1_6 [shape=record,label= <{ 9 17 <b>10</b>|  <b>5</b>}> ];
-     H1_5 [shape=record,label= <{ 9 18 17|  <b>5</b>}> ];
-     H1_4 [shape=record,label= <{ 9 18 8|  <b>5</b>}> ];
-     H1_3 [shape=record,label= <{ 18 19 8|  <b>5</b>}> ];
-     H1_2 [shape=record,label= <{ 19 8 7|  <b>5</b>}> ];
-     H1_1 [shape=record,label= <{ 19 <b>20</b> 7|  <b>5</b>}> ];
-     H1_0 [shape=record,label= <{ 7 <b>6</b> <b>20</b>|  <b>5</b>}> ];
-     shift_16 [shape=record,label= <{ <b>20</b> <b>5</b> <b>6</b>}> ];
-     H1_0  ->  shift_16;
+     H0_2 [shape=record,label= <{ 14 2 3|  <b>16</b>}> ];
+     H0_3 [shape=record,label= <{ 14 3 13|  <b>16</b>}> ];
+     H0_4 [shape=record,label= <{ 4 3 13|  <b>16</b>}> ];
+     H0_5 [shape=record,label= <{ 4 12 13|  <b>16</b>}> ];
+     H0_6 [shape=record,label= <{ 4 12 <b>5</b>|  <b>16</b>}> ];
+     H0_7 [shape=record,label= <{ 12 <b>5</b> <b>11</b>|  <b>16</b>}> ];
+     10 [shape=record,label= <{ <b>10</b> <b>11</b> <b>16</b> <b>5</b>}> ];
+     H0_7  ->  10;
+     H1_7 [shape=record,label= <{ <b>16</b> <b>10</b> 17|  <b>5</b>}> ];
+     10  ->  H1_7;
+     H1_6 [shape=record,label= <{ 17 <b>10</b> 9|  <b>5</b>}> ];
+     H1_5 [shape=record,label= <{ 17 18 9|  <b>5</b>}> ];
+     H1_4 [shape=record,label= <{ 18 9 8|  <b>5</b>}> ];
+     H1_3 [shape=record,label= <{ 19 18 8|  <b>5</b>}> ];
+     H1_2 [shape=record,label= <{ 19 7 8|  <b>5</b>}> ];
+     H1_1 [shape=record,label= <{ 19 7 <b>20</b>|  <b>5</b>}> ];
+     H1_0 [shape=record,label= <{ 7 <b>20</b> <b>6</b>|  <b>5</b>}> ];
 }

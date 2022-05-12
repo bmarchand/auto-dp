@@ -24,6 +24,8 @@ for k,c in enumerate(dbn):
 
 f = open(snakemake.output[0], 'w')
 
+#edges.add((1,len(dbn)))
+
 f.write('p tw '+str(len(vertices))+' '+str(len(edges))+'\n')
 for u,v in edges:
     print(u,v,file=f)

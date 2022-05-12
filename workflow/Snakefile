@@ -4,9 +4,60 @@ rule all:
     input:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
         expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
-        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows)
-#        expand('results/compact_tree/compact_{shadow}.pdf',shadow=shadows), # that's the future
-#        expand('results/dp_equations/dp_equations_{shadows}.pdf')
+        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
+        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
+        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
+        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
+        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows)
+
+rule concatenation:
+    input:
+        colored_dbn='results/colored_dbn/colored_dbn_{shadow}.pdf',
+        colored_td='results/td_images/processed_{shadow}.pdf',
+        compact_td='results/compact_td_images/compact_{shadow}.pdf',
+        letters_td='results/compact_td_images/compact_{shadow}_letters.pdf',
+        dp_td='results/compact_td_images/compact_{shadow}_equations.pdf',
+    output:
+        'results/concatenations/concatenation_{shadow}.pdf'
+    shell:
+        'pdftk {input.colored_dbn} {input.colored_td} {input.compact_td} {input.letters_td} {input.dp_td} cat output {output}'
+
+rule extract_compact_tree:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/compact_dot_files/compact_{family}.dot'
+    wildcard_constraints:
+        family='[A-Z]*[0-9]*'
+    script:
+        'scripts/compact_tree_extraction.py'
+
+rule compact_dottopdf:
+    input:
+        'results/compact_dot_files/{file}.dot'
+    output:
+        'results/compact_td_images/{file}.pdf'
+    shell:
+        'dot -Tpdf -o {output} {input}' 
+
+rule extract_compact_tree_letters:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/compact_dot_files/compact_{family}_letters.dot'
+    script:
+        'scripts/compact_tree_extraction_letters.py'
+
+rule extract_tree_equations:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/compact_dot_files/compact_{family}_equations.dot'
+    script:
+        'scripts/compact_tree_extraction_equations.py'
 
 rule extract_processed_elimination_ordering:
     input:

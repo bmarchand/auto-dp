@@ -1,0 +1,47 @@
+digraph G {
+    node [shape=box];
+    subgraph cluster0 {
+        node [style=filled,fillcolor=white];
+        labeljust="l";
+        style=filled;
+        color="#8DD3C7";
+        H0_0;
+        label="H0 (1-5-16-20) (clique)";
+    }
+    subgraph cluster1 {
+        node [style=filled,fillcolor=white];
+        labeljust="l";
+        style=filled;
+        color="#FFFFB3";
+        H1_0;
+        label="H1 (6-10-21-25) (clique)";
+    }
+    subgraph cluster2 {
+        node [style=filled,fillcolor=white];
+        labeljust="l";
+        style=filled;
+        color="#BEBADA";
+        H2_7 -> H2_0;
+        label="H2 (11-15-26-30) (diag)";
+    }
+     1 [shape=record,label= <{min_(<FONT COLOR="DARKGREEN"><b>a</b></FONT> &le;<FONT COLOR="DARKGREEN"><b>b</b></FONT> &le;<FONT COLOR="DARKGREEN"><b>g</b></FONT> &le;<FONT COLOR="DARKGREEN"><b>h</b></FONT> ) (<FONT COLOR="RED"><b>B</b></FONT>[<b>b</b>,<b>g</b>,<b>h</b>]+<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>a</b>,<b>b</b>,<b>g</b>,<b>h</b>])}> ];
+     -1  ->  1;
+     H0_0 [shape=record,label= <{<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>a</b>,<b>b</b>,<b>g</b>,<b>h</b>].}> ];
+     1  ->  H0_0;
+     18 [shape=record,label= <{<FONT COLOR="RED"><b>B</b></FONT>[<b>b</b>,<b>g</b>,<b>h</b>] =min_(<FONT COLOR="DARKGREEN"><b>d</b></FONT> &le;<b>h</b> &le;<FONT COLOR="DARKGREEN"><b>i</b></FONT> ) (<FONT COLOR="RED"><b>C</b></FONT>[<b>b</b>,<b>d</b>,<b>g</b>,<b>i</b>])}> ];
+     1  ->  18;
+     16 [shape=record,label= <{<FONT COLOR="RED"><b>C</b></FONT>[<b>b</b>,<b>d</b>,<b>g</b>,<b>i</b>] =min_(<FONT COLOR="DARKGREEN"><b>k</b></FONT> ) (<FONT COLOR="RED"><b>F</b></FONT>[<b>d</b>,<b>g</b>,<b>k</b>]+<FONT COLOR="RED"><b>D</b></FONT>[<b>b</b>,<b>d</b>,<b>i</b>,<b>k</b>])}> ];
+     18  ->  16;
+     9 [shape=record,label= <{<FONT COLOR="RED"><b>D</b></FONT>[<b>b</b>,<b>d</b>,<b>i</b>,<b>k</b>] =min_(<b>b</b> &le;<FONT COLOR="DARKGREEN"><b>c</b></FONT> ) (<FONT COLOR="RED"><b>E</b></FONT>[<b>c</b>,<b>d</b>,<b>i</b>,<b>k</b>])}> ];
+     16  ->  9;
+     11 [shape=record,label= <{<FONT COLOR="RED"><b>E</b></FONT>[<b>c</b>,<b>d</b>,<b>i</b>,<b>k</b>] =min_(<FONT COLOR="DARKGREEN"><b>j</b></FONT> &le;<b>k</b> ) (<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>c</b>,<b>d</b>,<b>i</b>,<b>j</b>])}> ];
+     9  ->  11;
+     H1_0 [shape=record,label= <{<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>c</b>,<b>d</b>,<b>i</b>,<b>j</b>].}> ];
+     11  ->  H1_0;
+     17 [shape=record,label= <{<FONT COLOR="RED"><b>F</b></FONT>[<b>d</b>,<b>g</b>,<b>k</b>] =min_(<FONT COLOR="DARKGREEN"><b>f</b></FONT> &le;<b>g</b> ) (<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>d</b>,<b>f</b>,<b>k</b>])}> ];
+     16  ->  17;
+     H2_7 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k</b>\|27,<b>d</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k</b>\|<b>d</b>,27],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k+1</b>\|<b>d</b>,27],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k+1</b>:<b>d</b>,27]+BP(<b>f</b>,<b>k</b>), <FONT COLOR="RED"><b>DIAG</b></FONT>[<b>d</b>,<b>f</b>,<b>k</b>])}> ];
+     17  ->  H2_7;
+     H2_0 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k</b>\|12,<b>d</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k+1</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k+1</b>:<b>d</b>,12]+BP(<b>f</b>,<b>k</b>), )}> ];
+    labels [shape=record,label= <{<b>a</b>=&#956;(1) | <b>b</b>=&#956;(5) | <b>c</b>=&#956;(6) | <b>d</b>=&#956;(10) | <b>e</b>=&#956;(11) | <b>f</b>=&#956;(15) | <b>g</b>=&#956;(16) | <b>h</b>=&#956;(20) | <b>i</b>=&#956;(21) | <b>j</b>=&#956;(25) | <b>k</b>=&#956;(26) | <b>l</b>=&#956;(30) | }> ];
+}
