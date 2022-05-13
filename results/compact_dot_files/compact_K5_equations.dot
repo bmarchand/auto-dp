@@ -68,9 +68,9 @@ digraph G {
      19  ->  28;
      36 [shape=record,label= <{<FONT COLOR="RED"><b>K</b></FONT>[<b>h</b>,<b>j</b>,<b>r</b>] =min_(<b>r</b> &le;<FONT COLOR="DARKGREEN"><b>s</b></FONT> ) (<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>h</b>,<b>j</b>,<b>s</b>])}> ];
      28  ->  36;
-     H4_7 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s</b>\|47,<b>h</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s</b>\|<b>h</b>,47],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s+1</b>\|<b>h</b>,47],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s+1</b>:<b>h</b>,47]+BP(<b>j</b>,<b>s</b>), <FONT COLOR="RED"><b>DIAG</b></FONT>[<b>h</b>,<b>j</b>,<b>s</b>])}> ];
+     H4_7 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s</b>\|<b>h</b>,47] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s</b>\|<b>h</b>,47],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s+1</b>\|<b>h</b>,47],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s+1</b>:<b>h</b>,47]+BP(<b>j</b>,<b>s</b>), <FONT COLOR="RED"><b>DIAG</b></FONT>[<b>h</b>,<b>j</b>,<b>s</b>])}> ];
      36  ->  H4_7;
-     H4_0 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s</b>\|22,<b>h</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s</b>\|<b>h</b>,22],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s+1</b>\|<b>h</b>,22],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s+1</b>:<b>h</b>,22]+BP(<b>j</b>,<b>s</b>), )}> ];
+     H4_0 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s</b>\|<b>h</b>,22] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s</b>\|<b>h</b>,22],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j</b>,<b>s+1</b>\|<b>h</b>,22],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>j-1</b>,<b>s+1</b>:<b>h</b>,22]+BP(<b>j</b>,<b>s</b>), )}> ];
      30 [shape=record,label= <{<FONT COLOR="RED"><b>L</b></FONT>[<b>f</b>,<b>h</b>,<b>q</b>,<b>r</b>] =min_(<b>f</b> &le;<FONT COLOR="DARKGREEN"><b>g</b></FONT> ) (<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>g</b>,<b>h</b>,<b>q</b>,<b>r</b>])}> ];
      28  ->  30;
      H3_0 [shape=record,label= <{<FONT COLOR="RED"><b>CLIQUE</b></FONT>[<b>g</b>,<b>h</b>,<b>q</b>,<b>r</b>].}> ];

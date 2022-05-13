@@ -4,6 +4,7 @@ rule all:
     input:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
         expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
         expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
         expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
         expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
@@ -82,6 +83,22 @@ rule compute_td:
         'results/td_files/{shadow}.td'
     shell:
         'java -Xmx3g -Xms3g -Xss10m -Duser.dir=workflow/scripts/PACE2017-TrackA tw.exact.MainDecomposer < {input} > {output}'
+
+rule from_td_to_dot:
+    input:
+        'results/td_files/{shadow}.td'
+    output:
+        'results/td_files/{shadow}.td1.dot'
+    script: 
+        'scripts/from_pace_td_to_td1dot.py'
+
+rule unprocessed_td:
+    input:
+        'results/td_files/{shadow}.td1.dot'
+    output:
+        'results/td_images/unprocessed_{shadow}.pdf' 
+    shell:
+        'dot -Tpdf -o {output} {input}' 
 
 rule extract_gr:
     input:

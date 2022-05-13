@@ -42,6 +42,6 @@ digraph G {
      16  ->  17;
      H2_7 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k</b>\|27,<b>d</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k</b>\|<b>d</b>,27],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k+1</b>\|<b>d</b>,27],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k+1</b>:<b>d</b>,27]+BP(<b>f</b>,<b>k</b>), <FONT COLOR="RED"><b>DIAG</b></FONT>[<b>d</b>,<b>f</b>,<b>k</b>])}> ];
      17  ->  H2_7;
-     H2_0 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k</b>\|12,<b>d</b>] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k+1</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k+1</b>:<b>d</b>,12]+BP(<b>f</b>,<b>k</b>), )}> ];
+     H2_0 [shape=record,label= <{<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k</b>\|<b>d</b>,12] = min(<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f</b>,<b>k+1</b>\|<b>d</b>,12],<FONT COLOR="RED"><b>DIAG</b></FONT>[<b>f-1</b>,<b>k+1</b>:<b>d</b>,12]+BP(<b>f</b>,<b>k</b>), )}> ];
     labels [shape=record,label= <{<b>a</b>=&#956;(1) | <b>b</b>=&#956;(5) | <b>c</b>=&#956;(6) | <b>d</b>=&#956;(10) | <b>e</b>=&#956;(11) | <b>f</b>=&#956;(15) | <b>g</b>=&#956;(16) | <b>h</b>=&#956;(20) | <b>i</b>=&#956;(21) | <b>j</b>=&#956;(25) | <b>k</b>=&#956;(26) | <b>l</b>=&#956;(30) | }> ];
 }

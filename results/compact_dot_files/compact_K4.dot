@@ -56,7 +56,7 @@ digraph G {
      19  ->  H2_0;
      25 [shape=record,label= <{  <FONT COLOR="RED">I</FONT> <b>11</b> <b>15</b> <b>20</b> <b>35</b>  <FONT COLOR="DARKGREEN">36</FONT>}> ];
      18  ->  25;
-     H3_7 [shape=record,label= <{ <b>36</b> <b>20</b>|  <b>15</b>}> ];
+     H3_7 [shape=record,label= <{ <b>20</b> <b>36</b>|  <b>15</b>}> ];
      25  ->  H3_7;
      H3_0 [shape=record,label= <{ <b>16</b> <b>40</b>|  <b>15</b>}> ];
 }

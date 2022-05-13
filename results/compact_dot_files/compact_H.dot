@@ -18,12 +18,12 @@ digraph G {
     }
      1 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">15</FONT>  <FONT COLOR="DARKGREEN">16</FONT>}> ];
      -1  ->  1;
-     H0_0 [shape=record,label= <{ <b>15</b> <b>1</b>|  <b>16</b>}> ];
+     H0_0 [shape=record,label= <{ <b>1</b> <b>15</b>|  <b>16</b>}> ];
      1  ->  H0_0;
-     H0_7 [shape=record,label= <{ <b>5</b> <b>11</b>|  <b>16</b>}> ];
+     H0_7 [shape=record,label= <{ <b>11</b> <b>5</b>|  <b>16</b>}> ];
      10 [shape=record,label= <{  <FONT COLOR="RED">D</FONT>  <FONT COLOR="DARKGREEN">10</FONT> <b>11</b> <b>16</b> <b>5</b>}> ];
      H0_7  ->  10;
      H1_7 [shape=record,label= <{ <b>10</b> <b>16</b>|  <b>5</b>}> ];
      10  ->  H1_7;
-     H1_0 [shape=record,label= <{ <b>6</b> <b>20</b>|  <b>5</b>}> ];
+     H1_0 [shape=record,label= <{ <b>20</b> <b>6</b>|  <b>5</b>}> ];
 }

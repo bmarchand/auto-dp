@@ -58,9 +58,9 @@ digraph G {
      32  ->  33;
      H3_0 [shape=record,label= <{ <b>21</b> <b>40</b> <b>25</b> <b>36</b>}> ];
      33  ->  H3_0;
-     H2_7 [shape=record,label= <{ <b>15</b> <b>26</b>|  <b>41</b> <b>5</b> <b>35</b>}> ];
+     H2_7 [shape=record,label= <{ <b>15</b> <b>26</b>|  <b>41</b> <b>35</b> <b>5</b>}> ];
      25  ->  H2_7;
-     H2_0 [shape=record,label= <{ <b>30</b> <b>11</b>|  <b>41</b> <b>5</b> <b>35</b>}> ];
+     H2_0 [shape=record,label= <{ <b>11</b> <b>30</b>|  <b>41</b> <b>35</b> <b>5</b>}> ];
      9 [shape=record,label= <{  <FONT COLOR="RED">J</FONT> <b>11</b> <b>30</b> <b>35</b> <b>41</b> <b>5</b>  <FONT COLOR="DARKGREEN">6</FONT>}> ];
      H2_0  ->  9;
      11 [shape=record,label= <{  <FONT COLOR="RED">K</FONT>  <FONT COLOR="DARKGREEN">10</FONT> <b>11</b> <b>30</b> <b>35</b> <b>41</b> <b>6</b>}> ];
@@ -73,5 +73,5 @@ digraph G {
      13  ->  H1_0;
      H4_7 [shape=record,label= <{ <b>35</b> <b>46</b>|  <b>30</b>}> ];
      12  ->  H4_7;
-     H4_0 [shape=record,label= <{ <b>31</b> <b>50</b>|  <b>30</b>}> ];
+     H4_0 [shape=record,label= <{ <b>50</b> <b>31</b>|  <b>30</b>}> ];
 }

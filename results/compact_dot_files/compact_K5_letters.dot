@@ -68,12 +68,12 @@ digraph G {
      19  ->  28;
      36 [shape=record,label= <{  <FONT COLOR="RED"><b>K</b></FONT> <b>h</b> <b>j</b> <b>r</b>  <FONT COLOR="DARKGREEN"><b>s</b></FONT>}> ];
      28  ->  36;
-     H4_7 [shape=record,label= <{ <b>j</b> <b>s</b>|  <b>h</b>}> ];
+     H4_7 [shape=record,label= <{ <b>s</b> <b>j</b>|  <b>h</b>}> ];
      36  ->  H4_7;
-     H4_0 [shape=record,label= <{ <b>j</b> <b>s</b>|  <b>h</b>}> ];
-     30 [shape=record,label= <{  <FONT COLOR="RED"><b>N</b></FONT> <b>f</b> <b>h</b> <b>r</b> <b>q</b>  <FONT COLOR="DARKGREEN"><b>g</b></FONT>}> ];
+     H4_0 [shape=record,label= <{ <b>s</b> <b>j</b>|  <b>h</b>}> ];
+     30 [shape=record,label= <{  <FONT COLOR="RED"><b>N</b></FONT> <b>f</b> <b>q</b> <b>r</b> <b>h</b>  <FONT COLOR="DARKGREEN"><b>g</b></FONT>}> ];
      28  ->  30;
-     H3_0 [shape=record,label= <{ <b>q</b> <b>g</b> <b>r</b> <b>h</b>}> ];
+     H3_0 [shape=record,label= <{ <b>g</b> <b>r</b> <b>h</b> <b>q</b>}> ];
      30  ->  H3_0;
     labels [shape=record,label= <{<b>a</b>=&#956;(1) | <b>b</b>=&#956;(5) | <b>c</b>=&#956;(6) | <b>d</b>=&#956;(10) | <b>e</b>=&#956;(11) | <b>f</b>=&#956;(15) | <b>g</b>=&#956;(16) | <b>h</b>=&#956;(20) | <b>i</b>=&#956;(21) | <b>j</b>=&#956;(25) | <b>k</b>=&#956;(26) | <b>l</b>=&#956;(30) | <b>m</b>=&#956;(31) | <b>n</b>=&#956;(35) | <b>o</b>=&#956;(36) | <b>p</b>=&#956;(40) | <b>q</b>=&#956;(41) | <b>r</b>=&#956;(45) | <b>s</b>=&#956;(46) | <b>t</b>=&#956;(50) | }> ];
 }
