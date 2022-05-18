@@ -6,7 +6,7 @@ digraph G {
         style=filled;
         color="#8DD3C7";
         H0_0;
-        label="H0 (1-5-21-25) (clique)";
+        label="H0 (1-5-17-21) (clique)";
     }
     subgraph cluster1 {
         node [style=filled,fillcolor=white];
@@ -14,7 +14,7 @@ digraph G {
         style=filled;
         color="#FFFFB3";
         H1_0;
-        label="H1 (6-10-26-30) (clique)";
+        label="H1 (5-9-21-25) (clique)";
     }
     subgraph cluster2 {
         node [style=filled,fillcolor=white];
@@ -22,41 +22,28 @@ digraph G {
         style=filled;
         color="#BEBADA";
         H2_0;
-        label="H2 (11-15-31-35) (clique)";
+        label="H2 (9-13-25-29) (clique)";
     }
     subgraph cluster3 {
         node [style=filled,fillcolor=white];
         labeljust="l";
         style=filled;
         color="#FB8072";
-        H3_7 -> H3_0;
-        label="H3 (16-20-36-40) (diag)";
+        H3_0;
+        label="H3 (13-17-29-33) (clique)";
     }
-     1 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">21</FONT>  <FONT COLOR="DARKGREEN">25</FONT>  <FONT COLOR="DARKGREEN">5</FONT>}> ];
-     -1  ->  1;
-     H0_0 [shape=record,label= <{ <b>1</b> <b>25</b> <b>5</b> <b>21</b>}> ];
+     21 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">13</FONT>  <FONT COLOR="DARKGREEN">17</FONT>  <FONT COLOR="DARKGREEN">29</FONT>  <FONT COLOR="DARKGREEN">33</FONT>}> ];
+     -1  ->  21;
+     H3_0 [shape=record,label= <{ <b>13</b> <b>33</b> <b>17</b> <b>29</b>}> ];
+     21  ->  H3_0;
+     14 [shape=record,label= <{  <FONT COLOR="RED">B</FONT> <b>1</b> <b>13</b> <b>17</b>  <FONT COLOR="DARKGREEN">25</FONT> <b>29</b>  <FONT COLOR="DARKGREEN">9</FONT>}> ];
+     21  ->  14;
+     H2_0 [shape=record,label= <{ <b>9</b> <b>29</b> <b>13</b> <b>25</b>}> ];
+     14  ->  H2_0;
+     1 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>1</b> <b>17</b>  <FONT COLOR="DARKGREEN">21</FONT> <b>25</b>  <FONT COLOR="DARKGREEN">5</FONT> <b>9</b>}> ];
+     14  ->  1;
+     H0_0 [shape=record,label= <{ <b>1</b> <b>21</b> <b>5</b> <b>17</b>}> ];
      1  ->  H0_0;
-     28 [shape=record,label= <{  <FONT COLOR="RED">B</FONT>  <FONT COLOR="DARKGREEN">20</FONT> <b>21</b> <b>25</b> <b>5</b>}> ];
-     1  ->  28;
-     27 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>20</b> <b>25</b>  <FONT COLOR="DARKGREEN">26</FONT> <b>5</b>}> ];
-     28  ->  27;
-     17 [shape=record,label= <{  <FONT COLOR="RED">D</FONT>  <FONT COLOR="DARKGREEN">11</FONT> <b>20</b> <b>26</b>  <FONT COLOR="DARKGREEN">30</FONT> <b>5</b>}> ];
-     27  ->  17;
-     9 [shape=record,label= <{  <FONT COLOR="RED">E</FONT> <b>11</b> <b>26</b> <b>30</b> <b>5</b>  <FONT COLOR="DARKGREEN">6</FONT>}> ];
-     17  ->  9;
-     10 [shape=record,label= <{  <FONT COLOR="RED">F</FONT>  <FONT COLOR="DARKGREEN">10</FONT> <b>11</b> <b>26</b> <b>30</b> <b>6</b>}> ];
-     9  ->  10;
-     H1_0 [shape=record,label= <{ <b>6</b> <b>30</b> <b>10</b> <b>26</b>}> ];
-     10  ->  H1_0;
-     18 [shape=record,label= <{  <FONT COLOR="RED">G</FONT> <b>11</b>  <FONT COLOR="DARKGREEN">15</FONT> <b>20</b> <b>30</b>  <FONT COLOR="DARKGREEN">35</FONT>}> ];
-     17  ->  18;
-     19 [shape=record,label= <{  <FONT COLOR="RED">H</FONT> <b>11</b> <b>15</b> <b>30</b>  <FONT COLOR="DARKGREEN">31</FONT> <b>35</b>}> ];
-     18  ->  19;
-     H2_0 [shape=record,label= <{ <b>11</b> <b>35</b> <b>15</b> <b>31</b>}> ];
-     19  ->  H2_0;
-     25 [shape=record,label= <{  <FONT COLOR="RED">I</FONT> <b>11</b> <b>15</b> <b>20</b> <b>35</b>  <FONT COLOR="DARKGREEN">36</FONT>}> ];
-     18  ->  25;
-     H3_7 [shape=record,label= <{ <b>36</b> <b>20</b>|  <b>15</b>}> ];
-     25  ->  H3_7;
-     H3_0 [shape=record,label= <{ <b>16</b> <b>40</b>|  <b>15</b>}> ];
+     H1_0 [shape=record,label= <{ <b>5</b> <b>25</b> <b>9</b> <b>21</b>}> ];
+     1  ->  H1_0;
 }

@@ -1,0 +1,6 @@
+\documentclass{article}
+\begin{document}
+$$ A =\min_{ a,d,g } \left( B\left[a,d,g\right]\right) $$
+$$ B \left[a,d | d',g \right] = \min\left(B[ a+1 , d|d',g ],B[ a , d-1|d',g ],B[ a+1 , d-1|d',g ]+bp(a,d),C[ d',g | a,d ]\right)$$
+$$ C \left[d,g | b,c \right] = \min\left(C[ d+1 , g|b,c ],C[ d , g-1|b,c ],C[ d+1 , g-1|b,c ]+bp(d,g),CLIQUE[ b,c,d,g ]\right)$$
+\end{document}

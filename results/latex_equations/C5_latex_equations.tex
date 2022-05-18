@@ -1,0 +1,7 @@
+\documentclass{article}
+\begin{document}
+$$ A =\min_{ a,g,h,j,k } \left( B\left[a,g,h,j\right]+CLIQUE\left[g,h,j,k\right]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( CLIQUE\left[e,f,h,i\right]+C\left[a,e,f,g,i,j\right]\right) $$
+$$ C \left[a,e | f,g,i,j \right] = \min\left(C[ a+1 , e|f,g,i,j ],C[ a , e-1|f,g,i,j ],C[ a+1 , e-1|f,g,i,j ]+bp(a,e),D[ a,e,f,g,i,j ]\right)$$
+$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( CLIQUE\left[c,d,f,g\right]+CLIQUE\left[b,c,i,j\right]\right) $$
+\end{document}

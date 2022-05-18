@@ -8,71 +8,51 @@ for s in symbols:
 adj = {}
 
 dbn = open(snakemake.input[0]).readlines()[0]
+k = 0
 
-for k, c in enumerate(dbn):
+dbn_list = list(dbn)
+
+while len(dbn_list) > 0:
+    c = dbn_list.pop(0)
+
+    if len(dbn_list) > 0:
+        try:
+            adj[k+1].append(k+2)
+        except KeyError:
+            adj[k+1] = [k+2]
+        try:
+            adj[k+2].append(k+1)
+        except KeyError:
+            adj[k+2] = [k+1]
+     
     for s in symbols:
         if c==s[0]:
             stacks[s].append(k+1)
         if c==s[1]:
             l = stacks[s].pop()
-            adj[k+1] = l
-            adj[l] = k+1
+            try:
+                adj[k+1].append(l)
+            except KeyError:
+                adj[k+1] = [l]
+            try:
+                adj[l].append(k+1)
+            except KeyError:
+                adj[l] = [k+1]
 
-#def complete_helix(u, v, adj):
-#
-#    # going to next bp
-#    w = u+1
-#    while w not in adj.keys():
-#        w += 1
-#
-#    x = v-1
-#    while x not in adj.keys():
-#        x -= 1
-#
-#    if w >= x:
-#        return u,v
-#
-#    if adj[x]!=w:
-#        return u,v
-#    else:
-#        return complete_helix(w, x, adj)
-#
-#def find_helices(dbn, adj, i, j):
-#
-#    # swiping right for basal indices
-#    index = i
-#    basal_indices = []
-#
-#    while index < j:
-#        try:
-#            if index < adj[index]:
-#                basal_indices.append((index, adj[index]))
-#                index = adj[index]
-#            else:
-#                index += 1
-#        except KeyError:
-#            index += 1
-#
-#    # completing helices
-#    helices = []
-#
-#    for u, v in basal_indices:
-#        w, x = complete_helix(u, v, adj)
-#        helices.append((u,v,w,x))
-#        helices += find_helices(dbn,adj, w+1, x-1)
-#
-#    return helices
+    if len(dbn_list) > 0 and c==dbn_list[0]:
+        k += 1
 
-def find_helices(dbn, adj):
+
+def find_helices(adj):
 
     # basal indices (largest overarching arc)
     basal_indices = []
 
-    for i in range(1, len(dbn)+1,1):
-        for j in range(i+1, len(dbn)+1,1):
-            if j==adj[i]:
+    for i in range(1, max(adj.keys())+1,1):
+        for j in range(i+1, max(adj.keys())+1,1):
+            if j in adj[i] and abs(j-i) > 1:
                 try:
-                    if j+1==adj[i-1]:
+                    if j+1 in adj[i-1]:
                         continue
                     else:
                         basal_indices.append((i,j))
@@ -87,8 +67,7 @@ def find_helices(dbn, adj):
     for u, v in basal_indices:
         w = u 
         x = v
-
-        while adj[w+1]==x-1 and w+1 < x-1:
+        while x-1 in adj[w+1] and w+1 < x-1:
             w+=1
             x-=1
 
@@ -96,7 +75,8 @@ def find_helices(dbn, adj):
 
     return helices
 
-helices = find_helices(dbn,adj)
+print(adj)
+helices = find_helices(adj)
 
 f = open(snakemake.output[0], 'w')
 for k, h in enumerate(helices):

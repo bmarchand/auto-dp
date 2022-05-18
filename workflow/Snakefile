@@ -4,23 +4,60 @@ rule all:
     input:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
         expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
         expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
         expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
         expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
-        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
+#        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
+        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows), # that's the future
         expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows)
+
+
+rule pdflatex_equations:
+    input:
+        'results/latex_equations/{shadow}_latex_equations.tex'
+    output:
+        'results/latex_equations/{shadow}_latex_equations.pdf'
+    shell:
+        'pdflatex -output-directory=results/latex_equations/ {input}'
+
+rule produce_latex_equations:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/latex_equations/{family}_latex_equations.tex'
+    wildcard_constraints:
+        family='[A-Z]*[0-9]*'
+    script:
+        'scripts/produce_latex_equations.py' 
+
+rule extremities_label:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/json_files/extremities_label_{family}.json'
+    run:
+        from scripts.utils import equations_prep_work
+        root = open(input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
+            
+        _, _, _, _, _, extremities_label, _, _, _, _ = equations_prep_work(input.tdname, input.helix, root) 
+
+        import json
+        with open(output[0],'w') as f:
+            json.dump(extremities_label, f)
 
 rule concatenation:
     input:
         colored_dbn='results/colored_dbn/colored_dbn_{shadow}.pdf',
         colored_td='results/td_images/processed_{shadow}.pdf',
         compact_td='results/compact_td_images/compact_{shadow}.pdf',
-        letters_td='results/compact_td_images/compact_{shadow}_letters.pdf',
-        dp_td='results/compact_td_images/compact_{shadow}_equations.pdf',
+        dp_eq='results/latex_equations/{shadow}_latex_equations.pdf',
     output:
         'results/concatenations/concatenation_{shadow}.pdf'
     shell:
-        'pdftk {input.colored_dbn} {input.colored_td} {input.compact_td} {input.letters_td} {input.dp_td} cat output {output}'
+        'pdftk {input.colored_dbn} {input.colored_td} {input.compact_td} {input.dp_eq} cat output {output}'
 
 rule extract_compact_tree:
     input:
@@ -121,6 +158,22 @@ rule make_dot_file:
     script:
         "scripts/make_dot_file.py"
 
+rule from_td_to_dot:
+    input:
+        'results/td_files/{shadow}.td'
+    output:
+        'results/dot_files/unprocessed_{shadow}.td1.dot'
+    script:
+        'scripts/from_pace_td_to_td1dot.py'
+
+rule unprocessed_td:
+    input:
+        'results/dot_files/unprocessed_{shadow}.td1.dot'
+    output:
+        'results/td_images/unprocessed_{shadow}.pdf'
+    shell:
+        'dot -Tpdf -o {output} {input}' 
+
 rule dot_process:
     input:
         'results/dot_files/processed_{family}.dot' 
@@ -132,7 +185,8 @@ rule dot_process:
 rule colored_dbn:
     input:
         dbn='resources/dbn_files/{family}.dbn',
-        helix='results/helix_annotations/{family}.helix'
+        helix='results/helix_annotations/{family}.helix',
+        extremities_label='results/json_files/extremities_label_{family}.json'
     output:
         'results/colored_dbn/colored_dbn_{family}.tex'
     script:

@@ -19,6 +19,8 @@ adj = {}
 
 started_bs = False
 
+root = open(snakemake.input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
+
 for line in open(snakemake.input.tdname).readlines():
     if line[0]=='b':
         started_bs = True
@@ -56,7 +58,7 @@ for helixline in open(snakemake.input.helix).readlines():
     cluster_extremities[label] = extremities
 
     subgraph[label] = ""
-    queue = [('-1','1')]
+    queue = [('-1',root)]
     while len(queue) > 0:
         prev,u = queue.pop()
         print(label, u[:2], u) 
@@ -113,7 +115,7 @@ for key, val in subgraph.items():
     print("    }",file=f)
     cnt += 1
 
-queue = [('-1','1')]
+queue = [('-1',root)]
 
 
 def color(u):
