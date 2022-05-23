@@ -1,6 +1,8 @@
 \documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \begin{document}
-$$ A =\min_{ a,e,f,h,i } \left( B\left[a,e,f,h\right]+CLIQUE\left[e,f,h,i\right]\right) $$
-$$ B\left[ a,e,f,h \right] =\min_{ b,d } \left( CLIQUE\left[a,b,d,e\right]+C\left[b,d,f,h\right]\right) $$
-$$ C\left[ b,d,f,h \right] =\min_{ c,g } \left( CLIQUE\left[c,d,g,h\right]+CLIQUE\left[b,c,f,g\right]\right) $$
+$$ A =\min_{ a,e,f,h,i } \left( B\left[a,e,f,h\right]+C_{\boxtimes}\left[e,f-1,h,i-1\right]\right) $$
+$$ B\left[ a,e,f,h \right] =\min_{ b,d } \left( C_{\boxtimes}\left[a,b-1,d,e-1\right]+C\left[b,d,f,h\right]\right) $$
+$$ C\left[ b,d,f,h \right] =\min_{ c,g } \left( C_{\boxtimes}\left[c,d-1,g,h-1\right]+C_{\boxtimes}\left[b,c-1,f,g-1\right]\right) $$
 \end{document}

@@ -1,7 +1,9 @@
 \documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \begin{document}
-$$ A =\min_{ a,e,f,j,k } \left( B\left[a,e,f,j\right]+CLIQUE\left[e,f,j,k\right]\right) $$
-$$ B\left[ a,e,f,j \right] =\min_{ d,i } \left( C\left[a,d,f,i\right]+CLIQUE\left[d,e,i,j\right]\right) $$
-$$ C\left[ a,d,f,i \right] =\min_{ b,g } \left( D\left[b,d,g,i\right]+CLIQUE\left[a,b,f,g\right]\right) $$
-$$ D\left[ b,d,g,i \right] =\min_{ c,h } \left( CLIQUE\left[c,d,h,i\right]+CLIQUE\left[b,c,g,h\right]\right) $$
+$$ A =\min_{ a,e,f,j,k } \left( B\left[a,e,f,j\right]+C_{\boxtimes}\left[e,f-1,j,k-1\right]\right) $$
+$$ B\left[ a,e,f,j \right] =\min_{ d,i } \left( C\left[a,d,f,i\right]+C_{\boxtimes}\left[d,e-1,i,j-1\right]\right) $$
+$$ C\left[ a,d,f,i \right] =\min_{ b,g } \left( D\left[b,d,g,i\right]+C_{\boxtimes}\left[a,b-1,f,g-1\right]\right) $$
+$$ D\left[ b,d,g,i \right] =\min_{ c,h } \left( C_{\boxtimes}\left[c,d-1,h,i-1\right]+C_{\boxtimes}\left[b,c-1,g,h-1\right]\right) $$
 \end{document}

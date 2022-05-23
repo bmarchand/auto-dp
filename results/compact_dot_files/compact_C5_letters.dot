@@ -42,7 +42,7 @@ digraph G {
     }
      1 [shape=record,label= <{  <FONT COLOR="RED"><b>D</b></FONT> <b><FONT COLOR="DARKGREEN">a </FONT></b> <b><FONT COLOR="DARKGREEN">e </FONT></b> <b><FONT COLOR="DARKGREEN">f </FONT></b> <b><FONT COLOR="DARKGREEN">g </FONT></b> <b><FONT COLOR="DARKGREEN">h </FONT></b> <b><FONT COLOR="DARKGREEN">i </FONT></b> <b><FONT COLOR="DARKGREEN">j </FONT></b>}> ];
      -1  ->  1;
-     H0_0 [shape=record,label= <{  <FONT COLOR="RED"><b>E</b></FONT> <b>e </b> <b>a </b>|  <b>i </b> <b>f </b> <b>g </b> <b>j </b>}> ];
+     H0_0 [shape=record,label= <{  <FONT COLOR="RED"><b>E</b></FONT> <b>a </b> <b>e </b>|  <b>f </b> <b>i </b> <b>j </b> <b>g </b>}> ];
      1  ->  H0_0;
      6 [shape=record,label= <{  <FONT COLOR="RED"><b>F</b></FONT> <b>e </b> <b>f </b> <b>g </b> <b>i </b> <b>j </b> <b>a </b> <b><FONT COLOR="DARKGREEN">c </FONT></b>}> ];
      H0_0  ->  6;

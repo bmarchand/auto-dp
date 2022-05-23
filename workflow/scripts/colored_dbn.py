@@ -128,8 +128,8 @@ def num_to_letters(cnt):
         return chr(ord('a') + int(cnt/26)).upper()+chr(ord('a') + int(cnt%26)).upper()
 
 
-for k in range(len(vertices)-1):
-    print("\\fill ("+str(k)+",0) circle (0.2) node[below=.5cm] {\\relsize{+1}{\\textbf{"+str(int_label[k+1])+"}}};", file=f)
+#for k in range(len(vertices)-1):
+#    print("\\fill ("+str(k)+",0) circle (0.2) node[below=.5cm] {\\relsize{+2}{\\textbf{"+str(int_label[k+1])+"}}};", file=f)
 all_extremities = set([])
 for helixline in open(snakemake.input.helix).readlines():
     extremities = helixline.split(' ')[1][1:-1].split(',')
@@ -147,17 +147,30 @@ for k, e in enumerate(extremities_pos[:-1]):
     else:
         inc = 0
     print(k, pos, chr(ord('a')+pos))
-    print("\\fill ("+str(e+inc)+",0) circle (0.) node[below=1cm] {\\textbf{"+chr(ord('a')+k)+"}};", file=f)
+    print("\\fill ("+str(e+inc)+",0) circle (0.) node[below=1cm] {\\relsize{+5}{\\textbf{"+chr(ord('a')+k)+"}}};", file=f)
 
 
 for k in range(len(vertices)-2):
     print("\\draw[thick] ("+str(k)+",0) -- ("+str(k+1)+",0);", file=f )
 
 for k,l in edges:
-    if abs(k-l) <= 1:
+    if abs(k-l) <=1:
         continue
     print("\\draw[very thick] ("+str(l-1)+",0) arc \
                 (0:180:"+str(abs(0.5*(k-l)))+");",file=f)
+
+for k, extremities in enumerate(helices):
+    label = 'H'+str(k)
+
+    i = int(extremities[0])-1 
+    j = int(extremities[1])-1
+    ip = int(extremities[2])-1
+    jp = int(extremities[3])-1
+
+    print('\\filldraw[fill=c'+str(int(label[1:])%len(colors))+',rounded corners] ', file=f, end="")
+    print(' ('+str(i-0.2)+',-0.5) rectangle ('+str(ip+0.2)+',+0.5);', file=f)
+    print('\\filldraw[fill=c'+str(int(label[1:])%len(colors))+',rounded corners] ', file=f, end="")
+    print(' ('+str(jp-0.2)+',-0.5) rectangle ('+str(j+0.2)+',+0.5);', file=f)
 
 print('\\end{tikzpicture}', file=f)
 print('\\end{document}', file=f)

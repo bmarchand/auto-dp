@@ -2,3 +2,13 @@
 *.class
 *.aux
 *.log
+results/td_images/*.pdf
+results/td_files/*.td
+results/processed_td_files/*.td
+results/helix_annotations/*.helix
+results/gr_files/*.gr
+results/elim_order/*.order
+results/dot_files/*.dot
+resources/dbn_files/six*.dbn
+resources/dbn_files/five*.dbn
+results/colored_dbn/band_*

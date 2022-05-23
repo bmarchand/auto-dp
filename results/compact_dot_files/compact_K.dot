@@ -26,12 +26,12 @@ digraph G {
     }
      1 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">13</FONT>  <FONT COLOR="DARKGREEN">25</FONT>}> ];
      -1  ->  1;
-     H0_0 [shape=record,label= <{  <FONT COLOR="RED">B</FONT> <b>13</b> <b>1</b>|  <b>13</b> <b>25</b>}> ];
+     H0_0 [shape=record,label= <{  <FONT COLOR="RED">B</FONT> <b>1</b> <b>13</b>|  <b>25</b> <b>13</b>}> ];
      1  ->  H0_0;
-     H0_7 [shape=record,label= <{ <b>5</b> <b>9</b>|  <b>13</b> <b>25</b>}> ];
-     H2_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>13</b> <b>25</b>|  <b>5</b> <b>9</b>}> ];
+     H0_7 [shape=record,label= <{ <b>5</b> <b>9</b>|  <b>25</b> <b>13</b>}> ];
+     H2_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>25</b> <b>13</b>|  <b>9</b> <b>5</b>}> ];
      H0_7  ->  H2_0;
-     H2_7 [shape=record,label= <{ <b>17</b> <b>21</b>|  <b>5</b> <b>9</b>}> ];
+     H2_7 [shape=record,label= <{ <b>17</b> <b>21</b>|  <b>9</b> <b>5</b>}> ];
      H1_0 [shape=record,label= <{ <b>5</b> <b>21</b> <b>9</b> <b>17</b>}> ];
      H2_7  ->  H1_0;
 }

@@ -1,14 +1,16 @@
 shadows = ['H','K','L','M','C5','K4','K5']
+#shadows = ['six_arcs'+str(k) for k in range(604)]
 
 rule all:
     input:
         expand('results/elim_order/{shadow}.order', shadow=shadows),
         expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
-        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
-        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
-        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
-        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
-#        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
+#        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
+#        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
+#        expand('results/colored_dbn/band_diagram_{shadow}.pdf',shadow=shadows),
+#        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
+#        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
+##        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
         expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows), # that's the future
         expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows)
 
@@ -181,6 +183,23 @@ rule dot_process:
         'results/td_images/processed_{family}.pdf'
     shell:
         'dot -Tpdf -o {output} {input}' 
+
+rule band_diagram:
+    input:
+        dbn='resources/dbn_files/{family}.dbn'
+    output:
+        'results/colored_dbn/band_diagram_{family}.tex'
+    script:
+        'scripts/band_diagram_from_helix.py'
+
+rule band_diagram_latextopdf:
+    input:
+        'results/colored_dbn/band_diagram_{family}.tex'
+    output:
+        'results/colored_dbn/band_diagram_{family}.pdf'
+    shell:
+        'pdflatex -output-directory=results/colored_dbn/ {input}'
+
 
 rule colored_dbn:
     input:

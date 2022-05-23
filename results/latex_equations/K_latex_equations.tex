@@ -1,6 +1,10 @@
 \documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \begin{document}
-$$ A =\min_{ a,d,g } \left( B\left[a,d,g\right]\right) $$
-$$ B \left[a,d | d',g \right] = \min\left(B[ a+1 , d|d',g ],B[ a , d-1|d',g ],B[ a+1 , d-1|d',g ]+bp(a,d),C[ d',g | a,d ]\right)$$
-$$ C \left[d,g | b,c \right] = \min\left(C[ d+1 , g|b,c ],C[ d , g-1|b,c ],C[ d+1 , g-1|b,c ]+bp(d,g),CLIQUE[ b,c,d,g ]\right)$$
+$$ A =\min_{ a,d,g } \left( B\left[a,d|d,g\right]\right) $$
+$$ B' \left[a,d | d',g \right] =  \min\begin{cases}B'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\B[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset\end{cases}$$
+$$ B \left[a,d | d',g \right] =  \min\begin{cases}B[ a+1 , d|d',g ], &\text{if } a+1 \notin\{ d , d',g \} \\B'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\B[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset,\\C'[d',g|a,d]\end{cases}$$
+$$ C' \left[d,g | b,c \right] =  \min\begin{cases}C'[ d , g-1|b,c ], &\text{if } g-1 ,\notin\{ d , b,c \} \\C[ d+1 , g-1|b,c ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ b,c \}=\emptyset\end{cases}$$
+$$ C \left[d,g | b,c \right] =  \min\begin{cases}C[ d+1 , g|b,c ], &\text{if } d+1 \notin\{ g , b,c \} \\C'[ d , g-1|b,c ], &\text{if } g-1 ,\notin\{ d , b,c \} \\C[ d+1 , g-1|b,c ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ b,c \}=\emptyset,\\C_{\boxtimes}'[b,c-1,d,g+1-1]\end{cases}$$
 \end{document}
