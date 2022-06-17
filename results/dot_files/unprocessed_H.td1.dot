@@ -1,0 +1,43 @@
+graph G {
+
+	bag0 [label="1 2 5 9 13
+ "]
+	bag1 [label="1 5 9 13 16
+ "]
+	bag2 [label="1 5 16 17
+ "]
+	bag3 [label="5 9 13 14 16
+ "]
+	bag4 [label="5 7 9 14 16
+ "]
+	bag5 [label="7 14 15 16
+ "]
+	bag6 [label="7 8 9 14
+ "]
+	bag7 [label="5 6 7 16
+ "]
+	bag8 [label="2 4 5 9 13
+ "]
+	bag9 [label="2 4 9 11 13
+ "]
+	bag10 [label="2 11 12 13
+ "]
+	bag11 [label="4 9 10 11
+ "]
+	bag12 [label="2 3 4 11
+ "]
+
+	bag0 -- bag1
+	bag0 -- bag8
+	bag1 -- bag2
+	bag1 -- bag3
+	bag3 -- bag4
+	bag4 -- bag5
+	bag4 -- bag6
+	bag4 -- bag7
+	bag8 -- bag9
+	bag9 -- bag10
+	bag9 -- bag11
+	bag9 -- bag12
+
+}

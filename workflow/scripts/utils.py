@@ -62,9 +62,10 @@ def read_td_lines(lines):
 ### TREE DEC PROCESSING FUNCTIONS
 
 
-def full_compact_diag(label, extremities, adj, index2bag):
+def full_compact_diag(label, extremities, adj, index2bag, extremities_label, root):
 
     def replace_extremities(vert, extremities, indices_to_keep):
+        print("extremities",extremities)
         if vert not in extremities or vert in indices_to_keep:
             return vert
         else:
@@ -77,18 +78,23 @@ def full_compact_diag(label, extremities, adj, index2bag):
             return subs[vert]
 
     below_helix = False
-    queue = [('-1','1')]
+    queue = [('-1',root)]
     while len(queue) > 0:
         prev,u = queue.pop()
 
-        if below_helix:
-            index2bag[u] = list(set([replace_extremities(vert, extremities, indices_to_keep) for vert in index2bag[u]])) 
+#        if below_helix:
+#            index2bag[u] = list(set([replace_extremities(vert, extremities, indices_to_keep) for vert in index2bag[u]])) 
+#            if u[0]=='H':
+#                cluster_extremities[u.split('_')[0]] = list([replace_extremities(vert, extremities, indices_to_keep) for vert in cluster_extremities[u.split('_')[0]]])
 
         if u.split('_')[0]==label and prev.split('_')[0]!=label:
             if not set(extremities).issubset(set(index2bag[prev])):
             # diag case
                 below_helix = True
                 indices_to_keep = set(extremities).intersection(set(index2bag[u]))
+                
+                for e in set(extremities) - indices_to_keep:
+                    extremities_label[e] = extremities_label[replace_extremities(e, extremities, indices_to_keep)]
 
                 keep_going = True
                 while keep_going:
@@ -97,6 +103,7 @@ def full_compact_diag(label, extremities, adj, index2bag):
                         if v.split('_')[0]==label:
                             for w in adj[v]:
                                 if w!=u:
+                                    print("diag contracting ", index2bag[v], "into", index2bag[u])
                                     adj[u] = [bag for bag in adj[u] if bag!=v]+[w]
                                     adj[w] = [bag for bag in adj[w] if bag!=v]+[u]
                                     keep_going = True
@@ -105,11 +112,11 @@ def full_compact_diag(label, extremities, adj, index2bag):
             if v!=prev:
                 queue.append((u,v))
 
-    return adj, index2bag
+    return adj, index2bag, extremities_label
 
 
-def full_compact_clique(label, extremities, adj, index2bag):
-    queue = [('-1','1')]
+def full_compact_clique(label, extremities, adj, index2bag,root):
+    queue = [('-1',root)]
     while len(queue) > 0:
         prev,u = queue.pop()
         if u.split('_')[0]==label:
@@ -124,8 +131,8 @@ def full_compact_clique(label, extremities, adj, index2bag):
 
     return adj, index2bag
 
-def filter_extremities(all_extremities, adj, index2bag):
-    queue = [('-1','1')]
+def filter_extremities(all_extremities, adj, index2bag, root):
+    queue = [('-1',root)]
     while len(queue) > 0:
         prev,u = queue.pop()
 
@@ -137,10 +144,10 @@ def filter_extremities(all_extremities, adj, index2bag):
 
     return index2bag
 
-def subgraph_info_extraction(label,  adj):
+def subgraph_info_extraction(label,  adj, root):
     
     subgraph_string = ""
-    queue = [('-1','1')]
+    queue = [('-1',root)]
     content = []
     while len(queue) > 0:
         prev,u = queue.pop()
@@ -164,3 +171,70 @@ def subgraph_info_extraction(label,  adj):
 
     return subgraph_string, content, root
 
+def equations_prep_work(tdname, helix, root):
+    # extracting bags and tree from td file
+    adj, index2bag = read_td_lines(open(tdname).readlines())
+
+    # extracting extremities
+    cluster_extremities = {}
+    for helixline in open(helix).readlines():
+        label = helixline.split(' ')[0]
+        extremities = [c.replace(' ','') for c in helixline.split('(')[1].split(')')[0].split(',')]
+        cluster_extremities[label] = extremities
+
+    all_extremities = set([])
+
+    for key, val in cluster_extremities.items():
+        all_extremities = all_extremities.union(set(val))
+
+    # extremities label dictionary
+    extremities_label = {}
+
+    for k, e in enumerate(sorted(list(all_extremities), key=lambda x:int(x))):
+        extremities_label[e] = chr(ord('a')+k) 
+
+    # for all helices, contraction to one bag (the highest in the tree)
+    for helixline in open(helix).readlines():
+        label = helixline.split(' ')[0]
+        extremities = cluster_extremities[label]
+
+        adj, index2bag, extremities_label = full_compact_diag(label, extremities, adj, index2bag, extremities_label, root)
+        adj, index2bag = full_compact_clique(label, extremities, adj, index2bag, root)
+
+    index2bag = filter_extremities(all_extremities, adj, index2bag, root)
+    # final filtering: extremities only
+
+    # for all helices: building the colored box around it
+    subgraph = {}
+    cluster_content = {}
+    cluster_root = {}
+
+    # which cluster filling
+    which_cluster = {}
+    for u in index2bag.keys():
+        if u[0]=='H':
+            which_cluster[u] = u.split('_')[0]
+
+    # subgraph constructions
+    for helixline in open(helix).readlines():
+
+        label = helixline.split(' ')[0]
+        subgraph_string, content, croot = subgraph_info_extraction(label, adj, root)
+
+        if subgraph_string!=';':
+            subgraph[label] = subgraph_string
+        cluster_content[label] = content
+        cluster_root[label] = croot
+
+
+    # in the following working with bags of letters
+    index2letters = {}
+    for key, val in index2bag.items():
+        index2letters[key] = []
+        for vert in val:
+            if vert in all_extremities:
+                index2letters[key].append(extremities_label[vert])
+            else:
+                index2letters[key].append(vert)
+
+    return adj, all_extremities, cluster_root, cluster_content, cluster_extremities, extremities_label, index2bag, index2letters, subgraph, which_cluster

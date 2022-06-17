@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\begin{document}
+$$ A =\min_{ a,g,h,j,k } \left( B\left[a,g,h,j\right]+C_{\boxtimes}\left[g,h-1,j,k-1\right]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( C_{\boxtimes}\left[e,f-1,h,i-1\right]+C\left[a,e|f,g,i,j\right]\right) $$
+$$ C' \left[a,e | f,g,i,j \right] =  \min\begin{cases}C'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\C[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset\end{cases}$$
+$$ C \left[a,e | f,g,i,j \right] =  \min\begin{cases}C[ a+1 , e|f,g,i,j ], &\text{if } a+1 \notin\{ e , f,g,i,j \} \\C'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\C[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset,\\D'[a,e+1,f,g,i,j]\end{cases}$$
+$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( C_{\boxtimes}\left[c,d-1,f,g-1\right]+C_{\boxtimes}\left[b,c-1,i,j-1\right]\right) $$
+\end{document}

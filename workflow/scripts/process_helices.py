@@ -215,6 +215,9 @@ def diag_canonicize(u,v,i,j,ip,jp,helixname, adj, index2bag):
     index2bag[u] = list(const) + [str(i),str(j)]
     index2bag[v] = list(const) + [str(ip),str(jp)]
 
+    print("first bag of expansion: ", index2bag[u])
+    print("last bag of expansion: ", index2bag[v])
+
     # new intermediary bags
     cur_i = i
     cur_j = j
@@ -357,7 +360,7 @@ for hline in open(snakemake.input.helix).readlines():
     if width <= 3:
     # only diag case
 
-        for k in range(1,ip-i):
+        for k in range(ip-i):
             if processed:
                 break
             for m in range(k+2,ip+1-i,1):
@@ -388,10 +391,10 @@ for hline in open(snakemake.input.helix).readlines():
                         inter = set(index2bag[u]).intersection(set(index2bag[v]))
                         
                         # detecting specific extremity-in-separator case.
-                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
-                            print("will have to shift vertex")
-                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
-                        
+#                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
+#                            print("will have to shift vertex")
+#                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
+#                        
                         adj, index2bag = diag_canonicize(u,v,i,j,ip,jp,helixname,adj,index2bag)
                         processed = True
                         break
@@ -400,9 +403,9 @@ for hline in open(snakemake.input.helix).readlines():
 
                         inter = set(index2bag[u]).intersection(set(index2bag[v]))
                         # detecting specific extremity-in-separator case.
-                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
-                            print("will have to shift vertex")
-                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
+#                        if any([str(vertex) in inter for vertex in [i,j,ip,jp]]):
+#                            print("will have to shift vertex")
+#                            adj, index2bag, vert_above, vert_below, u, v = shift_separator(u,v,i,j,ip,jp,inter,adj,index2bag,vert_above,vert_below)
 
                         adj, index2bag = diag_canonicize(v,u,i,j,ip,jp,helixname,adj,index2bag)
                         processed = True
@@ -541,11 +544,14 @@ for hline in open(snakemake.input.helix).readlines():
 f = open(snakemake.output[0],'w')
 
 # header line
-print('s td '+str(len(index2bag.keys()))+' ', end="", file=f)
+
+# root specification:
+queue = [('-1','1')]
+
+max_vertex = max([max([int(i) for i in val]) for _ ,val in index2bag.items()])
 
 # largest bag size
 width = max([len(val) for _, val in index2bag.items()])
-print(str(width)+' NVERTICES', file=f)
 
 # removing adjacent redundancies
 
@@ -590,6 +596,27 @@ while smth_contracted:
             if w!=u:
                 queue.append((v,w))
 
+root = '-1'
+queue = [('-1','1')]
+while len(queue) > 0:
+    prev, u = queue.pop()
+
+    print("looking at bag ",u, index2bag[u])
+    if '1' in index2bag[u] and str(max_vertex) in index2bag[u]:
+        root = u
+        break
+
+    for v in adj[u]:
+        if v!= prev:
+            queue.append((u,v))
+
+print(index2bag)
+print('was looking for edge 1', max_vertex)
+assert(root!='-1')
+
+print('root', root, file=f)
+print('s td '+str(len(index2bag.keys()))+' ', end="", file=f)
+print(str(width)+' NVERTICES', file=f)
 
 
 for key, val in index2bag.items():

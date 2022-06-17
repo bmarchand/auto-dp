@@ -1,18 +1,12 @@
 import sys
 import copy
 from utils import read_td_lines
-Paired = ['#A6CEE3', '#1F78B4', '#B2DF8A', '#33A02C', '#FB9A99', '#E31A1C', '#FDBF6F', '#FF7F00', '#CAB2D6', '#6A3D9A', '#FFFF99', '#B15928']
-Accent = ['#7FC97F', '#BEAED4', '#FDC086', '#FFFF99', '#386CB0', '#F0027F', '#BF5B16', '#666666']
-Dark2 = ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
-Set1 = ['#E41A1C', '#377EB8', '#4DAF4A', '#984EA3', '#FF7F00', '#FFFF33', '#A65628', '#F781BF', '#999999']
-Set2 = ['#66C2A5', '#FC8D62', '#8DA0CB', '#E78AC3', '#A6D854', '#FFD92F', '#E5C494', '#B3B3B3']
-Set3 = ['#8DD3C7', '#FFFFB3', '#BEBADA', '#FB8072', '#80B1D3', '#FDB462', '#B3DE69', '#FCCDE5', '#D9D9D9', '#BC80BD', '#CCEBC5', '#FFED6F']
-tab10 = ['#1F77B4', '#FF7F0E', '#2CA02C', '#D62728', '#9467BD', '#8C564B', '#E377C2', '#7F7F7F', '#BCBD22', '#17BECF']
-tab20 = ['#1F77B4', '#AEC7E8', '#FF7F0E', '#FFBB78', '#2CA02C', '#98DF8A', '#D62728', '#FF9896', '#9467BD', '#C5B0D5', '#8C564B', '#C49C94', '#E377C2', '#F7B6D2', '#7F7F7F', '#C7C7C7', '#BCBD22', '#DBDB8D', '#17BECF', '#9EDAE5']
-tab20b = ['#393B79', '#5254A3', '#6B6ECF', '#9C9EDE', '#637939', '#8CA252', '#B5CF6B', '#CEDB9C', '#8C6D31', '#BD9E39', '#E7BA52', '#E7CB94', '#843C39', '#AD494A', '#D6616B', '#E7969C', '#7B4173', '#A55194', '#CE6DBD', '#DE9ED6']
-tab20c = ['#3182BD', '#6BAED6', '#9ECAE1', '#C6DBEF', '#E6550D', '#FD8D3C', '#FDAE6B', '#FDD0A2', '#31A354', '#74C476', '#A1D99B', '#C7E9C0', '#756BB1', '#9E9AC8', '#BCBDDC', '#DADAEB', '#636363', '#969696', '#BDBDBD', '#D9D9D9']
+from colors import *
 
-colors = Set3
+colors = hex_Set3
+
+root = open(snakemake.input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
+print(root)
 
 # extracting bags and tree from td file
 adj, index2bag = read_td_lines(open(snakemake.input.tdname).readlines())
@@ -37,7 +31,7 @@ for helixline in open(snakemake.input.helix).readlines():
     label = helixline.split(' ')[0]
     extremities = [c.replace(' ','') for c in helixline.split('(')[1].split(')')[0].split(',')]
 
-    queue = [('-1','1')]
+    queue = [('-1', root)]
     while len(queue) > 0:
         prev,u = queue.pop()
 
@@ -68,7 +62,7 @@ for helixline in open(snakemake.input.helix).readlines():
     cluster_extremities[label] = extremities
 
     subgraph[label] = ""
-    queue = [('-1','1')]
+    queue = [('-1', root)]
     while len(queue) > 0:
         prev,u = queue.pop()
         print(label, u[:2], u) 
@@ -155,8 +149,7 @@ for key, val in subgraph.items():
     print("    }",file=f)
     cnt += 1
 
-queue = [('-1','1')]
-
+queue = [('-1',root)]
 
 
 def boldified(c, all_extremities):
@@ -174,20 +167,37 @@ def num_to_letters(cnt):
 
 cnt = 0
 
+def partner(e, sorted_ext):
+    if e==sorted_ext[0]:
+        return sorted_ext[3]
+    if e==sorted_ext[1]:
+        return sorted_ext[2]
+    if e==sorted_ext[3]:
+        return sorted_ext[0]
+    if e==sorted_ext[2]:
+        return sorted_ext[1]
+
 while len(queue) > 0:
     prev,u = queue.pop()
     label = "<{"
     if u[:1]=='H' and not set(cluster_extremities[which_cluster[u]]).issubset(set(index2bag[prev])):
-#        label += '  <FONT COLOR="RED">'+num_to_letters(cnt)+'</FONT>'
-        cnt += 1
-        for c in set(index2bag[u])-const_part[which_cluster[u]]:
-            label += " "+boldified(c, all_extremities)
+    # diag case
+        absent_ex = (set(cluster_extremities[which_cluster[u]]) - set(index2bag[prev])).pop()
+        sorted_exs = sorted(cluster_extremities[which_cluster[u]], key=lambda x: int(x))
+        if prev.split('_')[0]==u.split('_')[0]:
+            for c in sorted(set([absent_ex, partner(absent_ex, sorted_exs)]),key=lambda x: int(x)):
+                label += " "+boldified(c, all_extremities)
+        else:
+            label += '  <FONT COLOR="RED">'+num_to_letters(cnt)+'</FONT>'
+            cnt += 1
+            for c in set(cluster_extremities[which_cluster[u]])-set([absent_ex, partner(absent_ex, sorted_exs)]):
+                label += " "+boldified(c, all_extremities)
         label += "| "
         for c in const_part[which_cluster[u]]:
             label += " "+boldified(c, all_extremities)
 
     elif u[:1]=='H' and set(cluster_extremities[which_cluster[u]]).issubset(set(index2bag[prev])):
-
+    # clique case
         for c in index2bag[u]:
             if c in set(index2bag[u]).intersection(set(index2bag[prev])):
                 label += " "+boldified(c, all_extremities)
@@ -211,6 +221,5 @@ while len(queue) > 0:
     for v in adj[u]:
         if v!=prev:
             queue.append((u,v))
-
 
 print('}',file=f)

@@ -1,6 +1,7 @@
 \documentclass{standalone}
 \usepackage[x11names]{xcolor}
 \usepackage{tikz}
+\usepackage{relsize}
 \begin{document}
 \begin{tikzpicture}
 \definecolor{c0}{rgb}{0.5529411764705883, 0.8274509803921568, 0.7803921568627451}
@@ -23,62 +24,15 @@
 \filldraw[fill=c2,rounded corners]  (29.8,-0.5) rectangle (34.2,+0.5);
 \filldraw[fill=c3,rounded corners]  (14.8,-0.5) rectangle (19.2,+0.5);
 \filldraw[fill=c3,rounded corners]  (34.8,-0.5) rectangle (39.2,+0.5);
-\fill (0,0) circle (0.2) node[below=.5cm] {\textbf{1}};
-\fill (1,0) circle (0.2) node[below=.5cm] {\textbf{2}};
-\fill (2,0) circle (0.2) node[below=.5cm] {\textbf{3}};
-\fill (3,0) circle (0.2) node[below=.5cm] {\textbf{4}};
-\fill (4,0) circle (0.2) node[below=.5cm] {\textbf{5}};
-\fill (5,0) circle (0.2) node[below=.5cm] {\textbf{6}};
-\fill (6,0) circle (0.2) node[below=.5cm] {\textbf{7}};
-\fill (7,0) circle (0.2) node[below=.5cm] {\textbf{8}};
-\fill (8,0) circle (0.2) node[below=.5cm] {\textbf{9}};
-\fill (9,0) circle (0.2) node[below=.5cm] {\textbf{10}};
-\fill (10,0) circle (0.2) node[below=.5cm] {\textbf{11}};
-\fill (11,0) circle (0.2) node[below=.5cm] {\textbf{12}};
-\fill (12,0) circle (0.2) node[below=.5cm] {\textbf{13}};
-\fill (13,0) circle (0.2) node[below=.5cm] {\textbf{14}};
-\fill (14,0) circle (0.2) node[below=.5cm] {\textbf{15}};
-\fill (15,0) circle (0.2) node[below=.5cm] {\textbf{16}};
-\fill (16,0) circle (0.2) node[below=.5cm] {\textbf{17}};
-\fill (17,0) circle (0.2) node[below=.5cm] {\textbf{18}};
-\fill (18,0) circle (0.2) node[below=.5cm] {\textbf{19}};
-\fill (19,0) circle (0.2) node[below=.5cm] {\textbf{20}};
-\fill (20,0) circle (0.2) node[below=.5cm] {\textbf{21}};
-\fill (21,0) circle (0.2) node[below=.5cm] {\textbf{22}};
-\fill (22,0) circle (0.2) node[below=.5cm] {\textbf{23}};
-\fill (23,0) circle (0.2) node[below=.5cm] {\textbf{24}};
-\fill (24,0) circle (0.2) node[below=.5cm] {\textbf{25}};
-\fill (25,0) circle (0.2) node[below=.5cm] {\textbf{26}};
-\fill (26,0) circle (0.2) node[below=.5cm] {\textbf{27}};
-\fill (27,0) circle (0.2) node[below=.5cm] {\textbf{28}};
-\fill (28,0) circle (0.2) node[below=.5cm] {\textbf{29}};
-\fill (29,0) circle (0.2) node[below=.5cm] {\textbf{30}};
-\fill (30,0) circle (0.2) node[below=.5cm] {\textbf{31}};
-\fill (31,0) circle (0.2) node[below=.5cm] {\textbf{32}};
-\fill (32,0) circle (0.2) node[below=.5cm] {\textbf{33}};
-\fill (33,0) circle (0.2) node[below=.5cm] {\textbf{34}};
-\fill (34,0) circle (0.2) node[below=.5cm] {\textbf{35}};
-\fill (35,0) circle (0.2) node[below=.5cm] {\textbf{36}};
-\fill (36,0) circle (0.2) node[below=.5cm] {\textbf{37}};
-\fill (37,0) circle (0.2) node[below=.5cm] {\textbf{38}};
-\fill (38,0) circle (0.2) node[below=.5cm] {\textbf{39}};
-\fill (39,0) circle (0.2) node[below=.5cm] {\textbf{40}};
-\fill (0,0) circle (0.2) node[below=1cm] {\textbf{a}};
-\fill (4,0) circle (0.2) node[below=1cm] {\textbf{b}};
-\fill (5,0) circle (0.2) node[below=1cm] {\textbf{c}};
-\fill (9,0) circle (0.2) node[below=1cm] {\textbf{d}};
-\fill (10,0) circle (0.2) node[below=1cm] {\textbf{e}};
-\fill (14,0) circle (0.2) node[below=1cm] {\textbf{f}};
-\fill (15,0) circle (0.2) node[below=1cm] {\textbf{g}};
-\fill (19,0) circle (0.2) node[below=1cm] {\textbf{h}};
-\fill (20,0) circle (0.2) node[below=1cm] {\textbf{i}};
-\fill (24,0) circle (0.2) node[below=1cm] {\textbf{j}};
-\fill (25,0) circle (0.2) node[below=1cm] {\textbf{k}};
-\fill (29,0) circle (0.2) node[below=1cm] {\textbf{l}};
-\fill (30,0) circle (0.2) node[below=1cm] {\textbf{m}};
-\fill (34,0) circle (0.2) node[below=1cm] {\textbf{n}};
-\fill (35,0) circle (0.2) node[below=1cm] {\textbf{o}};
-\fill (39,0) circle (0.2) node[below=1cm] {\textbf{p}};
+\fill (0,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{a}}};
+\fill (4.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{b}}};
+\fill (9.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{c}}};
+\fill (14.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{d}}};
+\fill (19.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{e}}};
+\fill (24.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{f}}};
+\fill (29.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{g}}};
+\fill (34.5,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{h}}};
+\fill (39,0) circle (0.) node[below=1cm] {\relsize{+5}{\textbf{i}}};
 \draw[thick] (0,0) -- (1,0);
 \draw[thick] (1,0) -- (2,0);
 \draw[thick] (2,0) -- (3,0);
@@ -138,5 +92,13 @@
 \draw[very thick] (26,0) arc                 (0:180:9.0);
 \draw[very thick] (36,0) arc                 (0:180:9.0);
 \draw[very thick] (24,0) arc                 (0:180:12.0);
+\filldraw[fill=c0,rounded corners]  (-0.2,-0.5) rectangle (4.2,+0.5);
+\filldraw[fill=c0,rounded corners]  (19.8,-0.5) rectangle (24.2,+0.5);
+\filldraw[fill=c1,rounded corners]  (4.8,-0.5) rectangle (9.2,+0.5);
+\filldraw[fill=c1,rounded corners]  (24.8,-0.5) rectangle (29.2,+0.5);
+\filldraw[fill=c2,rounded corners]  (9.8,-0.5) rectangle (14.2,+0.5);
+\filldraw[fill=c2,rounded corners]  (29.8,-0.5) rectangle (34.2,+0.5);
+\filldraw[fill=c3,rounded corners]  (14.8,-0.5) rectangle (19.2,+0.5);
+\filldraw[fill=c3,rounded corners]  (34.8,-0.5) rectangle (39.2,+0.5);
 \end{tikzpicture}
 \end{document}
