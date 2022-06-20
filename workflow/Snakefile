@@ -12,8 +12,16 @@ rule all:
 #        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
 ##        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
         expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows), # that's the future
-        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows)
+        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows),
+        'results/state_of_the_results.pdf'
 
+rule state_of_the_results:
+    input:
+        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows)
+    output:
+        'results/state_of_the_results.pdf'
+    shell:
+        'pdftk {input} cat output {output}'
 
 rule pdflatex_equations:
     input:
@@ -25,6 +33,7 @@ rule pdflatex_equations:
 
 rule produce_latex_equations:
     input:
+        colored_dbn='results/colored_dbn/colored_dbn_{family}.pdf',
         tdname='results/processed_td_files/processed_{family}.td',
         helix='results/helix_annotations/{family}.helix'
     output:
@@ -59,7 +68,7 @@ rule concatenation:
     output:
         'results/concatenations/concatenation_{shadow}.pdf'
     shell:
-        'pdftk {input.colored_dbn} {input.colored_td} {input.compact_td} {input.dp_eq} cat output {output}'
+        'pdftk {input.colored_dbn} {input.dp_eq} {input.colored_td} {input.compact_td} cat output {output}'
 
 rule extract_compact_tree:
     input:
@@ -130,14 +139,6 @@ rule from_td_to_dot:
     script: 
         'scripts/from_pace_td_to_td1dot.py'
 
-rule unprocessed_td:
-    input:
-        'results/td_files/{shadow}.td1.dot'
-    output:
-        'results/td_images/unprocessed_{shadow}.pdf' 
-    shell:
-        'dot -Tpdf -o {output} {input}' 
-
 rule extract_gr:
     input:
         'resources/dbn_files/{shadow}.dbn'
@@ -176,7 +177,7 @@ rule make_dot_file:
     script:
         "scripts/make_dot_file.py"
 
-rule from_td_to_dot:
+rule unprocessed_from_td_to_dot:
     input:
         'results/td_files/{shadow}.td'
     output:

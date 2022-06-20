@@ -18,18 +18,18 @@ digraph G {
     }
      1 [shape=record,label= <{ <b>1</b> <b>13</b> <b>17</b> <b>5</b> <b>9</b>}> ];
      -1  ->  1;
-     H0_0 [shape=record,label= <{ <b>1</b> <b>13</b> 2|  <b>9</b> <b>5</b>}> ];
+     H0_0 [shape=record,label= <{ 2 <b>13</b> <b>1</b>|  <b>5</b> <b>9</b>}> ];
      1  ->  H0_0;
-     H0_1 [shape=record,label= <{ 12 <b>13</b> 2|  <b>9</b> <b>5</b>}> ];
-     H0_2 [shape=record,label= <{ 3 12 2|  <b>9</b> <b>5</b>}> ];
-     H0_3 [shape=record,label= <{ 3 12 11|  <b>9</b> <b>5</b>}> ];
-     H0_4 [shape=record,label= <{ 3 4 11|  <b>9</b> <b>5</b>}> ];
-     H0_5 [shape=record,label= <{ 11 10 4|  <b>9</b> <b>5</b>}> ];
-     H1_0 [shape=record,label= <{ <b>17</b> 6 <b>5</b>|  <b>9</b> <b>13</b>}> ];
+     H0_1 [shape=record,label= <{ 2 12 <b>13</b>|  <b>5</b> <b>9</b>}> ];
+     H0_2 [shape=record,label= <{ 2 12 3|  <b>5</b> <b>9</b>}> ];
+     H0_3 [shape=record,label= <{ 3 11 12|  <b>5</b> <b>9</b>}> ];
+     H0_4 [shape=record,label= <{ 3 4 11|  <b>5</b> <b>9</b>}> ];
+     H0_5 [shape=record,label= <{ 11 4 10|  <b>5</b> <b>9</b>}> ];
+     H1_0 [shape=record,label= <{ <b>5</b> 6 <b>17</b>|  <b>13</b> <b>9</b>}> ];
      1  ->  H1_0;
-     H1_1 [shape=record,label= <{ <b>17</b> 6 16|  <b>9</b> <b>13</b>}> ];
-     H1_2 [shape=record,label= <{ 6 16 7|  <b>9</b> <b>13</b>}> ];
-     H1_3 [shape=record,label= <{ 15 16 7|  <b>9</b> <b>13</b>}> ];
-     H1_4 [shape=record,label= <{ 15 8 7|  <b>9</b> <b>13</b>}> ];
-     H1_5 [shape=record,label= <{ 14 15 8|  <b>9</b> <b>13</b>}> ];
+     H1_1 [shape=record,label= <{ 16 6 <b>17</b>|  <b>13</b> <b>9</b>}> ];
+     H1_2 [shape=record,label= <{ 16 7 6|  <b>13</b> <b>9</b>}> ];
+     H1_3 [shape=record,label= <{ 16 7 15|  <b>13</b> <b>9</b>}> ];
+     H1_4 [shape=record,label= <{ 8 7 15|  <b>13</b> <b>9</b>}> ];
+     H1_5 [shape=record,label= <{ 8 14 15|  <b>13</b> <b>9</b>}> ];
 }

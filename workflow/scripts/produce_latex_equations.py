@@ -3,27 +3,30 @@ import copy
 from utils import read_td_lines
 from colors import *
 
-colors = hex_Set3
+colors = Set3
 
 # extracting bags and tree from td file
 root = open(snakemake.input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
 adj, index2bag = read_td_lines(open(snakemake.input.tdname).readlines())
 
+# extracting anchors
+comp_key = lambda x : int(x)
+first_anchor = min([min([vertex for vertex in val], key=comp_key) for key, val in index2bag.items()], key=comp_key)
+last_anchor = max([max([vertex for vertex in val], key=comp_key) for key, val in index2bag.items()], key=comp_key)
 
-cluster_content = {}
-which_cluster = {}
-cluster_root = {}
+# extracting helix extemities information 
 cluster_extremities = {}
 for helixline in open(snakemake.input.helix).readlines():
     label = helixline.split(' ')[0]
     extremities = [c.replace(' ','') for c in helixline.split('(')[1].split(')')[0].split(',')]
     cluster_extremities[label] = extremities
 
+# putting all extremities in one set (practical)
 all_extremities = set([])
-
 for key, val in cluster_extremities.items():
     all_extremities = all_extremities.union(set(val))
 
+# contraction: 
 for helixline in open(snakemake.input.helix).readlines():
     label = helixline.split(' ')[0]
     extremities = [c.replace(' ','') for c in helixline.split('(')[1].split(')')[0].split(',')]
@@ -51,12 +54,13 @@ for helixline in open(snakemake.input.helix).readlines():
             if v!=prev:
                 queue.append((u,v))
 
+cluster_content = {}
+which_cluster = {}
 for helixline in open(snakemake.input.helix).readlines():
     label = helixline.split(' ')[0]
    
     cluster_content[label] = []
     extremities = [c.replace(' ','') for c in helixline.split('(')[1].split(')')[0].split(',')]
-    cluster_extremities[label] = extremities
 
     queue = [('-1',root)]
     while len(queue) > 0:
@@ -93,10 +97,16 @@ for key, val in cluster_content.items():
 cnt = 0
 f = open(snakemake.output[0],'w')
 
-print('\\documentclass{article}',file=f)
-print('\\usepackage{amsmath}',file=f)
-print('\\usepackage{amssymb}',file=f)
-print('\\begin{document}',file=f)
+print('\\documentclass{article}', file=f)
+print('\\usepackage[x11names]{xcolor}', file=f)
+print('\\usepackage{amsmath}', file=f)
+print('\\usepackage{graphicx}', file=f)
+print('\\usepackage{amssymb}', file=f)
+print('\\begin{document}', file=f)
+print('\\textbf{fatgraph name: '+snakemake.wildcards.family+'}', file=f)
+
+for k, c in enumerate(colors):
+    print('\\definecolor{c'+str(k)+'}{rgb}{'+str(c)[1:-1]+'}',file=f)
 
 queue = [('-1',root)]
 
@@ -104,11 +114,12 @@ index2bag['-1'] = []
 
 def num_to_letters(cnt):
     if cnt < 26:
-        return chr(ord('a') + cnt).upper()
+        return chr(ord('a') + cnt).upper() #'\\colorbox{c'+str(cnt)+'}{'+chr(ord('a') + cnt).upper()+'}'
     else:
         return chr(ord('a') + int(cnt/26)).upper()+chr(ord('a') + int(cnt%26)).upper()
 
 cnt = 0
+cnt_col = 0
 bag_letter = {}
 
 queue = [('-1',root)]
@@ -118,15 +129,18 @@ while len(queue) > 0:
     if not u[:1]=='H':
         bag_letter[u] = num_to_letters(cnt)
         cnt += 1
+#        cnt_col += 1
     else:
         if set(cluster_extremities[which_cluster[u]]).issubset(set(index2bag[prev])):
         # clique
-            bag_letter[u] = "C_{\\boxtimes}"
+            bag_letter[u] = "\\colorbox{c"+u.split('_')[0][1:]+"}{$C_{\\boxtimes}$}"
+            cnt_col += 1
         else:
         # diag
             if prev.split('_')[0]!=u.split('_')[0]:
-                bag_letter[u] = num_to_letters(cnt)
+                bag_letter[u] = "\\colorbox{c"+u.split('_')[0][1:]+"}{$"+num_to_letters(cnt)+"$}"
                 cnt += 1
+                cnt_col += 1
 
     for v in adj[u]:
         if v!=prev:
@@ -166,6 +180,17 @@ def increment(e, sorted_exs):
     if e==sorted_exs[3]:
         return '-1'
 
+print('\\begin{center}', file=f)
+print('\\begin{figure}[h]', file=f)
+print('\\includegraphics[width=\\textwidth]{'+snakemake.input.colored_dbn+'}', file=f)
+print('\\end{figure}', file=f)
+print('\\end{center}', file=f)
+
+print('first and last anchors, already given: $',ext_to_letter[first_anchor]
+                                                ,','
+                                                ,ext_to_letter[last_anchor]
+                                                ,'$'
+                                                ,file=f)
 
 
 queue = [('-1',root)]
@@ -313,6 +338,9 @@ while len(queue) > 0:
 
         indices = set(index2bag[u]).intersection(set(index2bag[prev]))
         new_vars = set(index2bag[u])-set(index2bag[prev])
+        new_vars -= set([first_anchor])
+        new_vars -= set([last_anchor])
+
 
         indices = [ext_to_letter[e] for e in sorted(list(indices),key=lambda x: int(x))]
         new_vars = [ext_to_letter[e] for e in sorted(list(new_vars),key=lambda x: int(x))]

@@ -1,4 +1,5 @@
 .snakemake/
+*.pyc
 *.class
 *.aux
 *.log

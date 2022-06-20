@@ -1,10 +1,31 @@
 \documentclass{article}
+\usepackage[x11names]{xcolor}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \usepackage{amssymb}
 \begin{document}
-$$ A =\min_{ a,g,h,j,k } \left( B\left[a,g,h,j\right]+C_{\boxtimes}\left[g,h-1,j,k-1\right]\right) $$
-$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( C_{\boxtimes}\left[e,f-1,h,i-1\right]+C\left[a,e|f,g,i,j\right]\right) $$
-$$ C' \left[a,e | f,g,i,j \right] =  \min\begin{cases}C'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\C[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset\end{cases}$$
-$$ C \left[a,e | f,g,i,j \right] =  \min\begin{cases}C[ a+1 , e|f,g,i,j ], &\text{if } a+1 \notin\{ e , f,g,i,j \} \\C'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\C[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset,\\D'[a,e+1,f,g,i,j]\end{cases}$$
-$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( C_{\boxtimes}\left[c,d-1,f,g-1\right]+C_{\boxtimes}\left[b,c-1,i,j-1\right]\right) $$
+\textbf{fatgraph name: C5}
+\definecolor{c0}{rgb}{0.5529411764705883, 0.8274509803921568, 0.7803921568627451}
+\definecolor{c1}{rgb}{1.0, 1.0, 0.7019607843137254}
+\definecolor{c2}{rgb}{0.7450980392156863, 0.7294117647058823, 0.8549019607843137}
+\definecolor{c3}{rgb}{0.984313725490196, 0.5019607843137255, 0.4470588235294118}
+\definecolor{c4}{rgb}{0.5019607843137255, 0.6941176470588235, 0.8274509803921568}
+\definecolor{c5}{rgb}{0.9921568627450981, 0.7058823529411765, 0.3843137254901961}
+\definecolor{c6}{rgb}{0.7019607843137254, 0.8705882352941177, 0.4117647058823529}
+\definecolor{c7}{rgb}{0.9882352941176471, 0.803921568627451, 0.8980392156862745}
+\definecolor{c8}{rgb}{0.8509803921568627, 0.8509803921568627, 0.8509803921568627}
+\definecolor{c9}{rgb}{0.7372549019607844, 0.5019607843137255, 0.7411764705882353}
+\definecolor{c10}{rgb}{0.8, 0.9215686274509803, 0.7725490196078432}
+\definecolor{c11}{rgb}{1.0, 0.9294117647058824, 0.43529411764705883}
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_C5.pdf}
+\end{figure}
+\end{center}
+first and last anchors, already given: $ a , k $
+$$ A =\min_{ g,h,j } \left( B\left[a,g,h,j\right]+\colorbox{c4}{$C_{\boxtimes}$}\left[g,h-1,j,k-1\right]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c3}{$C_{\boxtimes}$}\left[e,f-1,h,i-1\right]+\colorbox{c0}{$C$}\left[a,e|f,g,i,j\right]\right) $$
+$$ \colorbox{c0}{$C$}' \left[a,e | f,g,i,j \right] =  \min\begin{cases}\colorbox{c0}{$C$}'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\\colorbox{c0}{$C$}[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset\end{cases}$$
+$$ \colorbox{c0}{$C$} \left[a,e | f,g,i,j \right] =  \min\begin{cases}\colorbox{c0}{$C$}[ a+1 , e|f,g,i,j ], &\text{if } a+1 \notin\{ e , f,g,i,j \} \\\colorbox{c0}{$C$}'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\\colorbox{c0}{$C$}[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset,\\D'[a,e+1,f,g,i,j]\end{cases}$$
+$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[c,d-1,f,g-1\right]+\colorbox{c1}{$C_{\boxtimes}$}\left[b,c-1,i,j-1\right]\right) $$
 \end{document}
