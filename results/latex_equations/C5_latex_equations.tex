@@ -23,7 +23,7 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , k $
-$$ A =\min_{ g,h,j } \left( B\left[a,g,h,j\right]+\colorbox{c4}{$C_{\boxtimes}$}\left[g,h-1,j,k-1\right]\right) $$
+$$ A =\min_{ a,g,h,j,k } \left( B\left[a,g,h,j\right]+\colorbox{c4}{$C_{\boxtimes}$}\left[g,h-1,j,k-1\right]\right) $$
 $$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c3}{$C_{\boxtimes}$}\left[e,f-1,h,i-1\right]+\colorbox{c0}{$C$}\left[a,e|f,g,i,j\right]\right) $$
 $$ \colorbox{c0}{$C$}' \left[a,e | f,g,i,j \right] =  \min\begin{cases}\colorbox{c0}{$C$}'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\\colorbox{c0}{$C$}[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset\end{cases}$$
 $$ \colorbox{c0}{$C$} \left[a,e | f,g,i,j \right] =  \min\begin{cases}\colorbox{c0}{$C$}[ a+1 , e|f,g,i,j ], &\text{if } a+1 \notin\{ e , f,g,i,j \} \\\colorbox{c0}{$C$}'[ a , e-1|f,g,i,j ], &\text{if } e-1 ,\notin\{ a , f,g,i,j \} \\\colorbox{c0}{$C$}[ a+1 , e-1|f,g,i,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ f,g,i,j \}=\emptyset,\\D'[a,e+1,f,g,i,j]\end{cases}$$

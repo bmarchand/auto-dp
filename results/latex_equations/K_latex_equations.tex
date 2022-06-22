@@ -23,7 +23,7 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , g $
-$$ A =\min_{ d } \left( \colorbox{c0}{$B$}\left[a,d|d,g\right]\right) $$
+$$ A =\min_{ a,d,g } \left( \colorbox{c0}{$B$}\left[a,d|d,g\right]\right) $$
 $$ \colorbox{c0}{$B$}' \left[a,d | d',g \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\\colorbox{c0}{$B$}[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset\end{cases}$$
 $$ \colorbox{c0}{$B$} \left[a,d | d',g \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ a+1 , d|d',g ], &\text{if } a+1 \notin\{ d , d',g \} \\\colorbox{c0}{$B$}'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\\colorbox{c0}{$B$}[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset,\\\colorbox{c2}{$C$}'[d',g|a,d]\end{cases}$$
 $$ \colorbox{c2}{$C$}' \left[d,g | b,c \right] =  \min\begin{cases}\colorbox{c2}{$C$}'[ d , g-1|b,c ], &\text{if } g-1 ,\notin\{ d , b,c \} \\\colorbox{c2}{$C$}[ d+1 , g-1|b,c ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ b,c \}=\emptyset\end{cases}$$

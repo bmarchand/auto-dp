@@ -338,8 +338,8 @@ while len(queue) > 0:
 
         indices = set(index2bag[u]).intersection(set(index2bag[prev]))
         new_vars = set(index2bag[u])-set(index2bag[prev])
-        new_vars -= set([first_anchor])
-        new_vars -= set([last_anchor])
+#        new_vars -= set([first_anchor])
+#        new_vars -= set([last_anchor])
 
 
         indices = [ext_to_letter[e] for e in sorted(list(indices),key=lambda x: int(x))]
