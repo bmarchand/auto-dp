@@ -22,10 +22,10 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_K.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , g $
-$$ A =\min_{ a,d,g } \left( \colorbox{c0}{$B$}\left[a,d|d,g\right]\right) $$
-$$ \colorbox{c0}{$B$}' \left[a,d | d',g \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\\colorbox{c0}{$B$}[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset\end{cases}$$
-$$ \colorbox{c0}{$B$} \left[a,d | d',g \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ a+1 , d|d',g ], &\text{if } a+1 \notin\{ d , d',g \} \\\colorbox{c0}{$B$}'[ a , d-1|d',g ], &\text{if } d-1 ,\notin\{ a , d',g \} \\\colorbox{c0}{$B$}[ a+1 , d-1|d',g ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',g \}=\emptyset,\\\colorbox{c2}{$C$}'[d',g|a,d]\end{cases}$$
-$$ \colorbox{c2}{$C$}' \left[d,g | b,c \right] =  \min\begin{cases}\colorbox{c2}{$C$}'[ d , g-1|b,c ], &\text{if } g-1 ,\notin\{ d , b,c \} \\\colorbox{c2}{$C$}[ d+1 , g-1|b,c ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ b,c \}=\emptyset\end{cases}$$
-$$ \colorbox{c2}{$C$} \left[d,g | b,c \right] =  \min\begin{cases}\colorbox{c2}{$C$}[ d+1 , g|b,c ], &\text{if } d+1 \notin\{ g , b,c \} \\\colorbox{c2}{$C$}'[ d , g-1|b,c ], &\text{if } g-1 ,\notin\{ d , b,c \} \\\colorbox{c2}{$C$}[ d+1 , g-1|b,c ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ b,c \}=\emptyset,\\\colorbox{c1}{$C_{\boxtimes}$}'[b,c-1,d,g+1-1]\end{cases}$$
+first and last anchors, already given: $ a , h $
+$$ A =\min_{  } \left( B\left[\right]\right) $$
+$$ B =\min_{ a,c,d,f,h } \left( \colorbox{c1}{$D$}\left[a,f|c,d\right]+C\left[c,d,f,h\right]\right) $$
+$$ C\left[ c,d,f,h \right] =\min_{ g } \left( \colorbox{c0}{$C_{\boxtimes}$}\left[c,d-1,g,h-1\right]\right) $$
+$$ \colorbox{c1}{$D$}' \left[a,f | c,d \right] =  \min\begin{cases}\colorbox{c1}{$D$}'[ a+1 , f|c,d ], &\text{if } a+1 \notin\{ f , c,d \} \\\colorbox{c1}{$D$}[ a+1 , f-1|c,d ]+\Delta G(a,f) &\text{if } \{ a+1 , f-1 \}\cap \{ c,d \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$D$} \left[a,f | c,d \right] =  \min\begin{cases}\colorbox{c1}{$D$}[ a , f-1|c,d ], &\text{if } f-1 ,\notin\{ a , c,d \} \\\colorbox{c1}{$D$}'[ a+1 , f|c,d ], &\text{if } a+1 \notin\{ f , c,d \} \\\colorbox{c1}{$D$}[ a+1 , f-1|c,d ]+\Delta G(a,f) &\text{if } \{ a+1 , f-1 \}\cap \{ c,d \}=\emptyset\end{cases}$$
 \end{document}

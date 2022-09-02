@@ -22,8 +22,16 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_K4.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , i $
-$$ A =\min_{ a,d,e,h,i } \left( B\left[a,d,e,h\right]+\colorbox{c3}{$C_{\boxtimes}$}\left[d,e-1,h,i-1\right]\right) $$
-$$ B\left[ a,d,e,h \right] =\min_{ c,g } \left( C\left[a,c,e,g\right]+\colorbox{c2}{$C_{\boxtimes}$}\left[c,d-1,g,h-1\right]\right) $$
-$$ C\left[ a,c,e,g \right] =\min_{ b,f } \left( \colorbox{c1}{$C_{\boxtimes}$}\left[b,c-1,f,g-1\right]+\colorbox{c0}{$C_{\boxtimes}$}\left[a,b-1,e,f-1\right]\right) $$
+first and last anchors, already given: $ a , p $
+$$ A =\min_{  } \left( B\left[\right]\right) $$
+$$ B =\min_{ a,c,e,h,j,m } \left( I\left[a,c,h,j\right]+F\left[c,e,j,m\right]+C\left[a,e,h,m\right]\right) $$
+$$ C\left[ a,e,h,m \right] =\min_{ f,n } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[e,f-1,m,n-1\right]+D\left[a,f,h,n\right]\right) $$
+$$ D\left[ a,f,h,n \right] =\min_{ o } \left( \colorbox{c1}{$E$}\left[h,o|a,f\right]\right) $$
+$$ \colorbox{c1}{$E$}' \left[h,o | a,f \right] =  \min\begin{cases}\colorbox{c1}{$E$}'[ h-1 , o|a,f ], &\text{if } h-1 \notin\{ o , a,f \} \\\colorbox{c1}{$E$}[ h-1 , o+1|a,f ]+\Delta G(h,o) &\text{if } \{ h-1 , o+1 \}\cap \{ a,f \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$E$} \left[h,o | a,f \right] =  \min\begin{cases}\colorbox{c1}{$E$}[ h , o+1|a,f ], &\text{if } o+1 ,\notin\{ h , a,f \} \\\colorbox{c1}{$E$}'[ h-1 , o|a,f ], &\text{if } h-1 \notin\{ o , a,f \} \\\colorbox{c1}{$E$}[ h-1 , o+1|a,f ]+\Delta G(h,o) &\text{if } \{ h-1 , o+1 \}\cap \{ a,f \}=\emptyset\end{cases}$$
+$$ F\left[ c,e,j,m \right] =\min_{ l } \left( G\left[c,e,j,l\right]\right) $$
+$$ G\left[ c,e,j,l \right] =\min_{ d } \left( H\left[c,d,j,l\right]\right) $$
+$$ H\left[ c,d,j,l \right] =\min_{ k } \left( \colorbox{c3}{$C_{\boxtimes}$}\left[c,d-1,k,l-1\right]\right) $$
+$$ I\left[ a,c,h,j \right] =\min_{ i } \left( J\left[a,c,i,j\right]\right) $$
+$$ J\left[ a,c,i,j \right] =\min_{ b } \left( \colorbox{c0}{$C_{\boxtimes}$}\left[a,b-1,i,j-1\right]\right) $$
 \end{document}

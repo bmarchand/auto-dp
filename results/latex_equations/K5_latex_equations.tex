@@ -22,9 +22,19 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_K5.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , k $
-$$ A =\min_{ a,e,f,j,k } \left( B\left[a,e,f,j\right]+\colorbox{c4}{$C_{\boxtimes}$}\left[e,f-1,j,k-1\right]\right) $$
-$$ B\left[ a,e,f,j \right] =\min_{ d,i } \left( C\left[a,d,f,i\right]+\colorbox{c3}{$C_{\boxtimes}$}\left[d,e-1,i,j-1\right]\right) $$
-$$ C\left[ a,d,f,i \right] =\min_{ b,g } \left( D\left[b,d,g,i\right]+\colorbox{c0}{$C_{\boxtimes}$}\left[a,b-1,f,g-1\right]\right) $$
-$$ D\left[ b,d,g,i \right] =\min_{ c,h } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[c,d-1,h,i-1\right]+\colorbox{c1}{$C_{\boxtimes}$}\left[b,c-1,g,h-1\right]\right) $$
+first and last anchors, already given: $ a , t $
+$$ A =\min_{  } \left( B\left[\right]\right) $$
+$$ B =\min_{ a,c,g,j,l,q } \left( \colorbox{c1}{$L$}\left[a,l|c,j\right]+G\left[c,g,l,q\right]+C\left[a,g,j,q\right]\right) $$
+$$ C\left[ a,g,j,q \right] =\min_{ h,r } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[g,h-1,q,r-1\right]+D\left[a,h,j,r\right]\right) $$
+$$ D\left[ a,h,j,r \right] =\min_{ i } \left( E\left[a,i,j,r\right]\right) $$
+$$ E\left[ a,i,j,r \right] =\min_{ t } \left( F\left[i,j,r,t\right]\right) $$
+$$ F\left[ i,j,r,t \right] =\min_{ s } \left( \colorbox{c3}{$C_{\boxtimes}$}\left[i,j-1,s,t-1\right]\right) $$
+$$ G\left[ c,g,l,q \right] =\min_{ d,n } \left( I\left[d,g,n,q\right]+H\left[c,d,l,n\right]\right) $$
+$$ H\left[ c,d,l,n \right] =\min_{ m } \left( \colorbox{c0}{$C_{\boxtimes}$}\left[c,d-1,m,n-1\right]\right) $$
+$$ I\left[ d,g,n,q \right] =\min_{ p } \left( J\left[d,g,n,p\right]\right) $$
+$$ J\left[ d,g,n,p \right] =\min_{ e } \left( \colorbox{c4}{$K$}\left[e,p|g,n\right]\right) $$
+$$ \colorbox{c4}{$K$}' \left[e,p | g,n \right] =  \min\begin{cases}\colorbox{c4}{$K$}'[ e , p-1|g,n ], &\text{if } p-1 ,\notin\{ e , g,n \} \\\colorbox{c4}{$K$}[ e+1 , p-1|g,n ]+\Delta G(e,p) &\text{if } \{ e+1 , p-1 \}\cap \{ g,n \}=\emptyset\end{cases}$$
+$$ \colorbox{c4}{$K$} \left[e,p | g,n \right] =  \min\begin{cases}\colorbox{c4}{$K$}[ e+1 , p|g,n ], &\text{if } e+1 \notin\{ p , g,n \} \\\colorbox{c4}{$K$}'[ e , p-1|g,n ], &\text{if } p-1 ,\notin\{ e , g,n \} \\\colorbox{c4}{$K$}[ e+1 , p-1|g,n ]+\Delta G(e,p) &\text{if } \{ e+1 , p-1 \}\cap \{ g,n \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$L$}' \left[a,l | c,j \right] =  \min\begin{cases}\colorbox{c1}{$L$}'[ a+1 , l|c,j ], &\text{if } a+1 \notin\{ l , c,j \} \\\colorbox{c1}{$L$}[ a+1 , l-1|c,j ]+\Delta G(a,l) &\text{if } \{ a+1 , l-1 \}\cap \{ c,j \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$L$} \left[a,l | c,j \right] =  \min\begin{cases}\colorbox{c1}{$L$}[ a , l-1|c,j ], &\text{if } l-1 ,\notin\{ a , c,j \} \\\colorbox{c1}{$L$}'[ a+1 , l|c,j ], &\text{if } a+1 \notin\{ l , c,j \} \\\colorbox{c1}{$L$}[ a+1 , l-1|c,j ]+\Delta G(a,l) &\text{if } \{ a+1 , l-1 \}\cap \{ c,j \}=\emptyset\end{cases}$$
 \end{document}

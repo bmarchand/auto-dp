@@ -3,8 +3,10 @@ shadows = ['H','K','L','M','C5','K4','K5']
 
 rule all:
     input:
-        expand('results/elim_order/{shadow}.order', shadow=shadows),
-        expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+#        expand('results/td_files/{shadow}.td', shadow=shadows)
+#        expand('results/elim_order/{shadow}.order', shadow=shadows),
+#        expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+#        expand('results/decomposition_schemes/decomposition_{shadow}.pdf', shadow=shadows),
 #        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
 #        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
 #        expand('results/colored_dbn/band_diagram_{shadow}.pdf',shadow=shadows),
@@ -12,7 +14,7 @@ rule all:
 #        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
 ##        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
         expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows), # that's the future
-        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows),
+#        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows),
         'results/state_of_the_results.pdf'
 
 rule state_of_the_results:
@@ -22,6 +24,16 @@ rule state_of_the_results:
         'results/state_of_the_results.pdf'
     shell:
         'pdftk {input} cat output {output}'
+
+rule decomposition_scheme:
+    input:
+        tdname='results/processed_td_files/processed_{family}.td',
+        helix='results/helix_annotations/{family}.helix'
+    output:
+        'results/decomposition_schemes/decomposition_{family}.tex'
+    script:
+        'scripts/display_decomposition_scheme.py'
+        
 
 rule pdflatex_equations:
     input:
@@ -50,14 +62,15 @@ rule extremities_label:
     output:
         'results/json_files/extremities_label_{family}.json'
     run:
-        from scripts.utils import equations_prep_work
-        root = open(input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
-            
-        _, _, _, _, _, extremities_label, _, _, _, _ = equations_prep_work(input.tdname, input.helix, root) 
+        from equation_tree import TreeOfEquations
+
+        eq_tree = TreeOfEquations()
+        eq_tree.read_from_file(input.tdname)
+        eq_tree.set_helices(open(input.helix).readlines())
 
         import json
         with open(output[0],'w') as f:
-            json.dump(extremities_label, f)
+            json.dump(eq_tree.ext_to_letter, f)
 
 rule concatenation:
     input:
@@ -149,7 +162,7 @@ rule extract_gr:
 
 rule extract_helices:
     input:
-        'resources/dbn_files/{shadow}.dbn'
+        dbn='resources/dbn_files/{shadow}.dbn'
     output:
         'results/helix_annotations/{shadow}.helix'
     script:
@@ -157,7 +170,7 @@ rule extract_helices:
 
 rule process_helices:
     input:
-        graph='results/gr_files/{shadow}.gr',
+        dbn='resources/dbn_files/{shadow}.dbn',
         tdname='results/td_files/{shadow}.td',
         helix='results/helix_annotations/{shadow}.helix'
     output:
