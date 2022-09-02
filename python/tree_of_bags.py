@@ -11,15 +11,17 @@ class TreeOfBags:
         self.root = '-1'
         self.bag_content['-1'] = []
 
-    def dfs_edge_iterator(self):
+    def dfs_edge_iterator(self, no_minus_one=False):
 
         queue = [('-1', self.root)]
     
         while len(queue) > 0:
             u,v = queue.pop()
     
-            # yield
-            yield u,v
+            # dummy edge choice
+            if not no_minus_one or u!='-1':
+                # yield
+                yield u,v
         
             for w in self.bag_adj[v]:
                 if w!=u:
@@ -44,7 +46,7 @@ class TreeOfBags:
         # setting root:
         first_line = open(td_file).readlines()[0]
         if first_line.split(' ')[0]=='root':
-            root = first_line.split(' ')[1].rstrip('\n')
+            self.root = first_line.split(' ')[1].rstrip('\n')
         else:
             self.root = default_root
         

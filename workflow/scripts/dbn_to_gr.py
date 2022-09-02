@@ -1,7 +1,7 @@
 from minimal_expansion import MinimalExpansion
 
 # setting options
-inter_helix_gap = True
+inter_helix_gap = snakemake.config["inter_helix_gap"]
 overarching = True # overarching 1 <--> n (extremities) arc.
 
 # object init

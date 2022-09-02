@@ -22,14 +22,10 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_C5.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , l $
-$$ A =\min_{  } \left( B\left[\right]\right) $$
-$$ B =\min_{ a,c,f,h,l } \left( \colorbox{c0}{$G$}\left[a,h|c,f\right]+\colorbox{c1}{$C$}\left[c,l|f,h\right]\right) $$
-$$ \colorbox{c1}{$C$}' \left[c,l | f,h \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ c+1 , l|f,h ], &\text{if } c+1 \notin\{ l , f,h \} \\\colorbox{c1}{$C$}[ c+1 , l-1|f,h ]+\Delta G(c,l) &\text{if } \{ c+1 , l-1 \}\cap \{ f,h \}=\emptyset\end{cases}$$
-$$ \colorbox{c1}{$C$} \left[c,l | f,h \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ c , l-1|f,h ], &\text{if } l-1 ,\notin\{ c , f,h \} \\\colorbox{c1}{$C$}'[ c+1 , l|f,h ], &\text{if } c+1 \notin\{ l , f,h \} \\\colorbox{c1}{$C$}[ c+1 , l-1|f,h ]+\Delta G(c,l) &\text{if } \{ c+1 , l-1 \}\cap \{ f,h \}=\emptyset\end{cases}$$
-$$ D\left[ d,f,h,k \right] =\min_{ j } \left( E\left[d,f,h,j\right]\right) $$
-$$ E\left[ d,f,h,j \right] =\min_{ e } \left( F\left[e,f,h,j\right]\right) $$
-$$ F\left[ e,f,h,j \right] =\min_{ i } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[e,f-1,i,j-1\right]\right) $$
-$$ \colorbox{c0}{$G$}' \left[a,h | c,f \right] =  \min\begin{cases}\colorbox{c0}{$G$}'[ a , h-1|c,f ], &\text{if } h-1 ,\notin\{ a , c,f \} \\\colorbox{c0}{$G$}[ a+1 , h-1|c,f ]+\Delta G(a,h) &\text{if } \{ a+1 , h-1 \}\cap \{ c,f \}=\emptyset\end{cases}$$
-$$ \colorbox{c0}{$G$} \left[a,h | c,f \right] =  \min\begin{cases}\colorbox{c0}{$G$}[ a+1 , h|c,f ], &\text{if } a+1 \notin\{ h , c,f \} \\\colorbox{c0}{$G$}'[ a , h-1|c,f ], &\text{if } h-1 ,\notin\{ a , c,f \} \\\colorbox{c0}{$G$}[ a+1 , h-1|c,f ]+\Delta G(a,h) &\text{if } \{ a+1 , h-1 \}\cap \{ c,f \}=\emptyset\end{cases}$$
+first and last anchors, already given: $ a , k $
+$$ A =\min_{ e,f,g,h,i,j } \left( \colorbox{c4}{$B$}[e,a|i,f,j,g]+D[h,j,a,g]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
+$$ \colorbox{c4}{$B$}' \left[e,a | i,f,j,g \right] =  \min\begin{cases}\colorbox{c4}{$B$}'[ e+1 , a|i,f,j,g ], &\text{if } e+1 \notin\{ a , i,f,j,g \} \\\end{cases}$$
+$$ \colorbox{c4}{$B$} \left[e,a | i,f,j,g \right] =  \min\begin{cases}\colorbox{c4}{$B$}[ e , a-1|i,f,j,g ], &\text{if } a-1 ,\notin\{ e , i,f,j,g \} \\\colorbox{c4}{$B$}'[ e+1 , a|i,f,j,g ], &\text{if } e+1 \notin\{ a , i,f,j,g \} \\\colorbox{c4}{$B$}[ e+1 , a-1|i,f,j,g ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ i,f,j,g \}=\emptyset,\\C[17,g,1,f,j,i]\end{cases}$$
+$$ C\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
+$$ D\left[ a,g,h,j \right] =\min_{  } \left( \colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
 \end{document}

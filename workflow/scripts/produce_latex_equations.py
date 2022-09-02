@@ -1,5 +1,5 @@
 import sys
-from equation_tree import TreeOfEquations
+from equation_tree import TreeOfEquations, BagType
 import copy
 from utils import read_td_lines
 from colors import *
@@ -10,6 +10,7 @@ colors = Set3
 tree_dec = TreeOfEquations()
 print("init bag_content",tree_dec.bag_content)
 tree_dec.read_from_file(snakemake.input.tdname)
+print("root",tree_dec.root)
 
 print("after reading bag_content",tree_dec.bag_content)
 # helices: sets a lot of useful variables
@@ -60,174 +61,170 @@ print('first and last anchors, already given: $',tree_dec.ext_to_letter[first_an
 # LATEX_PREAMBULE END
 
 # giving a name and a color to each table
-tree_dec.set_dp_table_names()
+tree_dec.set_dp_tables()
 
-for prev,u in tree_dec.dfs_edge_iterator():
-    if u[:1]=='H' and not set(tree_dec.helix_extremities[tree_dec.which_helix[u]]).issubset(set(tree_dec.bag_content[prev])):
-    # diag case
-        if u.split('-')[0]!=prev.split('-')[0]:
+for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
+    print(prev, u)
+    print(u,tree_dec.equations[u].latex_print({},tree_dec.ext_to_letter))
+    if tree_dec.bag_type[u]==BagType.DIAG_FIRST:
 
-            equation = tree_dec.extract_diag_equation(prev, u)
-            const = equation.constant_indices
+        # precomputed by set dp table
+        equation = tree_dec.equations[u]
 
-            print('$$', tree_dec.dp_table_latex_snips[u]+"'", '\\left[', file=f, end="")
-            print(",".join(equation.variable_indices),"|",",".join(const),'\\right]',file=f, end="")
-            print(' =  \\min\\begin{cases}', file=f, end="")
-
-            if not equation.inward:
-                print(tree_dec.dp_table_latex_snips[u]+"'"+'[',
-                      equation.variable_indices[0]+equation.increments[0],
-                      ',',
-                      equation.variable_indices[1]+'|'+",".join(const),
-                      '], &\\text{if }',
-                      equation.variable_indices[0]+equation.increments[0],
-                      '\\notin\{',equation.variable_indices[1],
-                      ",",
-                      ",".join(const),
-                      '\}',
-                      '\\\\', 
-                      file=f, end="")
+        # const variables
+        const = []
+        for e in equation.constant_indices:
+            if e in equation.variable_indices:
+                const.append(tree_dec.ext_to_letter[e]+"'")
             else:
-                print(tree_dec.dp_table_latex_snips[u]+"'"+'[',
-                      equation.variable_indices[0],
-                      ',',
-                      equation.variable_indices[1]+equation.increments[1]+'|'+",".join(const),
-                      '], &\\text{if }',
-                      equation.variable_indices[1]+equation.increments[1],
-                      ',\\notin\{',
-                      equation.variable_indices[0],
-                      ",",
-                      ",".join(const),
-                      '\}',
-                      '\\\\', 
-                      file=f, end="")
+                const.append(tree_dec.ext_to_letter[e])
 
-            print(tree_dec.dp_table_latex_snips[u]+'[',
-                  equation.variable_indices[0]+equation.increments[0],
+        # variable indices
+        variables = [tree_dec.ext_to_letter[e] for e in equation.variable_indices]
+
+        print('$$', equation.latex_name+"'", '\\left[', file=f, end="")
+        print(",".join(variables),"|",",".join(const),'\\right]',file=f, end="")
+        print(' =  \\min\\begin{cases}', file=f, end="")
+
+        if not equation.inward:
+            print(equation.latex_name+"'"+'[',
+                  variables[0]+equation.increments[0],
                   ',',
-                  equation.variable_indices[1]+equation.increments[1]+'|'+",".join(const),
-                  ']+\\Delta G('+equation.variable_indices[0]+','+equation.variable_indices[1]+') &\\text{if }',
-                  '\{',equation.variable_indices[0]+equation.increments[0],
+                  variables[1]+'|'+",".join(const),
+                  '], &\\text{if }',
+                  variables[0]+equation.increments[0],
+                  '\\notin\{',variables[1],
+                  ",",
+                  ",".join(const),
+                  '\}',
+                  '\\\\', 
+                  file=f, end="")
+        else:
+            print(equation.latex_name+"'"+'[',
+                  variables[0],
                   ',',
-                  equation.variable_indices[1]+equation.increments[1],
+                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  '], &\\text{if }',
+                  variables[1]+equation.increments[1],
+                  ',\\notin\{',
+                  variables[0],
+                  ",",
+                  ",".join(const),
+                  '\}',
+                  '\\\\', 
+                  file=f, end="")
+
+            print(equation.latex_name+'[',
+                  variables[0]+equation.increments[0],
+                  ',',
+                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  ']+\\Delta G('+variables[0]+','+variables[1]+') &\\text{if }',
+                  '\{',variables[0]+equation.increments[0],
+                  ',',
+                  variables[1]+equation.increments[1],
                   '\}\\cap',
                   '\{',
                   ",".join(const),'\}=\\emptyset', file=f,end="")
 
-            print('\\end{cases}',file=f, end="")
-            print('$$',file=f)
-            
-            print('$$', tree_dec.dp_table_latex_snips[u], '\\left[', file=f, end="")
-            print(",".join(equation.variable_indices),"|",",".join(const),'\\right]',file=f, end="")
-            print(' =  \\min\\begin{cases}', file=f, end="")
+        print('\\end{cases}',file=f, end="")
+        print('$$',file=f)
+        
+        print('$$', equation.latex_name, '\\left[', file=f, end="")
+        print(",".join(variables),"|",",".join(const),'\\right]',file=f, end="")
+        print(' =  \\min\\begin{cases}', file=f, end="")
 
-            if equation.inward:
+        if equation.inward:
 
-                print(tree_dec.dp_table_latex_snips[u]+'[',
-                      equation.variable_indices[0]+equation.increments[0],
-                      ',',equation.variable_indices[1]+'|'+",".join(const),
-                      '], &\\text{if }',
-                      equation.variable_indices[0]+equation.increments[0],
-                      '\\notin\{',equation.variable_indices[1],
-                      ",",
-                      ",".join(const),
-                      '\}','\\\\', file=f, end="")
+            print(equation.latex_name+'[',
+                  variables[0]+equation.increments[0],
+                  ',',variables[1]+'|'+",".join(const),
+                  '], &\\text{if }',
+                  variables[0]+equation.increments[0],
+                  '\\notin\{',variables[1],
+                  ",",
+                  ",".join(const),
+                  '\}','\\\\', file=f, end="")
 
-            else:
-                print(tree_dec.dp_table_latex_snips[u]+'[',
-                      equation.variable_indices[0],
-                      ',',equation.variable_indices[1]+equation.increments[1]+'|'+",".join(const),
-                      '], &\\text{if }',
-                      equation.variable_indices[1]+equation.increments[1],
-                      ',\\notin\{',
-                      equation.variable_indices[0],
-                      ",",
-                      ",".join(const),'\}','\\\\', file=f, end="")
+        else:
+            print(equation.latex_name+'[',
+                  variables[0],
+                  ',',variables[1]+equation.increments[1]+'|'+",".join(const),
+                  '], &\\text{if }',
+                  variables[1]+equation.increments[1],
+                  ',\\notin\{',
+                  variables[0],
+                  ",",
+                  ",".join(const),'\}','\\\\', file=f, end="")
 
-            if not equation.inward:
-                print(tree_dec.dp_table_latex_snips[u]+"'"+'[',
-                      equation.variable_indices[0]+equation.increments[0],
-                      ',',
-                      equation.variable_indices[1]+'|'+",".join(const),
-                      '], &\\text{if }',
-                      equation.variable_indices[0]+equation.increments[0],
-                      '\\notin\{',equation.variable_indices[1],
-                      ",",",".join(const),'\}','\\\\', file=f, end="")
-
-            else:
-                print(tree_dec.dp_table_latex_snips[u]+"'"+'[',
-                      equation.variable_indices[0],
-                      ',',
-                      equation.variable_indices[1]+equation.increments[1]+'|'+",".join(const),
-                      '], &\\text{if }',equation.variable_indices[1]+equation.increments[1],
-                      ',\\notin\{',equation.variable_indices[0],
-                      ",",
-                      ",".join(const),'\}','\\\\', file=f, end="")
-
-            print(tree_dec.dp_table_latex_snips[u]+'[',
-                  equation.variable_indices[0]+equation.increments[0],
+        if not equation.inward:
+            print(equation.latex_name+"'"+'[',
+                  variables[0]+equation.increments[0],
                   ',',
-                  equation.variable_indices[1]+equation.increments[1]+'|'+",".join(const),
-                  ']+\\Delta G('+equation.variable_indices[0]+','+equation.variable_indices[1]+') &\\text{if }',
-                  '\{',
-                  equation.variable_indices[0]+equation.increments[0],
+                  variables[1]+'|'+",".join(const),
+                  '], &\\text{if }',
+                  variables[0]+equation.increments[0],
+                  '\\notin\{',variables[1],
+                  ",",",".join(const),'\}','\\\\', file=f, end="")
+
+        else:
+            print(equation.latex_name+"'"+'[',
+                  variables[0],
                   ',',
-                  equation.variable_indices[1]+equation.increments[1],
-                  '\}\\cap',
-                  '\{',
-                  ",".join(const),'\}=\\emptyset', file=f,end="")
+                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  '], &\\text{if }',variables[1]+equation.increments[1],
+                  ',\\notin\{',variables[0],
+                  ",",
+                  ",".join(const),'\}','\\\\', file=f, end="")
 
-            if len(tree_dec.bag_adj[equation.second_bag]) >= 2:
-                print(',\\\\',file=f,end="")
-                print('+'.join(sub_terms),end="",file=f)
+        print(equation.latex_name+'[',
+              variables[0]+equation.increments[0],
+              ',',
+              variables[1]+equation.increments[1]+'|'+",".join(const),
+              ']+\\Delta G('+variables[0]+','+variables[1]+') &\\text{if }',
+              '\{',
+              variables[0]+equation.increments[0],
+              ',',
+              variables[1]+equation.increments[1],
+              '\}\\cap',
+              '\{',
+              ",".join(const),'\}=\\emptyset', file=f,end="")
 
-            print('\\end{cases}',file=f, end="")
+        
+        if len(tree_dec.bag_adj[equation.second_bag]) >= 2:
+            sub_terms = []
+            for sub_eq in tree_dec.equations[equation.second_bag].subterms:
+                letter_table = {}
+                for e in equation.absent_indices:
+                    letter_table[e] = equation.subs_table[e]
+                for e in equation.variable_indices:
+                    letter_table[e] = tree_dec.ext_to_letter[e]+"'"
+                sub_terms.append(sub_eq.latex_print(letter_table, tree_dec.ext_to_letter))
 
-            print('$$',file=f)
+            print(',\\\\',file=f,end="")
+            print('+'.join(sub_terms),end="",file=f)
 
-    elif u[:1]=='H' and set(tree_dec.helix_extremities[tree_dec.which_helix[u]]).issubset(set(tree_dec.bag_content[prev])):
+        print('\\end{cases}',file=f, end="")
+
+        print('$$',file=f)
+
+    elif tree_dec.bag_type[u]==BagType.CLIQUE:
     # clique case
         pass
-    else: 
+    elif tree_dec.bag_type[u]==BagType.TRANSITIONAL:
 
-        indices = set(tree_dec.bag_content[u]).intersection(set(tree_dec.bag_content[prev]))
-        new_vars = set(tree_dec.bag_content[u])-set(tree_dec.bag_content[prev])
-#        new_vars -= set([first_anchor])
-#        new_vars -= set([last_anchor])
+        equation = tree_dec.equations[u]
 
-        indices = [tree_dec.ext_to_letter[e] for e in sorted(list(indices),key=lambda x: int(x))]
-        new_vars = [tree_dec.ext_to_letter[e] for e in sorted(list(new_vars),key=lambda x: int(x))]
+        indices = [tree_dec.ext_to_letter[e] for e in sorted(list(equation.indices),key=lambda x: int(x))]
+        new_vars = [tree_dec.ext_to_letter[e] for e in sorted(list(equation.marginalization),key=lambda x: int(x)) if e not in [first_anchor, last_anchor]]
 
         if len(indices)==0:
-            print("$$",tree_dec.dp_table_latex_snips[u], end=" ", file=f)
+            print("$$",equation.latex_name, end=" ", file=f)
         else:
-            print("$$",tree_dec.dp_table_latex_snips[u]+'\\left[',",".join(indices),'\\right]',file=f,end = " ")
+            print("$$",equation.latex_name+'\\left[',",".join(indices),'\\right]',file=f,end = " ")
         
-        if len(set(tree_dec.bag_adj[u])-set([prev])) > 0:
+        if len(equation.subterms) > 0:
             print("=\\min_{",",".join(new_vars),"}","\\left(",file=f , end=" ")
-        
-            terms = []
-
-            for v in tree_dec.bag_adj[u]:
-                if v!=prev:
-                    if v[:1]=='H' and not set(tree_dec.helix_extremities[tree_dec.which_helix[v]]).issubset(set(tree_dec.bag_content[u])):
-            
-                        # diag bag
-                        equation = tree_dec.extract_diag_equation(u, v)
-                        terms.append(tree_dec.dp_table_latex_snips[v]+'\\left['+",".join(equation.variable_indices)+"|"+",".join(equation.constant_indices)+'\\right]')
-
-                    elif v[:1]=='H' and set(tree_dec.helix_extremities[tree_dec.which_helix[v]]).issubset(set(tree_dec.bag_content[u])):
-                        indices_v = set(tree_dec.bag_content[u]).intersection(set(tree_dec.bag_content[v]))
-                        indices_v = [tree_dec.ext_to_letter[e] for e in sorted(list(indices_v),key=lambda x: int(x))]
-                        indices_v[1] = indices_v[1]+'-1'
-                        indices_v[3] = indices_v[3]+'-1'
-                        terms.append(tree_dec.dp_table_latex_snips[v]+'\\left['+",".join(indices_v)+'\\right]')
-
-                    else:
-                        #normal bag
-                        indices_v = set(tree_dec.bag_content[u]).intersection(set(tree_dec.bag_content[v]))
-                        indices_v = [tree_dec.ext_to_letter[e] for e in sorted(list(indices_v),key=lambda x: int(x))]
-                        terms.append(tree_dec.dp_table_latex_snips[v]+'\\left['+",".join(indices_v)+'\\right]')
+            terms = [eq.latex_print({}, tree_dec.ext_to_letter) for eq in equation.subterms]
             print("+".join(terms), file=f, end="")
 
 

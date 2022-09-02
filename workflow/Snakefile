@@ -1,5 +1,8 @@
+configfile: "config/config.json"
+
 shadows = ['H','K','L','M','C5','K4','K5']
 #shadows = ['six_arcs'+str(k) for k in range(604)]
+
 
 rule all:
     input:
@@ -10,10 +13,10 @@ rule all:
 #        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
 #        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
 #        expand('results/colored_dbn/band_diagram_{shadow}.pdf',shadow=shadows),
-#        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows), # that's the future
-#        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows), # that's the future
-##        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows), # that's the future
-        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows), # that's the future
+#        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows),
+#        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows),
+##        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows),
+        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows),
 #        expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows),
         'results/state_of_the_results.pdf'
 
@@ -67,6 +70,7 @@ rule extremities_label:
         eq_tree = TreeOfEquations()
         eq_tree.read_from_file(input.tdname)
         eq_tree.set_helices(open(input.helix).readlines())
+        eq_tree.set_ext_to_letter()
 
         import json
         with open(output[0],'w') as f:
@@ -110,7 +114,6 @@ rule extract_compact_tree_letters:
         'results/compact_dot_files/compact_{family}_letters.dot'
     script:
         'scripts/compact_tree_extraction_letters.py'
-
 rule extract_tree_equations:
     input:
         tdname='results/processed_td_files/processed_{family}.td',

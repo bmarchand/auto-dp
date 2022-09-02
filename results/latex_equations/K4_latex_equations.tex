@@ -22,16 +22,8 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_K4.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , p $
-$$ A =\min_{  } \left( B\left[\right]\right) $$
-$$ B =\min_{ a,c,e,h,j,m } \left( I\left[a,c,h,j\right]+F\left[c,e,j,m\right]+C\left[a,e,h,m\right]\right) $$
-$$ C\left[ a,e,h,m \right] =\min_{ f,n } \left( \colorbox{c2}{$C_{\boxtimes}$}\left[e,f-1,m,n-1\right]+D\left[a,f,h,n\right]\right) $$
-$$ D\left[ a,f,h,n \right] =\min_{ o } \left( \colorbox{c1}{$E$}\left[h,o|a,f\right]\right) $$
-$$ \colorbox{c1}{$E$}' \left[h,o | a,f \right] =  \min\begin{cases}\colorbox{c1}{$E$}'[ h-1 , o|a,f ], &\text{if } h-1 \notin\{ o , a,f \} \\\colorbox{c1}{$E$}[ h-1 , o+1|a,f ]+\Delta G(h,o) &\text{if } \{ h-1 , o+1 \}\cap \{ a,f \}=\emptyset\end{cases}$$
-$$ \colorbox{c1}{$E$} \left[h,o | a,f \right] =  \min\begin{cases}\colorbox{c1}{$E$}[ h , o+1|a,f ], &\text{if } o+1 ,\notin\{ h , a,f \} \\\colorbox{c1}{$E$}'[ h-1 , o|a,f ], &\text{if } h-1 \notin\{ o , a,f \} \\\colorbox{c1}{$E$}[ h-1 , o+1|a,f ]+\Delta G(h,o) &\text{if } \{ h-1 , o+1 \}\cap \{ a,f \}=\emptyset\end{cases}$$
-$$ F\left[ c,e,j,m \right] =\min_{ l } \left( G\left[c,e,j,l\right]\right) $$
-$$ G\left[ c,e,j,l \right] =\min_{ d } \left( H\left[c,d,j,l\right]\right) $$
-$$ H\left[ c,d,j,l \right] =\min_{ k } \left( \colorbox{c3}{$C_{\boxtimes}$}\left[c,d-1,k,l-1\right]\right) $$
-$$ I\left[ a,c,h,j \right] =\min_{ i } \left( J\left[a,c,i,j\right]\right) $$
-$$ J\left[ a,c,i,j \right] =\min_{ b } \left( \colorbox{c0}{$C_{\boxtimes}$}\left[a,b-1,i,j-1\right]\right) $$
+first and last anchors, already given: $ a , i $
+$$ A =\min_{ b,c,e,f,g } \left( B[g,e,c,a]+\colorbox{c0}{$C_{\boxtimes}$}[a,b,e,f]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,f,g]\right) $$
+$$ B\left[ a,c,e,g \right] =\min_{ d,h } \left( C[d,h,e,a]+\colorbox{c3}{$C_{\boxtimes}$}[c,d,g,h]\right) $$
+$$ C\left[ a,d,e,h \right] =\min_{  } \left( \colorbox{c1}{$C_{\boxtimes}$}[d,e,h,i]\right) $$
 \end{document}

@@ -22,10 +22,6 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_H.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , h $
-$$ A =\min_{  } \left( B\left[\right]\right) $$
-$$ B =\min_{ a,c,d,f,h } \left( \colorbox{c1}{$D$}\left[a,f|c,d\right]+C\left[c,d,f,h\right]\right) $$
-$$ C\left[ c,d,f,h \right] =\min_{ g } \left( \colorbox{c0}{$C_{\boxtimes}$}\left[c,d-1,g,h-1\right]\right) $$
-$$ \colorbox{c1}{$D$}' \left[a,f | c,d \right] =  \min\begin{cases}\colorbox{c1}{$D$}'[ a , f-1|c,d ], &\text{if } f-1 ,\notin\{ a , c,d \} \\\colorbox{c1}{$D$}[ a+1 , f-1|c,d ]+\Delta G(a,f) &\text{if } \{ a+1 , f-1 \}\cap \{ c,d \}=\emptyset\end{cases}$$
-$$ \colorbox{c1}{$D$} \left[a,f | c,d \right] =  \min\begin{cases}\colorbox{c1}{$D$}[ a+1 , f|c,d ], &\text{if } a+1 \notin\{ f , c,d \} \\\colorbox{c1}{$D$}'[ a , f-1|c,d ], &\text{if } f-1 ,\notin\{ a , c,d \} \\\colorbox{c1}{$D$}[ a+1 , f-1|c,d ]+\Delta G(a,f) &\text{if } \{ a+1 , f-1 \}\cap \{ c,d \}=\emptyset\end{cases}$$
+first and last anchors, already given: $ a , e $
+$$ A =\min_{ b,c,d } \left( \colorbox{c1}{$C_{\boxtimes}$}[a,b,c,d]+\colorbox{c0}{$C_{\boxtimes}$}[b,c,d,e]\right) $$
 \end{document}

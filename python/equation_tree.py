@@ -1,4 +1,12 @@
 from tree_of_bags import TreeOfBags
+from equation_classes import DiagCaseHelix, CliqueCaseHelix, TransitionalEquation
+from enum import Enum
+
+class BagType(Enum):
+    TRANSITIONAL = 1
+    DIAG_FIRST = 2
+    DIAG_SECOND = 3
+    CLIQUE = 4
 
 class TreeOfEquations(TreeOfBags):
 
@@ -28,10 +36,11 @@ class TreeOfEquations(TreeOfBags):
         # const part: the anchors present in all bags representing an helix (for diag case mostly)
         self.const_part = {}
 
-        # DP table names: associate a letter to each bag. The only bags that are not given
-        # a letter are the "second bags" representing a diag case helix.
-        self.dp_table_names = {}
-        self.dp_table_latex_snips = {}
+        # bag type
+        self.bag_type = {}
+
+        # equations
+        self.equations = {}
 
         # extremity (position/integer) to variable name (latin letter)
         self.ext_to_letter = {}
@@ -40,29 +49,93 @@ class TreeOfEquations(TreeOfBags):
         for k, e in enumerate(sorted(list(self.all_extremities),key=lambda x: int(x))):
             self.ext_to_letter[e] = chr(ord('a')+k)
 
-    def set_dp_table_names(self):
+    def set_dp_tables(self):
 
         cnt = 0 # alphabet/variable increment variable
         cnt_col = 0 # color increment variable (to match colors of other drawings)
 
+        self.equations['-1'] = TransitionalEquation()
+
         for prev, u in self.dfs_edge_iterator():
             if not u[:1]=='H':
-                self.dp_table_names[u] = self.num_to_letters(cnt)
-                self.dp_table_latex_snips[u] = self.num_to_letters(cnt)
+                # bag type
+                self.bag_type[u] = BagType.TRANSITIONAL
+
+                # equation object init
+                equation = TransitionalEquation()
+                equation.main_name = self.num_to_letters(cnt)
+                equation.latex_name = self.num_to_letters(cnt)
+
+                # indices and marginalizatin
+                equation.indices = set(self.bag_content[u]).intersection(set(self.bag_content[prev]))
+                equation.marginalization = set(self.bag_content[u]) - set(self.bag_content[prev])
+
+                # connecting
+                self.equations[u] = equation
+                self.equations[prev].subterms.append(equation)
+
+                # incrementing name but not color
                 cnt += 1
             else:
                 if set(self.helix_extremities[self.which_helix[u]]).issubset(set(self.bag_content[prev])):
                 # clique
-                    self.dp_table_names[u] = "CLIQUE"
-                    self.dp_table_latex_snips[u] = "\\colorbox{c"+u.split('-')[0][1:]+"}{$C_{\\boxtimes}$}"
+                    # set bag type
+                    self.bag_type[u] = BagType.CLIQUE
+
+                    # equation init
+                    equation = CliqueCaseHelix()
+                    equation.main_name = "CLIQUE"
+                    equation.latex_name = "\\colorbox{c"+u.split('-')[0][1:]+"}{$C_{\\boxtimes}$}"
+
+                    # indices
+                    self.equations[u] = equation
+                    equation.indices = self.helix_extremities[self.which_helix[u]]
+
+                    # connecting
+                    self.equations[prev].subterms.append(equation)
+
+                    # updating color but not name
                     cnt_col += 1
+
                 else:
                 # diag: only setting the letter for the first bag out of the two representating of the helix.
                     if prev.split('-')[0]!=u.split('-')[0]:
-                        self.dp_table_names[u] = self.num_to_letters(cnt)
-                        self.dp_table_latex_snips[u] = "\\colorbox{c"+u.split('-')[0][1:]+"}{$"+self.num_to_letters(cnt)+"$}"
+                        # bag type
+                        self.bag_type[u] = BagType.DIAG_FIRST
+
+                        # equation init
+                        equation = DiagCaseHelix()
+                        equation.first_bag = u
+                        equation.main_name = self.num_to_letters(cnt)
+                        equation.latex_name = "\\colorbox{c"+u.split('-')[0][1:]+"}{$"+self.num_to_letters(cnt)+"$}"
+
+                        # indices
+                        absent_ex = (set(self.helix_extremities[self.which_helix[u]]) - set(self.bag_content[u])).pop()
+                        sorted_exs = sorted(list(self.helix_extremities[self.which_helix[u]]), key=lambda x : int(x))
+                        equation.variable_indices = set(self.helix_extremities[self.which_helix[u]]) - set([absent_ex, partner(absent_ex, sorted_exs)])
+                        equation.constant_indices = self.const_part[self.which_helix[u]]
+                        equation.absent_indices = set([absent_ex, partner(absent_ex, sorted_exs)])
+                        
+                        # increments
+                        equation.increments = [increment(e, sorted_exs) for e in sorted(list(equation.variable_indices))]
+                        equation.inward = not absent_ex in [min(self.helix_extremities[self.which_helix[u]]),max(self.helix_extremities[self.which_helix[u]])]
+
+                        # subs table
+                        for e in equation.absent_indices:
+                            equation.subs_table[e] = subs(e, sorted_exs)
+
+                        # connecting
+                        self.equations[u] = equation
+                        self.equations[prev].subterms.append(equation)
+
                         cnt += 1
                         cnt_col += 1
+                    else:
+                        # bag type
+                        self.bag_type[u] = BagType.DIAG_SECOND
+                        self.equations[prev].second_bag = u
+
+                        self.equations[u] = self.equations[prev]
 
     def set_helices(self, helices):
         """
@@ -149,146 +222,7 @@ class TreeOfEquations(TreeOfBags):
         """
         for u in self.dfs_bag_iterator():
             self.bag_content[u] = [vert for vert in self.bag_content[u] if vert in self.all_extremities]
-
-    def extract_diag_equation(self, parent, diag_first_bag):
-
-        # if diag_first_bag is indeed the first bag of a diag case helix representation,
-        # then the following asserts should be true
-        print(parent, diag_first_bag)
-        assert(parent.split('-')[0]!=diag_first_bag.split('-')[0])
-
-        # return object
-        equation = DiagCaseHelix()
-        equation.first_bag = diag_first_bag
-
-        # figuring out what are the variable indices of the equations (before the |)
-        absent_ex = (set(self.helix_extremities[self.which_helix[diag_first_bag]])-set(self.bag_content[parent])).pop() 
-        sorted_exs = sorted(self.helix_extremities[self.which_helix[diag_first_bag]], key=lambda x: int(x))
-        indices = sorted(list(set(self.helix_extremities[self.which_helix[diag_first_bag]]) - set([absent_ex, partner(absent_ex, sorted_exs)])),key=lambda x: int(x))
-        if absent_ex in sorted_exs[1:2]:
-            equation.inward = True
-        else:
-            equation.inward = False
-
-        equation.increments = [increment(e, sorted_exs) for e in indices]
-
-        # setting variable indices: 
-        equation.variable_indices = [self.ext_to_letter[e] for e in indices]
         
-        # will be used for putting indices in children tables.
-        local_index_label = {}
-
-        for i in indices:
-            local_index_label[i] = self.ext_to_letter[i]
-            local_index_label[subs(i, sorted_exs)] = self.ext_to_letter[i]
-
-        for e in sorted(self.const_part[self.which_helix[diag_first_bag]], key=lambda x : int(x)):
-            if e in indices:
-            # if const part is also one of the indices: add a prime '
-                equation.constant_indices.append(self.ext_to_letter[e]+"'")
-                local_index_label[e] = self.ext_to_letter[e]+"'"
-            else:
-                equation.constant_indices.append(self.ext_to_letter[e])
-                local_index_label[e] = self.ext_to_letter[e]
-
-        print("diag first bag", diag_first_bag)
-        print(self.bag_adj[diag_first_bag])
-        second_helix_bag = [v for v in self.bag_adj[diag_first_bag] if v!=parent].pop()
-        equation.second_bag
-        if len(self.bag_adj[second_helix_bag]) >= 2:
-            normal_childs = []
-            normal_child_letters = {}
-            diag_childs = []
-            diag_child_letters = {}
-            diag_child_const_parts = {}
-            clique_childs = []
-            clique_childs_letters = {}
-            for child_table in self.bag_adj[second_helix_bag]:
-                if child_table!=diag_first_bag:
-
-                    # sort
-                    child_indices = sorted(self.bag_content[child_table], key=lambda x:int(x))
-
-                    # intersection with second helix case
-                    child_indices = [i for i in child_indices if i in self.bag_content[second_helix_bag]] 
-
-                    if child_table[0]=='H' and not set(self.helix_extremities[self.which_helix[child_table]]).issubset(set(self.bag_content[second_helix_bag])):
-                    # diag case below
-
-                        diag_childs.append(child_table)
-
-                        absent_ex = (set(self.helix_extremities[self.which_helix[child_table]])-set(self.bag_content[second_helix_bag])).pop() 
-                        sorted_exs = sorted(self.helix_extremities[self.which_helix[child_table]], key=lambda x: int(x))
-                        child_indices = sorted(list(set(self.helix_extremities[self.which_helix[child_table]]) - set([absent_ex, partner(absent_ex, sorted_exs)])),key=lambda x: int(x))
-                        child_letters = [local_index_label[i] for i in child_indices]
-            
-                        diag_child_letters[child_table] = child_letters
-
-                        child_const = [local_index_label[i] for i in sorted(self.const_part[self.which_helix[child_table]],key=lambda x : int(x))]
-            
-                        diag_child_const_parts[child_table] = child_const
-
-                    elif child_table[0]=='H' and set(self.helix_extremities[self.which_helix[child_table]]).issubset(set(self.bag_content[second_helix_bag])):
-                        clique_childs.append(child_table)
-                        child_letters = [local_index_label[i] for i in child_indices]
-                        clique_childs_letters[child_table] = child_letters
-                    else:
-                    # normal table below
-                        normal_childs.append(child_table)
-                        child_letters = [local_index_label[i] for i in child_indices]
-                        normal_child_letters[child_table] = child_letters
-
-            for child_table in normal_childs:
-                child_letters = normal_child_letters[child_table]
-                for k, e in enumerate(child_letters):
-                    if e==equation.variable_indices[1]:
-                        child_letters[k]=e+'+1'
-                term = self.dp_table_latex_snips[child_table]+"'["+",".join(child_letters)+']'
-                equation.subterms.append(term)
-            for child_table in diag_childs:
-                child_letters = diag_child_letters[child_table]
-                for k, e in enumerate(child_letters):
-                    if e==equation.variable_indices[1]:
-                        child_letters[k]=e+'+1'
-                child_const = diag_child_const_parts[child_table]
-                term = self.dp_table_latex_snips[child_table]+"'["+",".join(child_letters)+'|'+",".join(child_const)+']'
-                equation.subterms.append(term)
-            for child_table in clique_childs:
-                child_letters = clique_childs_letters[child_table]
-                for k, e in enumerate(child_letters):
-                    if e==equation.variable_indices[1]:
-                        child_letters[k]=e+'+1'
-                child_letters[1] =  child_letters[1]+'-1'
-                child_letters[3] =  child_letters[3]+'-1'
-                term = self.dp_table_latex_snips[child_table]+"'["+",".join(child_letters)+']'
-                equation.subterms.append(term)
-
-        return equation
-
-        
-class DiagCaseHelix():
-
-    def __init__(self):
-
-        # the ones before the |
-        self.variable_indices = []
-
-        # the ones after the | (the constraints, constant)
-        self.constant_indices = []
-
-        # whether the variable indices get a +1 (external bp) or -1 (internal)
-        self.increments = []
-
-        # the recursion terms - "children" equations
-        self.subterms = []
-
-        # boolean for in which sense it goes
-        self.inward = True
-
-        # diag helix canonical representation: two bags
-        self.first_bag = '-1'
-        self.second_bag = '-1'
-
 
 def increment(e, sorted_exs):
     """

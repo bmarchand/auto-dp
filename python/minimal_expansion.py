@@ -64,7 +64,6 @@ class MinimalExpansion:
     def from_str(self, dbn_str, inter_helix_gap=True, overarching=True):
 
         # setting dbn
-        dbn_str = ''.join(sorted(set(dbn_str), key=dbn_str.index))
         self.dbn = dbn_str
 
         print("dbn", dbn_str)
