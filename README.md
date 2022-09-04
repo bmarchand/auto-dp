@@ -33,7 +33,7 @@ snakemake -c1 results/latex_equations/khp_latex_equations.pdf
 ```
 
 Given this command, snakemake will look for rules to produce ``results/latex_equations/khp_latex_equations.pdf``.
-It will see that it is capable of producing `results/latex_equations/{khp}_latex_equations.pdf` given (with a few steps in between) `resources/dbn_files/{name}.dbn`.
+It will see that it is capable of producing `results/latex_equations/{name}_latex_equations.pdf` given (with a few steps in between) `resources/dbn_files/{name}.dbn`.
 
 ## Meiji solver compilation
 
