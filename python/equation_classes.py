@@ -1,8 +1,38 @@
 def ext_to_letter(k):
-    print("computing letter of",k)
+    """
+    Simply returns the k-th letter of the alphabet.
+    """
     return chr(ord('a')+int(k))
 
-class TransitionalEquation():
+class CommonEquationFeatures():
+    """
+    Basic equation class from which other equation object
+    classes will inherit. 
+
+    Its main purpose is to require the implementation 
+    of some methods (for now, just latex_print, but
+    in the future, c_code_print maybe ?)
+    """
+    def latex_print(self, letter_table, ext_to_letter):
+        # request implementation of latex_print
+        raise NotImplementedError('latex_print must be implemented for class '+self.__class__.__name__)
+
+class TransitionalEquation(CommonEquationFeatures):
+    """
+    Class for representing 
+    DP equations linked to ``transitional''
+    bags (i.e. bags that are not part of a clique
+    representation)
+
+    Its fields contain all of the information 
+    needed to reconstruct the equation. They
+    are initialized to dummy values, and
+    will be updated based on what read 
+    in canonical tree decompositions.
+
+    As any class inheriting from CommonEquationFeatures,
+    it needs to implement latex_print
+    """
 
     def __init__(self):
 
@@ -34,7 +64,7 @@ class TransitionalEquation():
         res += ']'
         return res
 
-class CliqueCaseHelix():
+class CliqueCaseHelix(CommonEquationFeatures):
 
     def __init__(self):
 
@@ -60,7 +90,7 @@ class CliqueCaseHelix():
         res += ']'
         return res
 
-class DiagCaseHelix():
+class DiagCaseHelix(CommonEquationFeatures):
 
     def __init__(self):
 

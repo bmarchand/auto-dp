@@ -28,6 +28,8 @@ Imagine you are interested in the following kissing-hairpins pattern: ``([)(])``
 Such a string will describe a fatgraph in which each base pair is seen as an helix of arbitrary length.
 It needs to be written in a one-line file called, for instance, `khp.dbn` and located under `resources/dbn_files`.
 
+Latex equations such as the ones presented in our paper can then be produced with:
+
 ```
 snakemake -c1 results/latex_equations/khp_latex_equations.pdf
 ```
