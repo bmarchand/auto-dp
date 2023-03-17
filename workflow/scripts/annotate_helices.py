@@ -1,4 +1,4 @@
-from minimal_expansion import MinimalExpansion
+from autodp.minimal_expansion import MinimalExpansion
 
 inter_helix_gap=snakemake.config["inter_helix_gap"]
 underlying_graph = MinimalExpansion()

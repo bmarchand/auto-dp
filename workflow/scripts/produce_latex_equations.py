@@ -1,5 +1,5 @@
 import sys
-from equation_tree import TreeOfEquations, BagType
+from autodp.equation_tree import TreeOfEquations, BagType
 import copy
 from utils import read_td_lines
 from colors import *

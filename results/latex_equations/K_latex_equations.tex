@@ -23,9 +23,9 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , g $
-$$ A =\min_{ d } \left( \colorbox{c0}{$B$}[d,g|d,a]\right) $$
-$$ \colorbox{c0}{$B$}' \left[d,g | d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ d , g-1|d',a ], &\text{if } g-1 ,\notin\{ d , d',a \} \\\colorbox{c0}{$B$}[ d+1 , g-1|d',a ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ d',a \}=\emptyset\end{cases}$$
-$$ \colorbox{c0}{$B$} \left[d,g | d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ d+1 , g|d',a ], &\text{if } d+1 \notin\{ g , d',a \} \\\colorbox{c0}{$B$}'[ d , g-1|d',a ], &\text{if } g-1 ,\notin\{ d , d',a \} \\\colorbox{c0}{$B$}[ d+1 , g-1|d',a ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ d',a \}=\emptyset,\\\colorbox{c1}{$C$}[d',a|13,25]\end{cases}$$
-$$ \colorbox{c1}{$C$}' \left[d,a | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ d+1 , a|e,f ], &\text{if } d+1 \notin\{ a , e,f \} \\\end{cases}$$
-$$ \colorbox{c1}{$C$} \left[d,a | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ d , a-1|e,f ], &\text{if } a-1 ,\notin\{ d , e,f \} \\\colorbox{c1}{$C$}'[ d+1 , a|e,f ], &\text{if } d+1 \notin\{ a , e,f \} \\\colorbox{c1}{$C$}[ d+1 , a-1|e,f ]+\Delta G(d,a) &\text{if } \{ d+1 , a-1 \}\cap \{ e,f \}=\emptyset,\\\colorbox{c2}{$C_{\boxtimes}$}[1,13,e,f]\end{cases}$$
+$$ A =\min_{ d } \left( \colorbox{c0}{$B$}[d,g|a,d]\right) $$
+$$ \colorbox{c0}{$B$}' \left[d,g | a,d' \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ d , g-1|a,d' ], &\text{if } g-1 ,\notin\{ d , a,d' \} \\\colorbox{c0}{$B$}[ d+1 , g-1|a,d' ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ a,d' \}=\emptyset\end{cases}$$
+$$ \colorbox{c0}{$B$} \left[d,g | a,d' \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ d+1 , g|a,d' ], &\text{if } d+1 \notin\{ g , a,d' \} \\\colorbox{c0}{$B$}'[ d , g-1|a,d' ], &\text{if } g-1 ,\notin\{ d , a,d' \} \\\colorbox{c0}{$B$}[ d+1 , g-1|a,d' ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ a,d' \}=\emptyset,\\\colorbox{c1}{$C$}[a,d'|13,25]\end{cases}$$
+$$ \colorbox{c1}{$C$}' \left[a,d | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ a+1 , d|e,f ], &\text{if } a+1 \notin\{ d , e,f \} \\\end{cases}$$
+$$ \colorbox{c1}{$C$} \left[a,d | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ a , d-1|e,f ], &\text{if } d-1 ,\notin\{ a , e,f \} \\\colorbox{c1}{$C$}'[ a+1 , d|e,f ], &\text{if } a+1 \notin\{ d , e,f \} \\\colorbox{c1}{$C$}[ a+1 , d-1|e,f ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ e,f \}=\emptyset,\\\colorbox{c2}{$C_{\boxtimes}$}[1,13,e,f]\end{cases}$$
 \end{document}

@@ -1,4 +1,8 @@
 .snakemake/
+build/
+python/autoDP.egg-info/*
+autoDP.egg-info/*
+results/binaries/*
 todo
 *.pyc
 *.class

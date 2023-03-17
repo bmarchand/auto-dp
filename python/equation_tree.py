@@ -1,5 +1,5 @@
-from tree_of_bags import TreeOfBags
-from equation_classes import DiagCaseHelix, CliqueCaseHelix, TransitionalEquation
+from autodp.tree_of_bags import TreeOfBags
+from autodp.equation_classes import DiagCaseHelix, CliqueCaseHelix, TransitionalEquation
 from enum import Enum
 
 class BagType(Enum):

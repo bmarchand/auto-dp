@@ -1,5 +1,5 @@
-from minimal_expansion import MinimalExpansion
-from tree_of_bags import TreeOfBags 
+from autodp.minimal_expansion import MinimalExpansion
+from autodp.tree_of_bags import TreeOfBags 
 from enum import Enum
 
 

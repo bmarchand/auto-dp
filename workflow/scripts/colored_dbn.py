@@ -1,5 +1,5 @@
 from colors import *
-from minimal_expansion import MinimalExpansion
+from autodp.minimal_expansion import MinimalExpansion
 
 f = open(snakemake.output[0],'w')
 
