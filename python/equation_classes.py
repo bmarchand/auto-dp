@@ -13,9 +13,79 @@ class CommonEquationFeatures():
     of some methods (for now, just latex_print, but
     in the future, c_code_print maybe ?)
     """
+
+    # class specific methods
+    def terminal_print(self, ext_to_letter):
+        # request implementation of terminal print
+        raise NotImplementedError('terminal_print must be implemented for class '+self.__class__.__name__)
+        
     def latex_print(self, letter_table, ext_to_letter):
         # request implementation of latex_print
         raise NotImplementedError('latex_print must be implemented for class '+self.__class__.__name__)
+    
+    def c_allocation_print(self):
+        # request implementation of c_allocation_print
+        raise NotImplementedError('c_allocation_print must be implemented for class '+self.__class__.__name__)
+
+    def c_free_print(self):
+        # request implementation of c_free_print
+        raise NotImplementedError('c_free_print must be implemented for class '+self.__class__.__name__)
+    
+    def c_code_print(self, letter_table, ext_to_letter):
+        # request implementation of c_code
+        raise NotImplementedError('c_code_print must be implemented for class '+self.__class__.__name__)
+
+    def sorted_indices(self, letter_table, ext_to_letter):
+        # request implementation of sorted_indices
+        raise NotImplementedError('sorted_indices must be implemented for class '+self.__class__.__name__)
+
+    # common methods
+    
+    def c_index_function(self, ext_to_letter):
+        indices = self.sorted_indices()
+        indices = [ext_to_letter[i] for i in indices]
+        indent = "    "
+        res = "".join(["int index_",self.main_name])
+        res += "("+",".join(['int n']+['int '+i for i in indices])+')  {\n'
+        res += indent+'return '
+        terms = []
+        for k, index in enumerate(indices):
+            terms.append('*'.join(['n' for _ in range(len(indices)-1-k)]+[index]))
+        res += '+'.join(terms)+';\n'
+        res += '}\n'
+        return res
+
+    def c_index_fun_signature(self, ext_to_letter):
+        indices = self.sorted_indices()
+        indices = [ext_to_letter[i] for i in indices]
+        indent = "    "
+        res = "".join(["int index_",self.main_name])
+        res += "("+",".join(['int n']+['int '+i for i in indices])+');'
+        return res
+
+    def c_int_indices(self, ext_to_letter):
+        indices = self.sorted_indices()
+        indices = [ext_to_letter[i] for i in indices]
+        return ','.join(['int '+i for i in indices])
+
+    
+    def c_array_init_fill(self, ext_to_letter):
+        indent = "    "
+        res = "".join(["void init_fill_",self.main_name,"() {\n"])
+        indices = self.sorted_indices()
+        indices = [ext_to_letter[i] for i in indices]
+        for k,index in enumerate(indices):
+            res += (k+1)*indent
+            if k==0:
+                res += "".join(["for (int ",index,"=0;",index,"<n;",index,"++) {\n"])
+            else:
+                res += "".join(["for (int ",index,"=",indices[k-1],";",index,"<n;",index,"++) {\n"])
+        res+= (len(indices)+1)*indent+self.main_name+'[index_'+self.main_name+'('+",".join(['n']+indices)+')] = INT_MIN;\n' 
+        for k in range(len(indices),-1,-1):
+            res += k*indent+'}\n'
+
+        return res
+
 
 class TransitionalEquation(CommonEquationFeatures):
     """
@@ -52,6 +122,27 @@ class TransitionalEquation(CommonEquationFeatures):
         # sub-terms: list of other equations
         self.subterms = []
 
+    def terminal_print(self, ext_to_letter):
+        print(self.main_name, self.latex_name, [ext_to_letter[i] for i in self.indices], self.subterms)
+        print(self.main_name, self.latex_name, self.indices, self.subterms)
+
+    def c_allocation_print(self):
+        total_size = '*'.join(['n' for _ in range(len(self.indices))])
+        res = "double * "+self.main_name+" = malloc("+total_size+"*sizeof(double));"
+        return res
+
+    def c_free_print(self):
+        return "".join(["free(",self.main_name,");"])
+
+    def sorted_indices(self):
+        return sorted(list(self.indices))
+
+    def c_code_print(self, letter_table, ext_to_letter):
+        for e in self.indices:
+            if e not in letter_table.keys():
+                letter_table[e] = ext_to_letter[e]
+        return "compute_"+self.main_name+'('+','.join([letter_table[e] for e in self.indices])+')'
+
     def latex_print(self, letter_table, ext_to_letter):
 
         for e in self.indices:
@@ -78,6 +169,26 @@ class CliqueCaseHelix(CommonEquationFeatures):
         self.main_name = ""
         self.latex_name = ""
 
+    def terminal_print(self, ext_to_letter):
+        print(self.main_name, self.latex_name, [ext_to_letter[i] for i in self.indices])
+    
+    def c_allocation_print(self):
+        total_size = '*'.join(['n' for _ in range(len(self.indices))])
+        res = "double * "+self.main_name+" = malloc("+total_size+"*sizeof(double));"
+        return res
+        
+    def c_free_print(self):
+        return "".join(["free(",self.main_name,");"])
+    
+    def sorted_indices(self):
+        return sorted(list(self.indices))
+
+    def c_code_print(self, letter_table, ext_to_letter):
+        for e in self.indices:
+            if e not in letter_table.keys():
+                letter_table[e] = ext_to_letter[e]
+        return "compute_CLIQUE("+','.join([letter_table[e] for e in self.indices])+')'
+    
     def latex_print(self, letter_table, ext_to_letter):
 
         for e in self.indices:
@@ -128,6 +239,28 @@ class DiagCaseHelix(CommonEquationFeatures):
         # diag helix canonical representation: two bags
         self.first_bag = '-1'
         self.second_bag = '-1'
+        
+    def terminal_print(self, ext_to_letter):
+        print(self.main_name, self.latex_name, 
+              [ext_to_letter[i] for i in self.variable_indices],
+              [ext_to_letter[i] for i in self.constant_indices])
+    
+    def c_allocation_print(self):
+        total_size = '*'.join(['n' for _ in range(len(self.variable_indices)+len(self.constant_indices))])
+        res = "double * "+self.main_name+" = malloc("+total_size+"*sizeof(double));"
+        return res
+    
+    def sorted_indices(self):
+        return sorted(list(self.variable_indices) + list(self.constant_indices))
+    
+    def c_free_print(self):
+        return "".join(["free(",self.main_name,");"])
+    
+    def c_code_print(self, letter_table, ext_to_letter):
+        for e in self.sorted_indices():
+            if e not in letter_table.keys():
+                letter_table[e] = ext_to_letter[e]
+        return "compute_"+self.main_name+'('+','.join([letter_table[e] for e in self.sorted_indices()])+')'
 
     def latex_print(self, letter_table, ext_to_letter):
 

@@ -56,7 +56,6 @@ class TreeOfBags:
         for line in open(td_file).readlines():
             if line[0]=='b':
                 started_bs = True
-                print("bag_content line split",line.split(' '))
                 self.bag_content[line.split(' ')[1].rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:]]
 
             else:

@@ -1,6 +1,6 @@
 from utils import read_gr_file, add_element_to_adj
-from minimal_expansion import MinimalExpansion
-from tree_decomposition import TreeDecomposition
+from autodp.minimal_expansion import MinimalExpansion
+from autodp.tree_decomposition import TreeDecomposition
 import sys
 
 sys.setrecursionlimit(10000)
@@ -170,6 +170,8 @@ tree_dec.contract_identical_bags()
 f = open(snakemake.output[0],'w')
 
 # header line
+tree_dec.pick_root()
+print("root_picked", tree_dec.root)
 print('root', tree_dec.root, file=f)
 print('s td '+str(len(tree_dec.bag_content.keys()))+' ', end="", file=f)
 # largest bag size

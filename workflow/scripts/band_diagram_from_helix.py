@@ -56,6 +56,7 @@ adj = {}
 
 pos = 0
 while len(dbn_list) > 0:
+    print(dbn_list)
     int_label[k+1] = pos+1
     c = dbn_list.pop(0)
     vertices.add(k+1)
@@ -116,7 +117,6 @@ print('\\begin{document}',file=f)
 print('\\begin{tikzpicture}',file=f)
 
 print(pos_to_helix)
-input()
 for k, pos in enumerate(sorted(all_pos)):
     label = pos_to_helix[pos]
     if pos==min(helix_to_pos[label]):

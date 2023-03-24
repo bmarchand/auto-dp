@@ -23,6 +23,10 @@ graph.extract_helices(inter_helix_gap=inter_helix_gap)
 for k, e in enumerate(sorted(list(set.union(*[set(extremities) for extremities in graph.helices])))):
     print("\\fill ("+str(e-1)+",0) circle (0.) node[below=1cm] {\\relsize{+5}{\\textbf{"+chr(ord('a')+k)+"}}};", file=f)
 
+for e in sorted(list(set.union(*[set(extremities) for extremities in graph.helices]))):
+    print("\\node at ("+str(e-1)+",-2.5) {("+str(e)+")};", file=f)
+
+
 
 for k in range(len(graph.vertices)-2):
     print("\\draw[thick] ("+str(k)+",0) -- ("+str(k+1)+",0);", file=f )
@@ -41,9 +45,9 @@ for k, extremities in enumerate(graph.helices):
     jp = int(extremities[2])-1
     j = int(extremities[3])-1
 
-    print('\\filldraw[fill=c'+str(int(label[1:])%len(colors))+',rounded corners] ', file=f, end="")
+    print('\\filldraw[fill=c'+str(k%len(colors))+',rounded corners] ', file=f, end="")
     print(' ('+str(i-0.2)+',-0.5) rectangle ('+str(ip+0.2)+',+0.5);', file=f)
-    print('\\filldraw[fill=c'+str(int(label[1:])%len(colors))+',rounded corners] ', file=f, end="")
+    print('\\filldraw[fill=c'+str(k%len(colors))+',rounded corners] ', file=f, end="")
     print(' ('+str(jp-0.2)+',-0.5) rectangle ('+str(j+0.2)+',+0.5);', file=f)
 
 

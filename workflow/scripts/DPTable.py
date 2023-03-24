@@ -12,7 +12,7 @@ class DPTable:
         self.child_tables.append((table, substitution_matrix))
     
 
-def compute_dp_table(td_lines, helix_lines):
+def compute_dp_table(td_lines, helix_lines, f):
 
 
     # extracting bags and tree from td file

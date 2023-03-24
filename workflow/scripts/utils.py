@@ -42,7 +42,7 @@ def read_td_lines(lines):
     for line in lines:
         if line[0]=='b':
             started_bs = True
-            index2bag[line.split(' ')[1].replace('-','_')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:-1]]
+            index2bag[line.split(' ')[1].replace('-','_').rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:-1]]
 
         else:
             if started_bs:
@@ -133,6 +133,7 @@ def full_compact_clique(label, extremities, adj, index2bag,root):
 
 def filter_extremities(all_extremities, adj, index2bag, root):
     queue = [('-1',root)]
+    print(index2bag.keys())
     while len(queue) > 0:
         prev,u = queue.pop()
 

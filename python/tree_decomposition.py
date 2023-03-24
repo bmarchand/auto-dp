@@ -19,6 +19,16 @@ class TreeDecomposition(TreeOfBags):
     def set_graph(self, min_exp):
         self.graph = min_exp
 
+    def pick_root(self):
+        m = min(self.graph.vertices)
+        M = max(self.graph.vertices)
+
+        print("content ",self.bag_content)
+        for key, val in self.bag_content.items():
+            print(m, M, val)
+            if str(m) in val and str(M) in val:
+                self.root = key
+                break
 
     def fill_vertices_above(self):
         """

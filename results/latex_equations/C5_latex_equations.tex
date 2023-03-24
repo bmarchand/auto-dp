@@ -23,9 +23,9 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , k $
-$$ A =\min_{ e,f,g,h,i,j } \left( \colorbox{c4}{$B$}[e,a|j,i,g,f]+D[h,a,g,j]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
-$$ \colorbox{c4}{$B$}' \left[e,a | j,i,g,f \right] =  \min\begin{cases}\colorbox{c4}{$B$}'[ e+1 , a|j,i,g,f ], &\text{if } e+1 \notin\{ a , j,i,g,f \} \\\end{cases}$$
-$$ \colorbox{c4}{$B$} \left[e,a | j,i,g,f \right] =  \min\begin{cases}\colorbox{c4}{$B$}[ e , a-1|j,i,g,f ], &\text{if } a-1 ,\notin\{ e , j,i,g,f \} \\\colorbox{c4}{$B$}'[ e+1 , a|j,i,g,f ], &\text{if } e+1 \notin\{ a , j,i,g,f \} \\\colorbox{c4}{$B$}[ e+1 , a-1|j,i,g,f ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ j,i,g,f \}=\emptyset,\\C[1,g,i,f,17,j]\end{cases}$$
-$$ C\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
-$$ D\left[ a,g,h,j \right] =\min_{  } \left( \colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
+$$ A =\min_{ g,h,j } \left( B[g,h,a,j]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[a,e|g,i,f,j]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
+$$ \colorbox{c4}{$C$}' \left[a,e | g,i,f,j \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ a , e-1|g,i,f,j ], &\text{if } e-1 ,\notin\{ a , g,i,f,j \} \\\colorbox{c4}{$C$}[ a+1 , e-1|g,i,f,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ g,i,f,j \}=\emptyset\end{cases}$$
+$$ \colorbox{c4}{$C$} \left[a,e | g,i,f,j \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ a+1 , e|g,i,f,j ], &\text{if } a+1 \notin\{ e , g,i,f,j \} \\\colorbox{c4}{$C$}'[ a , e-1|g,i,f,j ], &\text{if } e-1 ,\notin\{ a , g,i,f,j \} \\\colorbox{c4}{$C$}[ a+1 , e-1|g,i,f,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ g,i,f,j \}=\emptyset,\\D[1,i,f,17,g,j]\end{cases}$$
+$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
 \end{document}

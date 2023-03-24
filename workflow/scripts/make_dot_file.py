@@ -24,7 +24,7 @@ root = open(snakemake.input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
 for line in open(snakemake.input.tdname).readlines():
     if line[0]=='b':
         started_bs = True
-        index2bag[line.split(' ')[1].replace('-','_')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:-1]]
+        index2bag[line.split(' ')[1].replace('-','_').rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:]]
 
     else:
         if started_bs:
@@ -146,6 +146,7 @@ while len(queue) > 0:
             label += " "+boldified(c, all_extremities)
 
     else:
+        print(u,index2bag[u])
         for c in index2bag[u]:
             label += " "+boldified(c, all_extremities)
 #    if u[0]=='H':
@@ -154,7 +155,7 @@ while len(queue) > 0:
 #    else:
     label += "}>"
     print("    ",u,'[shape=record,label=',label,'];', file=f)
-    if u.split('_')[0]!=prev.split('_')[0]:
+    if u.split('_')[0]!=prev.split('_')[0] and prev!='-1':
         print("    ",prev," -> ",u+';',file=f)
 
     for v in adj[u]:
