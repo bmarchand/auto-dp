@@ -28,7 +28,7 @@ digraph G {
      -1  ->  1;
      H2_0 [shape=record,label= <{ <b>a </b> <b>b </b> <b>d </b> <b>e </b>}> ];
      1  ->  H2_0;
-     H1_0 [shape=record,label= <{  <FONT COLOR="RED"><b>E</b></FONT> <b>f </b> <b>e </b> <b>b </b>| }> ];
+     H1_0 [shape=record,label= <{  <FONT COLOR="RED"><b>E</b></FONT> <b>e </b> <b>b </b> <b>f </b>| }> ];
      1  ->  H1_0;
      H1_5 [shape=record,label= <{  <FONT COLOR="RED"><b>F</b></FONT> <b>e </b>| }> ];
      14 [shape=record,label= <{  <FONT COLOR="RED"><b>G</b></FONT> <b>a </b> <b>d </b> <b>f </b> <b><FONT COLOR="DARKGREEN">g </FONT></b>}> ];

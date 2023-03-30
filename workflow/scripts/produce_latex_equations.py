@@ -64,7 +64,7 @@ print('first and last anchors, already given: $',tree_dec.ext_to_letter[first_an
 tree_dec.set_dp_tables()
 
 for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
-    print(prev, u)
+    print("",prev, u)
     print(u,tree_dec.equations[u].latex_print({},tree_dec.ext_to_letter))
     if tree_dec.bag_type[u]==BagType.DIAG_FIRST:
 
@@ -83,14 +83,14 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
         variables = [tree_dec.ext_to_letter[e] for e in equation.variable_indices]
 
         print('$$', equation.latex_name+"'", '\\left[', file=f, end="")
-        print(",".join(variables),"|",",".join(const),'\\right]',file=f, end="")
+        print(",".join(variables),"\mid ",",".join(const),'\\right]',file=f, end="")
         print(' =  \\min\\begin{cases}', file=f, end="")
 
         if not equation.inward:
             print(equation.latex_name+"'"+'[',
                   variables[0]+equation.increments[0],
                   ',',
-                  variables[1]+'|'+",".join(const),
+                  variables[1]+'\mid '+",".join(const),
                   '], &\\text{if }',
                   variables[0]+equation.increments[0],
                   '\\notin\{',variables[1],
@@ -103,7 +103,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
             print(equation.latex_name+"'"+'[',
                   variables[0],
                   ',',
-                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  variables[1]+equation.increments[1]+'\mid '+",".join(const),
                   '], &\\text{if }',
                   variables[1]+equation.increments[1],
                   ',\\notin\{',
@@ -117,7 +117,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
             print(equation.latex_name+'[',
                   variables[0]+equation.increments[0],
                   ',',
-                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  variables[1]+equation.increments[1]+'\mid '+",".join(const),
                   ']+\\Delta G('+variables[0]+','+variables[1]+') &\\text{if }',
                   '\{',variables[0]+equation.increments[0],
                   ',',
@@ -130,14 +130,14 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
         print('$$',file=f)
         
         print('$$', equation.latex_name, '\\left[', file=f, end="")
-        print(",".join(variables),"|",",".join(const),'\\right]',file=f, end="")
+        print(",".join(variables),"\mid ",",".join(const),'\\right]',file=f, end="")
         print(' =  \\min\\begin{cases}', file=f, end="")
 
         if equation.inward:
 
             print(equation.latex_name+'[',
                   variables[0]+equation.increments[0],
-                  ',',variables[1]+'|'+",".join(const),
+                  ',',variables[1]+'\mid '+",".join(const),
                   '], &\\text{if }',
                   variables[0]+equation.increments[0],
                   '\\notin\{',variables[1],
@@ -148,7 +148,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
         else:
             print(equation.latex_name+'[',
                   variables[0],
-                  ',',variables[1]+equation.increments[1]+'|'+",".join(const),
+                  ',',variables[1]+equation.increments[1]+'\mid '+",".join(const),
                   '], &\\text{if }',
                   variables[1]+equation.increments[1],
                   ',\\notin\{',
@@ -160,7 +160,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
             print(equation.latex_name+"'"+'[',
                   variables[0]+equation.increments[0],
                   ',',
-                  variables[1]+'|'+",".join(const),
+                  variables[1]+'\mid '+",".join(const),
                   '], &\\text{if }',
                   variables[0]+equation.increments[0],
                   '\\notin\{',variables[1],
@@ -170,7 +170,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
             print(equation.latex_name+"'"+'[',
                   variables[0],
                   ',',
-                  variables[1]+equation.increments[1]+'|'+",".join(const),
+                  variables[1]+equation.increments[1]+'\mid '+",".join(const),
                   '], &\\text{if }',variables[1]+equation.increments[1],
                   ',\\notin\{',variables[0],
                   ",",
@@ -179,7 +179,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
         print(equation.latex_name+'[',
               variables[0]+equation.increments[0],
               ',',
-              variables[1]+equation.increments[1]+'|'+",".join(const),
+              variables[1]+equation.increments[1]+'\mid '+",".join(const),
               ']+\\Delta G('+variables[0]+','+variables[1]+') &\\text{if }',
               '\{',
               variables[0]+equation.increments[0],
@@ -195,7 +195,7 @@ for prev,u in tree_dec.dfs_edge_iterator(no_minus_one=False):
             for sub_eq in tree_dec.equations[equation.second_bag].subterms:
                 letter_table = {}
                 for e in equation.absent_indices:
-                    letter_table[e] = equation.subs_table[e]
+                    letter_table[e] = tree_dec.ext_to_letter[equation.subs_table[e]]
                 for e in equation.variable_indices:
                     letter_table[e] = tree_dec.ext_to_letter[e]+"'"
                 sub_terms.append(sub_eq.latex_print(letter_table, tree_dec.ext_to_letter))

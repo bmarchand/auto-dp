@@ -1,4 +1,4 @@
-int compute_MAINNAME(int V1, int V2, CONST_INT, line) {
+int compute_MAINNAME(int V1, int V2, CONST_INT) {
     if (MAINNAME[index_MAINNAME(V1,V2, CONST)] > INT_MIN) {
         return MAINNAME[index_MAINNAME(V1,V2, CONST)];
     }
@@ -28,9 +28,9 @@ int compute_MAINNAME(int V1, int V2, CONST_INT, line) {
     return min_value;
 } 
 
-int compute_MAINNAME2(int V1, int V2, CONST_INT, line) {
+int compute_MAINNAME2(int V1, int V2, CONST_INT) {
     if (MAINNAME2[index_MAINNAME(V1,V2, CONST)] > INT_MIN) {
-        return MAINNAME2[index_MAINNAME(V1,V2, CONST)]
+        return MAINNAME2[index_MAINNAME(V1,V2, CONST)];
     }
 
     int min_value = INT_MAX;
@@ -38,13 +38,13 @@ int compute_MAINNAME2(int V1, int V2, CONST_INT, line) {
     bool eq_some_const2 = V2_INC2_CONST_COMP;
 
     if (V2INC2 > V1 && !eq_some_const2) {
-        min_value = min(min_value, compute_MAINNAME2(V1, V2INC2, CONST);
+        min_value = min(min_value, compute_MAINNAME2(V1, V2INC2, CONST));
     }
     if (!eq_some_const1 && !eq_some_const2) {
         min_value = min(min_value, compute_MAINNAME(V1INC1, V2INC2, CONST)+bp_score(line[V1], 
                                                                                       line[V2]));
     }
 
-    MAINNAME2[index_MAINNAME2(V1,V2,CONST)] = min_value;
+    MAINNAME2[index_MAINNAME(V1,V2,CONST)] = min_value;
     return min_value;
 }

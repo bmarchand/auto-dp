@@ -23,9 +23,9 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , g $
-$$ A =\min_{ d } \left( \colorbox{c0}{$B$}[g,d|d,a]\right) $$
-$$ \colorbox{c0}{$B$}' \left[g,d | d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ g , d-1|d',a ], &\text{if } d-1 ,\notin\{ g , d',a \} \\\colorbox{c0}{$B$}[ g+1 , d-1|d',a ]+\Delta G(g,d) &\text{if } \{ g+1 , d-1 \}\cap \{ d',a \}=\emptyset\end{cases}$$
-$$ \colorbox{c0}{$B$} \left[g,d | d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ g+1 , d|d',a ], &\text{if } g+1 \notin\{ d , d',a \} \\\colorbox{c0}{$B$}'[ g , d-1|d',a ], &\text{if } d-1 ,\notin\{ g , d',a \} \\\colorbox{c0}{$B$}[ g+1 , d-1|d',a ]+\Delta G(g,d) &\text{if } \{ g+1 , d-1 \}\cap \{ d',a \}=\emptyset,\\\colorbox{c1}{$C$}[d',a|13,25]\end{cases}$$
-$$ \colorbox{c1}{$C$}' \left[d,a | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ d+1 , a|e,f ], &\text{if } d+1 \notin\{ a , e,f \} \\\end{cases}$$
-$$ \colorbox{c1}{$C$} \left[d,a | e,f \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ d , a-1|e,f ], &\text{if } a-1 ,\notin\{ d , e,f \} \\\colorbox{c1}{$C$}'[ d+1 , a|e,f ], &\text{if } d+1 \notin\{ a , e,f \} \\\colorbox{c1}{$C$}[ d+1 , a-1|e,f ]+\Delta G(d,a) &\text{if } \{ d+1 , a-1 \}\cap \{ e,f \}=\emptyset,\\\colorbox{c2}{$C_{\boxtimes}$}[1,13,e,f]\end{cases}$$
+$$ A =\min_{ d } \left( \colorbox{c0}{$B$}[d,g\mid d,a]\right) $$
+$$ \colorbox{c0}{$B$}' \left[d,g \mid  d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}'[ d , g-1\mid d',a ], &\text{if } g-1 ,\notin\{ d , d',a \} \\\colorbox{c0}{$B$}[ d+1 , g-1\mid d',a ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ d',a \}=\emptyset\end{cases}$$
+$$ \colorbox{c0}{$B$} \left[d,g \mid  d',a \right] =  \min\begin{cases}\colorbox{c0}{$B$}[ d+1 , g\mid d',a ], &\text{if } d+1 \notin\{ g , d',a \} \\\colorbox{c0}{$B$}'[ d , g-1\mid d',a ], &\text{if } g-1 ,\notin\{ d , d',a \} \\\colorbox{c0}{$B$}[ d+1 , g-1\mid d',a ]+\Delta G(d,g) &\text{if } \{ d+1 , g-1 \}\cap \{ d',a \}=\emptyset,\\\colorbox{c1}{$C$}[d',a\mid g,d]\end{cases}$$
+$$ \colorbox{c1}{$C$}' \left[d,a \mid  f,e \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ d , a-1\mid f,e ], &\text{if } a-1 ,\notin\{ d , f,e \} \\\colorbox{c1}{$C$}[ d+1 , a-1\mid f,e ]+\Delta G(d,a) &\text{if } \{ d+1 , a-1 \}\cap \{ f,e \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$C$} \left[d,a \mid  f,e \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ d+1 , a\mid f,e ], &\text{if } d+1 \notin\{ a , f,e \} \\\colorbox{c1}{$C$}'[ d , a-1\mid f,e ], &\text{if } a-1 ,\notin\{ d , f,e \} \\\colorbox{c1}{$C$}[ d+1 , a-1\mid f,e ]+\Delta G(d,a) &\text{if } \{ d+1 , a-1 \}\cap \{ f,e \}=\emptyset,\\\colorbox{c2}{$C_{\boxtimes}$}[a,d,e,f]\end{cases}$$
 \end{document}

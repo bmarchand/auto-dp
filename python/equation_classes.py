@@ -42,11 +42,16 @@ class CommonEquationFeatures():
     # common methods
     
     def c_index_function(self, ext_to_letter):
-        indices = self.sorted_indices()
-        indices = [ext_to_letter[i] for i in indices]
+        indices_raw = [ext_to_letter[v] for v in self.sorted_indices()]
+        indices = []
+        for k, i in enumerate(indices_raw):
+            if i in indices_raw[:k]:
+                indices.append(i+'2')
+            else:
+                indices.append(i)
         indent = "    "
         res = "".join(["int index_",self.main_name])
-        res += "("+",".join(['int n']+['int '+i for i in indices])+')  {\n'
+        res += "("+",".join(['int '+i for i in indices])+')  {\n'
         res += indent+'return '
         terms = []
         for k, index in enumerate(indices):
@@ -56,11 +61,16 @@ class CommonEquationFeatures():
         return res
 
     def c_index_fun_signature(self, ext_to_letter):
-        indices = self.sorted_indices()
-        indices = [ext_to_letter[i] for i in indices]
+        indices_raw = [ext_to_letter[v] for v in self.sorted_indices()]
+        indices = []
+        for k, i in enumerate(indices_raw):
+            if i in indices_raw[:k]:
+                indices.append(i+'2')
+            else:
+                indices.append(i)
         indent = "    "
         res = "".join(["int index_",self.main_name])
-        res += "("+",".join(['int n']+['int '+i for i in indices])+');'
+        res += "("+",".join(['int '+i for i in indices])+');'
         return res
 
     def c_int_indices(self, ext_to_letter):
@@ -80,7 +90,7 @@ class CommonEquationFeatures():
                 res += "".join(["for (int ",index,"=0;",index,"<n;",index,"++) {\n"])
             else:
                 res += "".join(["for (int ",index,"=",indices[k-1],";",index,"<n;",index,"++) {\n"])
-        res+= (len(indices)+1)*indent+self.main_name+'[index_'+self.main_name+'('+",".join(['n']+indices)+')] = INT_MIN;\n' 
+        res+= (len(indices)+1)*indent+self.main_name+'[index_'+self.main_name+'('+",".join(indices)+')] = INT_MIN;\n' 
         for k in range(len(indices),-1,-1):
             res += k*indent+'}\n'
 
@@ -135,7 +145,7 @@ class TransitionalEquation(CommonEquationFeatures):
         return "".join(["free(",self.main_name,");"])
 
     def sorted_indices(self):
-        return sorted(list(self.indices))
+        return sorted(list(self.indices),key=lambda x: int(x))
 
     def c_code_print(self, letter_table, ext_to_letter):
         for e in self.indices:
@@ -191,6 +201,7 @@ class CliqueCaseHelix(CommonEquationFeatures):
     
     def latex_print(self, letter_table, ext_to_letter):
 
+
         for e in self.indices:
             if e not in letter_table.keys():
                 letter_table[e] = ext_to_letter[e]
@@ -212,7 +223,7 @@ class DiagCaseHelix(CommonEquationFeatures):
         self.main_name = ""
         self.latex_name = ""
 
-        # the ones before the |
+        # the ones before the \mid
         self.variable_indices = []
 
         # absent indices
@@ -221,7 +232,7 @@ class DiagCaseHelix(CommonEquationFeatures):
         # to connect the two
         self.corresponding_variable = {}
 
-        # the ones after the | (the constraints, constant)
+        # the ones after the \mid (the constraints, constant)
         self.constant_indices = []
 
         # whether the variable indices get a +1 (external bp) or -1 (internal)
@@ -247,11 +258,12 @@ class DiagCaseHelix(CommonEquationFeatures):
     
     def c_allocation_print(self):
         total_size = '*'.join(['n' for _ in range(len(self.variable_indices)+len(self.constant_indices))])
-        res = "double * "+self.main_name+" = malloc("+total_size+"*sizeof(double));"
+        res = "double * "+self.main_name+" = malloc("+total_size+"*sizeof(double));\n"
+        res += "double * "+self.main_name+"2 = malloc("+total_size+"*sizeof(double));"
         return res
     
     def sorted_indices(self):
-        return sorted(list(self.variable_indices) + list(self.constant_indices))
+        return sorted(list(self.variable_indices), key=lambda x : int(x)) + sorted(list(self.constant_indices),key=lambda x: int(x))
     
     def c_free_print(self):
         return "".join(["free(",self.main_name,");"])
@@ -270,7 +282,7 @@ class DiagCaseHelix(CommonEquationFeatures):
 
         res = self.latex_name+'['
         res += ','.join([letter_table[e] for e in self.variable_indices])
-        res += '|'
+        res += '\mid '
         res += ','.join([letter_table[e] for e in self.constant_indices])
         res += ']'
 

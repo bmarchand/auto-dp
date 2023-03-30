@@ -30,7 +30,7 @@ digraph G {
      14  ->  1;
      H2_0 [shape=record,label= <{ <b>1</b> <b>5</b> <b>13</b> <b>17</b>}> ];
      1  ->  H2_0;
-     H1_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>5</b> <b>21</b>|  <b>17</b>}> ];
+     H1_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>21</b> <b>5</b>|  <b>17</b>}> ];
      1  ->  H1_0;
      H1_5 [shape=record,label= <{ <b>9</b> <b>17</b>|  <b>17</b>}> ];
      H0_0 [shape=record,label= <{  <FONT COLOR="RED">D</FONT> <b>13</b> <b>21</b>|  <b>13</b> <b>21</b>}> ];

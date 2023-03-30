@@ -23,9 +23,9 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , k $
-$$ A =\min_{ g,h,j } \left( B[g,h,a,j]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
-$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[a,e|g,i,f,j]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
-$$ \colorbox{c4}{$C$}' \left[a,e | g,i,f,j \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ a , e-1|g,i,f,j ], &\text{if } e-1 ,\notin\{ a , g,i,f,j \} \\\colorbox{c4}{$C$}[ a+1 , e-1|g,i,f,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ g,i,f,j \}=\emptyset\end{cases}$$
-$$ \colorbox{c4}{$C$} \left[a,e | g,i,f,j \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ a+1 , e|g,i,f,j ], &\text{if } a+1 \notin\{ e , g,i,f,j \} \\\colorbox{c4}{$C$}'[ a , e-1|g,i,f,j ], &\text{if } e-1 ,\notin\{ a , g,i,f,j \} \\\colorbox{c4}{$C$}[ a+1 , e-1|g,i,f,j ]+\Delta G(a,e) &\text{if } \{ a+1 , e-1 \}\cap \{ g,i,f,j \}=\emptyset,\\D[1,i,f,17,g,j]\end{cases}$$
+$$ A =\min_{ g,h,j } \left( B[h,g,j,a]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[e,a\mid i,g,j,f]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
+$$ \colorbox{c4}{$C$}' \left[e,a \mid  i,g,j,f \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ e , a-1\mid i,g,j,f ], &\text{if } a-1 ,\notin\{ e , i,g,j,f \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid i,g,j,f ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ i,g,j,f \}=\emptyset\end{cases}$$
+$$ \colorbox{c4}{$C$} \left[e,a \mid  i,g,j,f \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ e+1 , a\mid i,g,j,f ], &\text{if } e+1 \notin\{ a , i,g,j,f \} \\\colorbox{c4}{$C$}'[ e , a-1\mid i,g,j,f ], &\text{if } a-1 ,\notin\{ e , i,g,j,f \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid i,g,j,f ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ i,g,j,f \}=\emptyset,\\D[g,f,e,j,i,a]\end{cases}$$
 $$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
 \end{document}
