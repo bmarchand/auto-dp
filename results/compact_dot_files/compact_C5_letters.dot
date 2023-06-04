@@ -42,21 +42,21 @@ digraph G {
     }
      1 [shape=record,label= <{  <FONT COLOR="RED"><b>E</b></FONT> <b><FONT COLOR="DARKGREEN">a </FONT></b> <b><FONT COLOR="DARKGREEN">e </FONT></b> <b><FONT COLOR="DARKGREEN">f </FONT></b> <b><FONT COLOR="DARKGREEN">g </FONT></b> <b><FONT COLOR="DARKGREEN">h </FONT></b> <b><FONT COLOR="DARKGREEN">i </FONT></b>}> ];
      -1  ->  1;
-     H4_0 [shape=record,label= <{  <FONT COLOR="RED"><b>F</b></FONT> <b>a </b> <b>e </b>|  <b>i </b> <b>f </b> <b>g </b>}> ];
+     H4_0 [shape=record,label= <{  <FONT COLOR="RED"><b>F</b></FONT> <b>e </b> <b>a </b>|  <b>i </b> <b>g </b> <b>f </b>}> ];
      1  ->  H4_0;
      6 [shape=record,label= <{  <FONT COLOR="RED"><b>G</b></FONT> <b>a </b> <b>f </b> <b>g </b> <b>i </b> <b><FONT COLOR="DARKGREEN">j </FONT></b> <b>e </b>}> ];
      H4_0  ->  6;
-     H1_0 [shape=record,label= <{  <FONT COLOR="RED"><b>H</b></FONT> <b>a </b> <b>g </b> <b>f </b>| }> ];
+     H1_0 [shape=record,label= <{  <FONT COLOR="RED"><b>H</b></FONT> <b>f </b> <b>g </b> <b>a </b>| }> ];
      6  ->  H1_0;
-     H1_5 [shape=record,label= <{  <FONT COLOR="RED"><b>I</b></FONT> <b>a </b> <b>f </b>| }> ];
-     H2_0 [shape=record,label= <{  <FONT COLOR="RED"><b>J</b></FONT> <b>j </b> <b>i </b> <b>e </b>| }> ];
+     H1_5 [shape=record,label= <{  <FONT COLOR="RED"><b>I</b></FONT> <b>f </b> <b>a </b>| }> ];
+     H2_0 [shape=record,label= <{  <FONT COLOR="RED"><b>J</b></FONT> <b>j </b> <b>e </b> <b>i </b>| }> ];
      6  ->  H2_0;
      H2_5 [shape=record,label= <{  <FONT COLOR="RED"><b>K</b></FONT> <b>i </b>| }> ];
      H3_0 [shape=record,label= <{ <b>e </b> <b>f </b> <b>h </b> <b>i </b>}> ];
      1  ->  H3_0;
      31 [shape=record,label= <{  <FONT COLOR="RED"><b>L</b></FONT> <b>a </b> <b>g </b> <b>h </b> <b><FONT COLOR="DARKGREEN">j </FONT></b>}> ];
      1  ->  31;
-     H0_0 [shape=record,label= <{  <FONT COLOR="RED"><b>M</b></FONT> <b>g </b> <b>j </b> <b>h </b>| }> ];
+     H0_0 [shape=record,label= <{  <FONT COLOR="RED"><b>M</b></FONT> <b>j </b> <b>g </b> <b>h </b>| }> ];
      31  ->  H0_0;
      H0_5 [shape=record,label= <{  <FONT COLOR="RED"><b>N</b></FONT> <b>j </b> <b>h </b>| }> ];
      _1 [shape=record,label= <{  <FONT COLOR="RED"><b>O</b></FONT>}> ];

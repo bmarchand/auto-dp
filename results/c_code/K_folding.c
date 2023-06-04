@@ -48,16 +48,12 @@ double * C2 = malloc(n*n*n*n*sizeof(double));
     init_fill_C();
     init_fill_CLIQUE();
     int score = fold();
+    char * structure = NULL;
+    structure = backtrace();
     free(B);
     free(C);
     free(CLIQUE);
 }
-int fold() {
-    compute_A();
-    }
-
-int compute_CLIQUE2(int i, int j, int k, int l);
-
 int bp_score(char x, char y) {
     if (x=='G' && y=='C') { return 10; }
     if (x=='C' && y=='G') { return 10; }
@@ -67,6 +63,11 @@ int bp_score(char x, char y) {
     if (x=='U' && y=='A') { return 5; }
     return 0;
 }
+int fold() {
+    compute_A();
+    }
+
+int compute_CLIQUE2(int i, int j, int k, int l);
 
 int compute_CLIQUE(int i, int j, int k, int l) {
     //C_boxtimes in article"
@@ -178,54 +179,54 @@ int compute_A() {
     return min_value;
 }
 
-int compute_B(int d, int g, int a,int d2) {
-    if (B[index_B(d,g, a,d2)] > INT_MIN) {
-        return B[index_B(d,g, a,d2)];
+int compute_B(int g, int d, int a,int d2) {
+    if (B[index_B(g,d, a,d2)] > INT_MIN) {
+        return B[index_B(g,d, a,d2)];
     }
 
     int min_value = INT_MAX;
-    bool eq_some_const1 = (g-1!=a) && (g-1!=d2);
-    bool eq_some_const2 = (g-1!=a) && (g-1!=d2);
+    bool eq_some_const1 = (d-1!=a) && (d-1!=d2);
+    bool eq_some_const2 = (d-1!=a) && (d-1!=d2);
 
-    if (d+1 < g) {
+    if (g+1 < d) {
         if (!eq_some_const1) {
-            min_value = min(min_value, compute_B(d+1,g,a,d2));
+            min_value = min(min_value, compute_B(g+1,d,a,d2));
         }
     }
-    if (g-1 > d) {
+    if (d-1 > g) {
         if (!eq_some_const2) {
-            min_value = min(min_value, compute_B2(d, g-1, a,d2));
+            min_value = min(min_value, compute_B2(g, d-1, a,d2));
         }
     }
     if (!eq_some_const1 && !eq_some_const2) {
-        min_value = min(min_value, compute_B(d+1, g-1, a,d2)+bp_score(line[d], 
-                                                                                      line[g]));
+        min_value = min(min_value, compute_B(g+1, d-1, a,d2)+bp_score(line[g], 
+                                                                                      line[d]));
     }
 
     min_value = min(min_value, compute_C(a,d2,13,25));
 
-    B[index_B(d,g,a,d2)] = min_value;
+    B[index_B(g,d,a,d2)] = min_value;
     return min_value;
 } 
 
-int compute_B2(int d, int g, int a,int d2) {
-    if (B2[index_B(d,g, a,d2)] > INT_MIN) {
-        return B2[index_B(d,g, a,d2)];
+int compute_B2(int g, int d, int a,int d2) {
+    if (B2[index_B(g,d, a,d2)] > INT_MIN) {
+        return B2[index_B(g,d, a,d2)];
     }
 
     int min_value = INT_MAX;
-    bool eq_some_const1 = (g-1!=a) && (g-1!=d2);
-    bool eq_some_const2 = (g-1!=a) && (g-1!=d2);
+    bool eq_some_const1 = (d-1!=a) && (d-1!=d2);
+    bool eq_some_const2 = (d-1!=a) && (d-1!=d2);
 
-    if (g-1 > d && !eq_some_const2) {
-        min_value = min(min_value, compute_B2(d, g-1, a,d2));
+    if (d-1 > g && !eq_some_const2) {
+        min_value = min(min_value, compute_B2(g, d-1, a,d2));
     }
     if (!eq_some_const1 && !eq_some_const2) {
-        min_value = min(min_value, compute_B(d+1, g-1, a,d2)+bp_score(line[d], 
-                                                                                      line[g]));
+        min_value = min(min_value, compute_B(g+1, d-1, a,d2)+bp_score(line[g], 
+                                                                                      line[d]));
     }
 
-    B2[index_B(d,g,a,d2)] = min_value;
+    B2[index_B(g,d,a,d2)] = min_value;
     return min_value;
 }
 

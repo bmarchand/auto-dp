@@ -40,12 +40,12 @@ digraph G {
      14  ->  1;
      H0_0 [shape=record,label= <{ <b>1</b> <b>5</b> <b>17</b> <b>21</b>}> ];
      1  ->  H0_0;
-     H2_0 [shape=record,label= <{  <FONT COLOR="RED">D</FONT> <b>25</b> <b>5</b>|  <b>21</b>}> ];
+     H2_0 [shape=record,label= <{  <FONT COLOR="RED">D</FONT> <b>5</b> <b>25</b>|  <b>21</b>}> ];
      1  ->  H2_0;
      H2_5 [shape=record,label= <{ <b>9</b> <b>21</b>|  <b>21</b>}> ];
-     H3_0 [shape=record,label= <{  <FONT COLOR="RED">E</FONT> <b>25</b> <b>13</b>|  <b>25</b> <b>13</b>}> ];
+     H3_0 [shape=record,label= <{  <FONT COLOR="RED">E</FONT> <b>13</b> <b>25</b>|  <b>13</b> <b>25</b>}> ];
      14  ->  H3_0;
-     H3_5 [shape=record,label= <{ <b>9</b> <b>29</b>|  <b>25</b> <b>13</b>}> ];
+     H3_5 [shape=record,label= <{ <b>9</b> <b>29</b>|  <b>13</b> <b>25</b>}> ];
      H1_0 [shape=record,label= <{  <FONT COLOR="RED">F</FONT> <b>29</b> <b>17</b>|  <b>29</b> <b>17</b>}> ];
      21  ->  H1_0;
      H1_5 [shape=record,label= <{ <b>13</b> <b>33</b>|  <b>29</b> <b>17</b>}> ];

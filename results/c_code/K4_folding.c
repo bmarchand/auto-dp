@@ -5,14 +5,17 @@
 
 int min(int a, int b) { if (a<b) {return a;} else {return b;}};
 
-int index_B(int a,int c,int d,int f);
+int index_B(int a,int d,int e,int h);
+int index_C(int a,int c,int e,int g);
 int index_CLIQUE(int i, int j, int k, int l);
 
 void init_fill_B();
+void init_fill_C();
 void init_fill_CLIQUE();
 
 int compute_A();
-int compute_B(int a,int c,int d,int f);
+int compute_B(int a,int d,int e,int h);
+int compute_C(int a,int c,int e,int g);
 int fold();
 
 int n;
@@ -20,6 +23,7 @@ int n;
 char * line = NULL;
 
 double * B;
+double * C;
 double * CLIQUE;
 double * CLIQUE2;
 
@@ -32,13 +36,16 @@ int main(int argc, char ** argv) {
     getline(&line, &len, fp); 
     printf("%s", line);
     double * B = malloc(n*n*n*n*sizeof(double));
+    double * C = malloc(n*n*n*n*sizeof(double));
     double * CLIQUE = malloc(n*n*n*n*sizeof(double));
     init_fill_B();
+    init_fill_C();
     init_fill_CLIQUE();
     int score = fold();
     char * structure = NULL;
     structure = backtrace();
     free(B);
+    free(C);
     free(CLIQUE);
 }
 int bp_score(char x, char y) {
@@ -106,18 +113,34 @@ int compute_CLIQUE2(int i, int j, int k, int l) {
 }
 void init_fill_B() {
     for (int a=0;a<n;a++) {
-        for (int c=a;c<n;c++) {
-            for (int d=c;d<n;d++) {
-                for (int f=d;f<n;f++) {
-                    B[index_B(a,c,d,f)] = INT_MIN;
+        for (int d=a;d<n;d++) {
+            for (int e=d;e<n;e++) {
+                for (int h=e;h<n;h++) {
+                    B[index_B(a,d,e,h)] = INT_MIN;
                 }
             }
         }
     }
 }
 
-int index_B(int a,int c,int d,int f)  {
-    return n*n*n*a+n*n*c+n*d+f;
+int index_B(int a,int d,int e,int h)  {
+    return n*n*n*a+n*n*d+n*e+h;
+}
+
+void init_fill_C() {
+    for (int a=0;a<n;a++) {
+        for (int c=a;c<n;c++) {
+            for (int e=c;e<n;e++) {
+                for (int g=e;g<n;g++) {
+                    C[index_C(a,c,e,g)] = INT_MIN;
+                }
+            }
+        }
+    }
+}
+
+int index_C(int a,int c,int e,int g)  {
+    return n*n*n*a+n*n*c+n*e+g;
 }
 
 void init_fill_CLIQUE() {
@@ -141,10 +164,10 @@ int compute_A() {
     
     for (int a=0;a<n;a++) {
         for (int d=a;d<n;d++) {
-            for (int f=d;f<n;f++) {
-                for (int g=f;g<n;g++) {
-                    for (int c=g;c<n;c++) {
-                        min_value = min(min_value, compute_B(d,c,a,f)+compute_CLIQUE(c,d,f,g));
+            for (int e=d;e<n;e++) {
+                for (int h=e;h<n;h++) {
+                    for (int i=h;i<n;i++) {
+                        min_value = min(min_value, compute_B(a,d,h,e)+compute_CLIQUE(d,e,h,i));
                     }
                 }
             }
@@ -154,22 +177,40 @@ int compute_A() {
     return min_value;
 }
 
-int compute_B(int a,int c,int d,int f) {
-    if (B[index_B(a,c,d,f)] > INT_MIN) {
-        return B[index_B(a,c,d,f)];
+int compute_B(int a,int d,int e,int h) {
+    if (B[index_B(a,d,e,h)] > INT_MIN) {
+        return B[index_B(a,d,e,h)];
     }
     
     int min_value = INT_MAX;
     
-    for (int e=d;e<f;e++) {
-        for (int b=e;b<c;b++) {
-            min_value = min(min_value, compute_CLIQUE(a,b,d,e)+compute_CLIQUE(b,c,e,f));
+    for (int g=e;g<h;g++) {
+        for (int c=g;c<n;c++) {
+            min_value = min(min_value, compute_C(g,a,c,e)+compute_CLIQUE(c,d,g,h));
         }
     }
 
-    B[index_B(a,c,d,f)] = min_value;
+    B[index_B(a,d,e,h)] = min_value;
     return min_value;
 }
+
+int compute_C(int a,int c,int e,int g) {
+    if (C[index_C(a,c,e,g)] > INT_MIN) {
+        return C[index_C(a,c,e,g)];
+    }
+    
+    int min_value = INT_MAX;
+    
+    for (int f=e;f<g;f++) {
+        for (int b=f;b<c;b++) {
+            min_value = min(min_value, compute_CLIQUE(a,b,e,f)+compute_CLIQUE(b,c,f,g));
+        }
+    }
+
+    C[index_C(a,c,e,g)] = min_value;
+    return min_value;
+}
+
 
 
 

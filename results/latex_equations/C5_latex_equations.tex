@@ -23,9 +23,9 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , k $
-$$ A =\min_{ g,h,j } \left( B[h,g,j,a]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
-$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[e,a\mid i,g,j,f]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
-$$ \colorbox{c4}{$C$}' \left[e,a \mid  i,g,j,f \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ e , a-1\mid i,g,j,f ], &\text{if } a-1 ,\notin\{ e , i,g,j,f \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid i,g,j,f ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ i,g,j,f \}=\emptyset\end{cases}$$
-$$ \colorbox{c4}{$C$} \left[e,a \mid  i,g,j,f \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ e+1 , a\mid i,g,j,f ], &\text{if } e+1 \notin\{ a , i,g,j,f \} \\\colorbox{c4}{$C$}'[ e , a-1\mid i,g,j,f ], &\text{if } a-1 ,\notin\{ e , i,g,j,f \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid i,g,j,f ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ i,g,j,f \}=\emptyset,\\D[g,f,e,j,i,a]\end{cases}$$
+$$ A =\min_{ g,h,j } \left( B[g,j,a,h]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
+$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[e,a\mid g,j,f,i]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
+$$ \colorbox{c4}{$C$}' \left[e,a \mid  g,j,f,i \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ e , a-1\mid g,j,f,i ], &\text{if } a-1 ,\notin\{ e , g,j,f,i \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid g,j,f,i ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ g,j,f,i \}=\emptyset\end{cases}$$
+$$ \colorbox{c4}{$C$} \left[e,a \mid  g,j,f,i \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ e+1 , a\mid g,j,f,i ], &\text{if } e+1 \notin\{ a , g,j,f,i \} \\\colorbox{c4}{$C$}'[ e , a-1\mid g,j,f,i ], &\text{if } a-1 ,\notin\{ e , g,j,f,i \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid g,j,f,i ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ g,j,f,i \}=\emptyset,\\D[i,g,a,e,j,f]\end{cases}$$
 $$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
 \end{document}

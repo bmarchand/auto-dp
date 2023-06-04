@@ -31,13 +31,9 @@ int main(int argc, char ** argv) {
     init_fill_CLIQUE();
     int score = fold();
     char * structure = NULL;
-    stucture = backtrace();
+    structure = backtrace();
     free(CLIQUE);
 }
-int fold() {
-    compute_A();
-    }
-
 int bp_score(char x, char y) {
     if (x=='G' && y=='C') { return 10; }
     if (x=='C' && y=='G') { return 10; }
@@ -47,6 +43,10 @@ int bp_score(char x, char y) {
     if (x=='U' && y=='A') { return 5; }
     return 0;
 }
+int fold() {
+    compute_A();
+    }
+
 int compute_CLIQUE2(int i, int j, int k, int l);
 
 int compute_CLIQUE(int i, int j, int k, int l) {

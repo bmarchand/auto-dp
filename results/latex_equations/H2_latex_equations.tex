@@ -23,7 +23,5 @@
 \end{figure}
 \end{center}
 first and last anchors, already given: $ a , e $
-$$ A =\min_{ d } \left( \colorbox{c1}{$B$}[a,d\mid d,e]\right) $$
-$$ \colorbox{c1}{$B$}' \left[a,d \mid  d',e \right] =  \min\begin{cases}\colorbox{c1}{$B$}'[ a+1 , d\mid d',e ], &\text{if } a+1 \notin\{ d , d',e \} \\\end{cases}$$
-$$ \colorbox{c1}{$B$} \left[a,d \mid  d',e \right] =  \min\begin{cases}\colorbox{c1}{$B$}[ a , d-1\mid d',e ], &\text{if } d-1 ,\notin\{ a , d',e \} \\\colorbox{c1}{$B$}'[ a+1 , d\mid d',e ], &\text{if } a+1 \notin\{ d , d',e \} \\\colorbox{c1}{$B$}[ a+1 , d-1\mid d',e ]+\Delta G(a,d) &\text{if } \{ a+1 , d-1 \}\cap \{ d',e \}=\emptyset,\\\colorbox{c0}{$C_{\boxtimes}$}[a,d,d',e]\end{cases}$$
+$$ A =\min_{ b,c,d } \left( \colorbox{c1}{$C_{\boxtimes}$}[a,b,c,d]+\colorbox{c0}{$C_{\boxtimes}$}[b,c,d,e]\right) $$
 \end{document}
