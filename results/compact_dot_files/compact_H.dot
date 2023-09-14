@@ -5,25 +5,21 @@ digraph G {
         labeljust="l";
         style=filled;
         color="#8DD3C7";
-        H0_0 -> H0_5;
-        label="H0 (5-9-13-17) (diag)";
+        H0_0;
+        label="H0 (5-9-13-17) (clique)";
     }
     subgraph cluster1 {
         node [style=filled,fillcolor=white];
         labeljust="l";
         style=filled;
         color="#FFFFB3";
-        H1_0 -> H1_5;
-        label="H1 (1-5-9-13) (diag)";
+        H1_0;
+        label="H1 (1-5-9-13) (clique)";
     }
-     1 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">13</FONT>  <FONT COLOR="DARKGREEN">17</FONT>  <FONT COLOR="DARKGREEN">5</FONT>}> ];
+     1 [shape=record,label= <{  <FONT COLOR="RED">A</FONT>  <FONT COLOR="DARKGREEN">1</FONT>  <FONT COLOR="DARKGREEN">5</FONT>  <FONT COLOR="DARKGREEN">9</FONT>  <FONT COLOR="DARKGREEN">13</FONT> <FONT COLOR="DARKGREEN">17</FONT>}>  ];
      -1  ->  1;
-     H1_0 [shape=record,label= <{  <FONT COLOR="RED">B</FONT> <b>1</b> <b>13</b>|  <b>5</b>}> ];
+     H1_0 [shape=record,label= <{  <FONT COLOR="RED">B</FONT> <b>1</b> <b>5</b>  <b>9</b> <b>13</b>}> ];
      1  ->  H1_0;
-     H1_5 [shape=record,label= <{ <b>5</b> <b>9</b>|  <b>5</b>}> ];
-     H0_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>5</b> <b>17</b>|  <b>13</b>}> ];
+     H0_0 [shape=record,label= <{  <FONT COLOR="RED">C</FONT> <b>5</b>  <b>9</b> <b>13</b> <b>17</b>}> ];
      1  ->  H0_0;
-     H0_5 [shape=record,label= <{ <b>9</b> <b>13</b>|  <b>13</b>}> ];
-     _1 [shape=record,label= <{  <FONT COLOR="RED">D</FONT>}> ];
-     1  ->  _1;
 }
