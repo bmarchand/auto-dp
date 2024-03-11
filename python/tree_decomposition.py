@@ -160,7 +160,7 @@ class TreeDecomposition(TreeOfBags):
     
         while cur_i < ip or cur_j > jp:
             prev_bag = cur_bag
-            cur_bag = helixname +'-'+ str(cnt)
+            cur_bag = helixname +'_'+ str(cnt)
             if i_turn:
                 self.bag_content[cur_bag] = list(const) + [str(cur_i), str(cur_j), str(cur_i+1)]
                 self.bag_adj[prev_bag].append(cur_bag)
@@ -213,7 +213,7 @@ class TreeDecomposition(TreeOfBags):
         cur_j = j
         cnt = 0
         prev_bag = subtree_root
-        cur_bag = helixname+'-'+str(cnt)
+        cur_bag = helixname+'_'+str(cnt)
         iturn = True
         const = [str(ip),str(jp)]
     
@@ -229,7 +229,7 @@ class TreeDecomposition(TreeOfBags):
                 cur_i += 1
                 prev_bag = cur_bag
                 cnt += 1
-                cur_bag = helixname+'-'+str(cnt)
+                cur_bag = helixname+'_'+str(cnt)
                 iturn = False
             else:
                 #jturn, build
@@ -242,7 +242,7 @@ class TreeDecomposition(TreeOfBags):
                 cur_j -= 1
                 prev_bag = cur_bag
                 cnt += 1
-                cur_bag = helixname+'-'+str(cnt)
+                cur_bag = helixname+'_'+str(cnt)
                 iturn = True
 
     def take_clique_minor(self, i, ip, jp, j, mid_point, ksupm):

@@ -22,6 +22,9 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_H2.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , e $
-$$ A =\min_{ b,c,d } \left( \colorbox{c1}{$C_{\boxtimes}$}[a,b,c,d]+\colorbox{c0}{$C_{\boxtimes}$}[b,c,d,e]\right) $$
+first and last anchors, already given: $ a , h $
+$$ A =\min_{ c,d,f } \left( B[h,f,d,c]+\colorbox{c1}{$C$}[f,a\mid c,d]\right) $$
+$$ B\left[ c,d,f,h \right] =\min_{ g } \left( \colorbox{c0}{$C_{\boxtimes}$}[c,d,g,h]\right) $$
+$$ \colorbox{c1}{$C$}' \left[f,a \mid  c,d \right] =  \min\begin{cases}\colorbox{c1}{$C$}'[ f+1 , a\mid c,d ], &\text{if } f+1 \notin\{ a , c,d \} \\\end{cases}$$
+$$ \colorbox{c1}{$C$} \left[f,a \mid  c,d \right] =  \min\begin{cases}\colorbox{c1}{$C$}[ f , a-1\mid c,d ], &\text{if } a-1 ,\notin\{ f , c,d \} \\\colorbox{c1}{$C$}'[ f+1 , a\mid c,d ], &\text{if } f+1 \notin\{ a , c,d \} \\\colorbox{c1}{$C$}[ f+1 , a-1\mid c,d ]+\Delta G(f,a) &\text{if } \{ f+1 , a-1 \}\cap \{ c,d \}=\emptyset\end{cases}$$
 \end{document}

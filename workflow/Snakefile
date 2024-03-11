@@ -4,19 +4,19 @@ shadows = ['H','H2','K','L','M','C5','K4','K5']
 
 rule all:
     input:
-        expand('results/processed_td_files/processed_{family}.td', family=shadows),
-        expand('results/td_files/{shadow}.td', shadow=shadows),
-        expand('results/elim_order/{shadow}.order', shadow=shadows),
-        expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
+#        expand('results/processed_td_files/processed_{family}.td', family=shadows),
+#        expand('results/td_files/{shadow}.td', shadow=shadows),
+#        expand('results/elim_order/{shadow}.order', shadow=shadows),
+#        expand('results/td_images/processed_{shadow}.pdf', shadow=shadows),
 #        expand('results/decomposition_schemes/decomposition_{shadow}.pdf', shadow=shadows),
-        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
-        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
-        expand('results/colored_dbn/band_diagram_{shadow}.pdf',shadow=shadows),
+#        expand('results/td_images/unprocessed_{shadow}.pdf', shadow=shadows),
+#        expand('results/colored_dbn/colored_dbn_{shadow}.pdf',shadow=shadows),
+#        expand('results/colored_dbn/band_diagram_{shadow}.pdf',shadow=shadows),
 #        expand('results/compact_td_images/compact_{shadow}.pdf',shadow=shadows),
 #        expand('results/compact_td_images/compact_{shadow}_letters.pdf',shadow=shadows),
 #        expand('results/compact_td_images/compact_{shadow}_equations.pdf',shadow=shadows),
-        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows),
-        expand('results/binaries/{shadow}_folding',shadow=shadows),
+#        expand('results/latex_equations/{shadow}_latex_equations.pdf',shadow=shadows),
+#        expand('results/binaries/{shadow}_folding',shadow=shadows),
         expand('results/concatenations/concatenation_{shadow}.pdf',shadow=shadows),
         'results/state_of_the_results.pdf'
 
@@ -164,6 +164,7 @@ rule extract_elimination_ordering:
     script:
         'scripts/td_to_elim.py'
 
+# calling Tamaki's solver on the graph
 rule compute_td:
     input:
         'results/gr_files/{shadow}.gr'
@@ -180,6 +181,7 @@ rule from_td_to_dot:
     script: 
         'scripts/from_pace_td_to_td1dot.py'
 
+# from fatgraph input to graph of minimal expansion
 rule extract_gr:
     input:
         'resources/dbn_files/{shadow}.dbn'
@@ -196,9 +198,10 @@ rule extract_helices:
     script:
         "scripts/annotate_helices.py"
 
+# the most important rule. Makes the tree decomposition canonical.
 rule process_helices:
     input:
-        dbn='resources/dbn_files/{shadow}.dbn',
+        dbn='resources/dbn_files/{shadow}.dbn', 
         tdname='results/td_files/{shadow}.td',
         helix='results/helix_annotations/{shadow}.helix'
     output:

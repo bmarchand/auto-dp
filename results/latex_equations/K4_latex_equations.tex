@@ -22,8 +22,15 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_K4.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , i $
-$$ A =\min_{ d,e,h } \left( B[a,d,h,e]+\colorbox{c1}{$C_{\boxtimes}$}[d,e,h,i]\right) $$
-$$ B\left[ a,d,e,h \right] =\min_{ c,g } \left( C[a,c,g,e]+\colorbox{c3}{$C_{\boxtimes}$}[c,d,g,h]\right) $$
-$$ C\left[ a,c,e,g \right] =\min_{ b,f } \left( \colorbox{c0}{$C_{\boxtimes}$}[a,b,e,f]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,f,g]\right) $$
+first and last anchors, already given: $ a , p $
+$$ \colorbox{c1}{$A$}' \left[p,g \mid  a,f \right] =  \min\begin{cases}\colorbox{c1}{$A$}'[ p , g-1\mid a,f ], &\text{if } g-1 ,\notin\{ p , a,f \} \\\colorbox{c1}{$A$}[ p+1 , g-1\mid a,f ]+\Delta G(p,g) &\text{if } \{ p+1 , g-1 \}\cap \{ a,f \}=\emptyset\end{cases}$$
+$$ \colorbox{c1}{$A$} \left[p,g \mid  a,f \right] =  \min\begin{cases}\colorbox{c1}{$A$}[ p+1 , g\mid a,f ], &\text{if } p+1 \notin\{ g , a,f \} \\\colorbox{c1}{$A$}'[ p , g-1\mid a,f ], &\text{if } g-1 ,\notin\{ p , a,f \} \\\colorbox{c1}{$A$}[ p+1 , g-1\mid a,f ]+\Delta G(p,g) &\text{if } \{ p+1 , g-1 \}\cap \{ a,f \}=\emptyset,\\B[f,g,a,p]\end{cases}$$
+$$ B\left[ a,f,h,o \right] =\min_{ n } \left( C[f,h,a,n]\right) $$
+$$ C\left[ a,f,h,n \right] =\min_{ e,m } \left( D[m,h,a,e]+\colorbox{c2}{$C_{\boxtimes}$}[e,f,m,n]\right) $$
+$$ D\left[ a,e,h,m \right] =\min_{ c,j } \left( E[c,m,j,e]+H[c,j,h,a]\right) $$
+$$ E\left[ c,e,j,m \right] =\min_{ l } \left( F[c,j,l,e]\right) $$
+$$ F\left[ c,e,j,l \right] =\min_{ d } \left( G[c,j,l,d]\right) $$
+$$ G\left[ c,d,j,l \right] =\min_{ k } \left( \colorbox{c3}{$C_{\boxtimes}$}[c,d,k,l]\right) $$
+$$ H\left[ a,c,h,j \right] =\min_{ i } \left( I[c,j,i,a]\right) $$
+$$ I\left[ a,c,i,j \right] =\min_{ b } \left( \colorbox{c0}{$C_{\boxtimes}$}[a,b,i,j]\right) $$
 \end{document}

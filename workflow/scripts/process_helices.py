@@ -28,7 +28,7 @@ vert_above = tree_dec.vertices_above
 
 width = max([len(val) for key, val in tree_dec.bag_content.items()])-1
 
-# helix processing
+# helix processing (for loop over helices).
 for hline in open(snakemake.input.helix).readlines():
 
     processed = False
@@ -37,8 +37,8 @@ for hline in open(snakemake.input.helix).readlines():
     helixname = hline.split(' ')[0]
     print("helix ", hline)
 
-    i = int(extremities[0]) 
-    ip = int(extremities[1])
+    i = int(extremities[0])    # (((((....)))))
+    ip = int(extremities[1])   # i   ip   jp  j
     jp = int(extremities[2])
     j = int(extremities[3])
 

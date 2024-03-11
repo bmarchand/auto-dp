@@ -24,12 +24,12 @@ root = open(snakemake.input.tdname).readlines()[0].split(' ')[1].rstrip('\n')
 for line in open(snakemake.input.tdname).readlines():
     if line[0]=='b':
         started_bs = True
-        index2bag[line.split(' ')[1].replace('-','_').rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:]]
+        index2bag[line.split(' ')[1].rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:]]
 
     else:
         if started_bs:
-            i = line.split(' ')[0].replace('-','_')
-            j = line.split(' ')[1].rstrip('\n').replace('-','_')
+            i = line.split(' ')[0]
+            j = line.split(' ')[1].rstrip('\n')
             try:
                 adj[i].append(j)
             except KeyError:

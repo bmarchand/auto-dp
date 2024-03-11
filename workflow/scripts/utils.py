@@ -42,12 +42,12 @@ def read_td_lines(lines):
     for line in lines:
         if line[0]=='b':
             started_bs = True
-            index2bag[line.split(' ')[1].replace('-','_').rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:-1]]
+            index2bag[line.split(' ')[1].rstrip('\n')] = [vertex.rstrip('\n') for vertex in line.split(' ')[2:-1]]
 
         else:
             if started_bs:
-                i = line.split(' ')[0].replace('-','_')
-                j = line.split(' ')[1].rstrip('\n').replace('-','_')
+                i = line.split(' ')[0]
+                j = line.split(' ')[1].rstrip('\n')
                 try:
                     adj[i].append(j)
                 except KeyError:

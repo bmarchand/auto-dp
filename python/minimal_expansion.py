@@ -2,6 +2,10 @@
 parenthesis_systems = ['()','[]','{}','<>','Aa','Bb','Cc']
 
 class MinimalExpansion:
+    """
+    A class simply meant to contain all info related to
+    the minimal expansion of a fatgraph.
+    """
     def __init__(self):
         self.dbn = "" # underlying dbn, one pair of parenthesis per helix.
         self.vertices = set([]) # 10 vertices in each helix (5-5)

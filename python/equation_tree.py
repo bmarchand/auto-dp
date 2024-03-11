@@ -85,7 +85,7 @@ class TreeOfEquations(TreeOfBags):
                     # equation init
                     equation = CliqueCaseHelix()
                     equation.main_name = "CLIQUE"
-                    equation.latex_name = "\\colorbox{c"+u.split('-')[0][1:]+"}{$C_{\\boxtimes}$}"
+                    equation.latex_name = "\\colorbox{c"+u.split('_')[0][1:]+"}{$C_{\\boxtimes}$}"
 
                     # indices
                     self.equations[u] = equation
@@ -99,7 +99,7 @@ class TreeOfEquations(TreeOfBags):
 
                 else:
                 # diag: only setting the letter for the first bag out of the two representating of the helix.
-                    if prev.split('-')[0]!=u.split('-')[0]:
+                    if prev.split('_')[0]!=u.split('_')[0]:
                         # bag type
                         self.bag_type[u] = BagType.DIAG_FIRST
 
@@ -107,7 +107,7 @@ class TreeOfEquations(TreeOfBags):
                         equation = DiagCaseHelix()
                         equation.first_bag = u
                         equation.main_name = self.num_to_letters(cnt)
-                        equation.latex_name = "\\colorbox{c"+u.split('-')[0][1:]+"}{$"+self.num_to_letters(cnt)+"$}"
+                        equation.latex_name = "\\colorbox{c"+u.split('_')[0][1:]+"}{$"+self.num_to_letters(cnt)+"$}"
 
                         # indices
                         absent_ex = (set(self.helix_extremities[self.which_helix[u]]) - set(self.bag_content[u])).pop()
@@ -162,7 +162,7 @@ class TreeOfEquations(TreeOfBags):
             print(label)
             for u in self.dfs_bag_iterator():
                 print(u)
-                if u.split('-')[0]==label:
+                if u.split('_')[0]==label:
                     self.representation_bags[label].append(u)
                     self.which_helix[u] = label
             # set const part
@@ -191,16 +191,16 @@ class TreeOfEquations(TreeOfBags):
             while len(queue) > 0:
                 prev,u = queue.pop()
 
-                if u.split('-')[0]==label:
+                if u.split('_')[0]==label:
                     if not set(extremities).issubset(set(self.bag_content[prev])):
                     # diag case
                         keep_going = True
                         while keep_going:
                             keep_going = False
                             for v in self.bag_adj[u]:
-                                if v.split('-')[0]==label:
+                                if v.split('_')[0]==label:
                                     for w in self.bag_adj[v]:
-                                        if w!=u and w.split('-')[0] == label:
+                                        if w!=u and w.split('_')[0] == label:
                                             # grand-child is still in helix, contracting v into u
                                             self.bag_adj[u] = [bag for bag in self.bag_adj[u] if bag!=v]+[w]
                                             self.bag_adj[w] = [bag for bag in self.bag_adj[w] if bag!=v]+[u]

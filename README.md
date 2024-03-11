@@ -18,8 +18,27 @@ The following are needed to execute the snakemake pipeline:
 
 - a TeX distribution (capable of executing pdflatex commands).
 
+- Installation of the python library of this project (this virtualenv below).
+
 This code was developed on a Linux machine. As snakemake will execute commands in the terminal directly,
 the commands must be execute on a **Unix-like** terminal in order to work.
+
+## Virtual env
+
+The easiest way to install and use the autodp python module (which is used by the snakemake pipeline) is arguably to use a virtual environment. The code below uses virtualenv, but a conda environment would work as well.
+
+```
+python3 -m virtual env create auto_dp_env
+source auto_dp_venv/bin/activate
+```
+You can then install the autodp python module within the virtual environment using
+```
+pip install .
+``` 
+To deactivate the virtual environment, just type
+```
+deactivate
+```
 
 ## How to use
 
@@ -39,7 +58,12 @@ It will see that it is capable of producing `results/latex_equations/{name}_late
 
 ## Meiji solver compilation
 
+The computation of a tree decomposition is done with one of the [PACE-2017](https://pacechallenge.org/2017/treewidth/) solvers. Its source-code has been included in the
+present repository. To be used, it needs to be compiled (language: java). 
+
 ```
 cd workflow/scripts/PACE2017-TrackA/
 javac tw/exact/*.java
 ```
+
+

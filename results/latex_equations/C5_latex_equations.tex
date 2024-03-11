@@ -22,10 +22,19 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_C5.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , k $
-$$ A =\min_{ g,h,j } \left( B[g,j,a,h]+\colorbox{c0}{$C_{\boxtimes}$}[g,h,j,k]\right) $$
-$$ B\left[ a,g,h,j \right] =\min_{ e,f,i } \left( \colorbox{c4}{$C$}[e,a\mid g,j,f,i]+\colorbox{c3}{$C_{\boxtimes}$}[e,f,h,i]\right) $$
-$$ \colorbox{c4}{$C$}' \left[e,a \mid  g,j,f,i \right] =  \min\begin{cases}\colorbox{c4}{$C$}'[ e , a-1\mid g,j,f,i ], &\text{if } a-1 ,\notin\{ e , g,j,f,i \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid g,j,f,i ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ g,j,f,i \}=\emptyset\end{cases}$$
-$$ \colorbox{c4}{$C$} \left[e,a \mid  g,j,f,i \right] =  \min\begin{cases}\colorbox{c4}{$C$}[ e+1 , a\mid g,j,f,i ], &\text{if } e+1 \notin\{ a , g,j,f,i \} \\\colorbox{c4}{$C$}'[ e , a-1\mid g,j,f,i ], &\text{if } a-1 ,\notin\{ e , g,j,f,i \} \\\colorbox{c4}{$C$}[ e+1 , a-1\mid g,j,f,i ]+\Delta G(e,a) &\text{if } \{ e+1 , a-1 \}\cap \{ g,j,f,i \}=\emptyset,\\D[i,g,a,e,j,f]\end{cases}$$
-$$ D\left[ b,d,f,g,i,j \right] =\min_{ c } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,f,g]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,i,j]\right) $$
+first and last anchors, already given: $ a , t $
+$$ A =\min_{ m,n,r } \left( B[r,n,m,a]+M[r,t,n,m]\right) $$
+$$ B\left[ a,m,n,r \right] =\min_{ l } \left( C[r,n,l,a]\right) $$
+$$ C\left[ a,l,n,r \right] =\min_{ h,k,p } \left( \colorbox{c4}{$D$}[a,h\mid r,p,l,k]+J[n,a,k,h,p]\right) $$
+$$ \colorbox{c4}{$D$}' \left[a,h \mid  r,p,l,k \right] =  \min\begin{cases}\colorbox{c4}{$D$}'[ a , h-1\mid r,p,l,k ], &\text{if } h-1 ,\notin\{ a , r,p,l,k \} \\\colorbox{c4}{$D$}[ a+1 , h-1\mid r,p,l,k ]+\Delta G(a,h) &\text{if } \{ a+1 , h-1 \}\cap \{ r,p,l,k \}=\emptyset\end{cases}$$
+$$ \colorbox{c4}{$D$} \left[a,h \mid  r,p,l,k \right] =  \min\begin{cases}\colorbox{c4}{$D$}[ a+1 , h\mid r,p,l,k ], &\text{if } a+1 \notin\{ h , r,p,l,k \} \\\colorbox{c4}{$D$}'[ a , h-1\mid r,p,l,k ], &\text{if } h-1 ,\notin\{ a , r,p,l,k \} \\\colorbox{c4}{$D$}[ a+1 , h-1\mid r,p,l,k ]+\Delta G(a,h) &\text{if } \{ a+1 , h-1 \}\cap \{ r,p,l,k \}=\emptyset,\\E[h,k,r,p,l,a]\end{cases}$$
+$$ E\left[ b,g,k,l,p,r \right] =\min_{ e } \left( F[r,p,b,e]+I[k,e,g,l,b]\right) $$
+$$ F\left[ b,e,p,r \right] =\min_{ c } \left( G[r,p,c,e]\right) $$
+$$ G\left[ c,e,p,r \right] =\min_{ q } \left( H[r,c,e,q]\right) $$
+$$ H\left[ c,e,q,r \right] =\min_{ d } \left( \colorbox{c3}{$C_{\boxtimes}$}[c,d,q,r]\right) $$
+$$ I\left[ b,e,g,k,l \right] =\min_{ f } \left( \colorbox{c1}{$C_{\boxtimes}$}[e,f,k,l]\right) $$
+$$ J\left[ a,h,k,n,p \right] =\min_{ i } \left( K[n,i,p,k]\right) $$
+$$ K\left[ i,k,n,p \right] =\min_{ o } \left( L[p,o,i,k]\right) $$
+$$ L\left[ i,k,o,p \right] =\min_{ j } \left( \colorbox{c0}{$C_{\boxtimes}$}[i,j,o,p]\right) $$
+$$ M\left[ m,n,r,t \right] =\min_{ s } \left( \colorbox{c2}{$C_{\boxtimes}$}[m,n,s,t]\right) $$
 \end{document}

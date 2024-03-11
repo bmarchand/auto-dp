@@ -22,7 +22,12 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_L.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , g $
-$$ A =\min_{ c,d,f } \left( B[c,d,f,a]+\colorbox{c0}{$C_{\boxtimes}$}[c,d,f,g]\right) $$
-$$ B\left[ a,c,d,f \right] =\min_{ b,e } \left( \colorbox{c2}{$C_{\boxtimes}$}[a,b,d,e]+\colorbox{c1}{$C_{\boxtimes}$}[b,c,e,f]\right) $$
+first and last anchors, already given: $ a , l $
+$$ A =\min_{ d,f,k } \left( B[d,a,k,f]+G[d,l,k,f]\right) $$
+$$ B\left[ a,d,f,k \right] =\min_{ g } \left( C[d,g,k,a]\right) $$
+$$ C\left[ a,d,g,k \right] =\min_{ b,h } \left( \colorbox{c2}{$C_{\boxtimes}$}[a,b,g,h]+D[d,h,b,k]\right) $$
+$$ D\left[ b,d,h,k \right] =\min_{ c } \left( E[d,c,h,k]\right) $$
+$$ E\left[ c,d,h,k \right] =\min_{ j } \left( F[d,c,h,j]\right) $$
+$$ F\left[ c,d,h,j \right] =\min_{ i } \left( \colorbox{c0}{$C_{\boxtimes}$}[c,d,i,j]\right) $$
+$$ G\left[ d,f,k,l \right] =\min_{ e } \left( \colorbox{c1}{$C_{\boxtimes}$}[e,f,k,l]\right) $$
 \end{document}

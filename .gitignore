@@ -1,4 +1,5 @@
 .snakemake/
+auto_dp_venv/
 dist/
 build/
 python/autoDP.egg-info/*

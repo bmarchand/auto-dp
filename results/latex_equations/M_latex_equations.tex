@@ -22,8 +22,14 @@
 \includegraphics[width=\textwidth]{results/colored_dbn/colored_dbn_M.pdf}
 \end{figure}
 \end{center}
-first and last anchors, already given: $ a , i $
-$$ A =\min_{ e,f,h } \left( \colorbox{c0}{$C_{\boxtimes}$}[e,f,h,i]+B[f,e,a,h]\right) $$
-$$ B\left[ a,e,f,h \right] =\min_{ b,d } \left( C[f,b,h,d]+\colorbox{c3}{$C_{\boxtimes}$}[a,b,d,e]\right) $$
-$$ C\left[ b,d,f,h \right] =\min_{ c,g } \left( \colorbox{c1}{$C_{\boxtimes}$}[c,d,g,h]+\colorbox{c2}{$C_{\boxtimes}$}[b,c,f,g]\right) $$
+first and last anchors, already given: $ a , p $
+$$ A =\min_{ i,j,n } \left( B[j,i,a,n]+I[j,i,n,p]\right) $$
+$$ B\left[ a,i,j,n \right] =\min_{ b,g } \left( C[j,b,g,n]+H[i,b,g,a]\right) $$
+$$ C\left[ b,g,j,n \right] =\min_{ c,f } \left( D[j,c,n,f]\right) $$
+$$ D\left[ c,f,j,n \right] =\min_{ d,l } \left( E[j,l,c,d]+F[l,n,f,d]\right) $$
+$$ E\left[ c,d,j,l \right] =\min_{ k } \left( \colorbox{c3}{$C_{\boxtimes}$}[c,d,k,l]\right) $$
+$$ F\left[ d,f,l,n \right] =\min_{ e } \left( G[e,l,n,f]\right) $$
+$$ G\left[ e,f,l,n \right] =\min_{ m } \left( \colorbox{c1}{$C_{\boxtimes}$}[e,f,m,n]\right) $$
+$$ H\left[ a,b,g,i \right] =\min_{ h } \left( \colorbox{c2}{$C_{\boxtimes}$}[a,b,g,h]\right) $$
+$$ I\left[ i,j,n,p \right] =\min_{ o } \left( \colorbox{c0}{$C_{\boxtimes}$}[i,j,o,p]\right) $$
 \end{document}

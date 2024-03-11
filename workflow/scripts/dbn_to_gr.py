@@ -1,7 +1,9 @@
-from minimal_expansion import MinimalExpansion
+from autodp.minimal_expansion import MinimalExpansion
 
 # setting options
-inter_helix_gap = snakemake.config["inter_helix_gap"]
+inter_helix_gap = snakemake.config["inter_helix_gap"] # a Boolean stating whether
+                                                      # helices share extremities
+                                                      # or not
 overarching = True # overarching 1 <--> n (extremities) arc.
 
 # object init

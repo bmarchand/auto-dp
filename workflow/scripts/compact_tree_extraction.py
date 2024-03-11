@@ -50,6 +50,7 @@ for helixline in open(snakemake.input.helix).readlines():
                                     adj[w] = [bag for bag in adj[w] if bag!=v]+[u]
                                     keep_going = True
 
+        print(adj.keys())
         for v in adj[u]:
             if v!=prev:
                 queue.append((u,v))
