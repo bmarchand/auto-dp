@@ -56,6 +56,12 @@ snakemake -c1 results/latex_equations/khp_latex_equations.pdf
 Given this command, snakemake will look for rules to produce ``results/latex_equations/khp_latex_equations.pdf``.
 It will see that it is capable of producing `results/latex_equations/{name}_latex_equations.pdf` given (with a few steps in between) `resources/dbn_files/{name}.dbn`.
 
+Generating all results from the dbn-s already present in the repository can be done with:
+
+```
+snakemake -c1
+```
+
 ## Meiji solver compilation
 
 The computation of a tree decomposition is done with one of the [PACE-2017](https://pacechallenge.org/2017/treewidth/) solvers. Its source-code has been included in the
