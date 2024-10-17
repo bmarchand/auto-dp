@@ -132,7 +132,7 @@ for hline in open(snakemake.input.helix).readlines():
             
         else:
             print("did not find clique case, resorting to diag case.")
-        # diag case. have to find ij/ipjp separator
+            # diag case. have to find ij/ipjp separator
             
             for u, v in tree_dec.dfs_edge_iterator():
 
